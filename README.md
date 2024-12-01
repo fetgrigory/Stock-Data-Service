@@ -1,24 +1,36 @@
 # Web-Scraper-for-parsing-financial-data
 ![1](https://github.com/Fetkulingr/Web-Scraper-for-parsing-financial-data/assets/103204349/bf5fd339-07f5-4b10-9cee-d9588faae5ee)
 
-# Описание программы:
-Web Scraper для парсинга финансовых данных - это инструмент, который позволяет автоматически собирать и сохранять информацию о финансовых данных со страницы сайта: https://mfd.ru/marketdata/?id=5&mode=0. Программа использует Selenium WebDriver для взаимодействия с веб-страницей и извлечения данных. Код оформлен в соответствии с требованиями flake8, что обеспечивает его читаемость и качество. Также код соответствует концепции одиночного наследования в объектно-ориентированном программировании (ООП),что способствует лучшей структурированности и модульности кода.
-# Основные функции программы:
-1. Парсинг данных: Программа извлекает финансовые данные с указанной веб-страницы и сохраняет их в формате CSV.
-2. Автоматическая загрузка данных: Программа автоматически открывает страницу с данными, ожидает загрузку таблицы и извлекает ее содержимое.
-3. Удобное сохранение данных: Каждый раз парсинга создает новый файл CSV, включающий дату, время и данные.
-# Инструкция по использованию программы:
+This Python program scrapes stock market data from `mfd.ru` and saves it to a CSV file.  It leverages the Selenium library to interact with the website and the `csv` library to handle data output.  The program utilizes an object-oriented programming (OOP) approach with class inheritance.
 
-1. Установите необходимые зависимости, включая Selenium WebDriver.
-2. Укажите путь к драйверу Chrome в переменной chromedriver_path.
-3. Запустите программу и она автоматически начнет парсить данные с указанной веб-страницы.
-4. Для каждого парсинга будет создан новый файл CSV, содержащий дату, время и данные.
-5. Измените начальную и конечную даты в соответствии с вашими потребностями, указав их в переменных start_date и end_date.
-6. Проверьте, является ли текущая дата рабочим днем, используя функцию is_weekday, и измените ее логику при необходимости.
-7. Запустите программу и она будет автоматически парсить данные каждый рабочий день в заданном диапазоне дат.
-8. Проверьте созданные файлы CSV для полученных данных.
+**Main Functions:**
 
-Обратите внимание, что программа предоставляется "как есть" и требует дополнительной настройки и обработки ошибок в зависимости от ваших потребностей.
+1. **`WebDriverWrapper` Class:** This class acts as a base class for managing the Selenium WebDriver.  Its primary responsibilities are:
+
+    * **`start_driver()`:** Initializes the Chrome WebDriver in headless mode (meaning the browser window doesn't appear). This is crucial for automated scripting.
+    * **`stop_driver()`:** Properly quits the WebDriver instance, releasing resources.
+
+2. **`DataParser` Class:** This class inherits from `WebDriverWrapper` using single inheritance. It extends the functionality to specifically parse and save data from `mfd.ru`.  Its main function is:
+
+    * **`parse_and_save(selected_date)`:** This method performs the core data scraping and saving logic:
+        * Navigates to the specified URL on `mfd.ru`.
+        * Locates the relevant table element using XPath.
+        * Extracts data from each row and column of the table.
+        * Writes the extracted data to a CSV file named using the current date and time.  The file uses `^` as a delimiter.
+        * Includes error handling using a `try...except` block to catch potential exceptions during the scraping process.
+        * Includes a `finally` block to ensure the WebDriver is closed even if errors occur.
+
+3. **Main Execution Loop:** The main part of the script contains a `while True` loop that runs indefinitely.  It checks the current date and time:
+
+    * If it's a weekday (Monday-Friday) and before 7 PM (`current_time.hour < 19`), it calls `data_parser.parse_and_save()` to scrape and save the data.
+    * Otherwise, it prints a message indicating that the script won't execute at the current time.
+    * The loop pauses for 10 minutes (`time.sleep(600)`) before repeating.
+
+
+**OOP and Inheritance:**
+
+The program demonstrates the principles of OOP through the use of classes and inheritance.  The `DataParser` class inherits from `WebDriverWrapper`. This is a form of *single inheritance* because `DataParser` inherits from only one parent class. This inheritance promotes code reusability and organization by separating concerns:  `WebDriverWrapper` handles the WebDriver management, while `DataParser` focuses on the specific tasks of data parsing and saving. This structure makes the code more modular, easier to maintain, and potentially easier to extend in the future.  For instance, you could create additional classes to handle data from different websites without modifying the core WebDriver management.
+
 ### Подготовка виртуального окружения и запуск программы
 
 1. Создайте виртуальное окружение для изоляции зависимостей проекта. 
