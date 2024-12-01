@@ -31,28 +31,30 @@ This Python program scrapes stock market data from `[mfd.ru](https://mfd.ru/mark
 
 The program demonstrates the principles of OOP through the use of classes and inheritance.  The `DataParser` class inherits from `WebDriverWrapper`. This is a form of *single inheritance* because `DataParser` inherits from only one parent class. This inheritance promotes code reusability and organization by separating concerns:  `WebDriverWrapper` handles the WebDriver management, while `DataParser` focuses on the specific tasks of data parsing and saving. This structure makes the code more modular, easier to maintain, and potentially easier to extend in the future.  For instance, you could create additional classes to handle data from different websites without modifying the core WebDriver management.
 
-### Подготовка виртуального окружения и запуск программы
+# Usage
+### Setting up a virtual environment and running the program
 
-1. Создайте виртуальное окружение для изоляции зависимостей проекта. 
-   Используйте команду:
+1. Create a virtual environment to isolate project dependencies.
+   Use the command:
    ```bash
    python -m venv venv
    ```
 
-2. Активируйте виртуальное окружение:
-   - На Windows:
+2. Activate the virtual environment:
+   - On Windows:
      ```bash
      venv\Scripts\activate
      ```
-   - На macOS и Linux:
+   - On macOS and Linux:
      ```bash
      source venv/bin/activate
      ```
-3. Запустите программа командой:
+
+3. Run the program with the command:
    ```bash
    python main.py
    ```
-# Описание программы
-Применяемые библиотеки:<br />
+## Libraries Used and Language Version
 selenium               4.9.1 <br />
-Cсылка на скачивание драйвера Chrome:https://googlechromelabs.github.io/chrome-for-testing/
+python 3.11.9  <br />
+Download link chromedriver Chrome:https://googlechromelabs.github.io/chrome-for-testing/
