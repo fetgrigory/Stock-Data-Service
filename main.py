@@ -6,6 +6,7 @@ Starting 2023/10/04
 Ending 2024//
 
 '''
+# Installing the necessary libraries
 import csv
 import time
 from datetime import datetime
@@ -18,12 +19,12 @@ from selenium.webdriver.chrome.options import Options
 chromedriver_path = 'chromedriver/chromedriver.exe'
 
 
-class DataParser:
+class WebDriverWrapper:
     """AI is creating summary for
     """
     def __init__(self, chromedriver_path):
         self.chromedriver_path = chromedriver_path
-        # Creating an instance of Chrome WebDriver with the path to the driver and options to disable the browser window
+    # Creating an instance of Chrome WebDriver with the path to the driver and options to disable the browser window
         self.chrome_options = Options()
         self.chrome_options.add_argument('--headless')
         self.driver = None
@@ -38,6 +39,17 @@ class DataParser:
         """
         if self.driver:
             self.driver.quit()
+
+
+class DataParser(WebDriverWrapper):
+    """AI is creating summary for DataParser
+
+    Args:
+        WebDriverWrapper ([type]): [description]
+    """
+    def __init__(self, chromedriver_path):
+        # Calling the constructor of the parent class
+        super().__init__(chromedriver_path)
 
     def parse_and_save(self, selected_date):
         """AI is creating summary for parse_and_save
@@ -54,7 +66,7 @@ class DataParser:
             table = element.find_element(By.XPATH, 'tbody[2]')
             current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
             filename = f'mos_stock_{selected_date}_{current_datetime}.csv'
-        # Opening the file for recording
+            # Opening the file for recording
             with open(filename, 'w', newline='', encoding='utf-8') as file:
                 writer = csv.writer(file, delimiter='^')
                 writer.writerow(['Ticker', 'Time', 'Transaction price_1', 'Transaction price_2', 'Transaction price_3', 'Price before closing', 'Price at opening', 'Minimum price', 'Average overpriced', 'Pieces per day', 'Quantity per day', 'Rub', 'Number of transactions per day'])
@@ -66,6 +78,8 @@ class DataParser:
                     row_data = [column.text for column in columns]
                     writer.writerow(row_data)
                 print(f'The data is saved to a file: {filename}')
+        except Exception as e:
+            print(f"Error during parsing: {e}")
         finally:
             self.stop_driver()
 
