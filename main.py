@@ -32,7 +32,8 @@ class WebDriverWrapper:
     def start_driver(self):
         """AI is creating summary for start_driver
         """
-        self.driver = webdriver.Chrome(service=Service(self.chromedriver_path), options=self.chrome_options)
+        self.driver = webdriver.Chrome(service=Service(self.chromedriver_path),
+                                       options=self.chrome_options)
 
     def stop_driver(self):
         """AI is creating summary for stop_driver
