@@ -1,5 +1,6 @@
 # Web-Scraper-for-parsing-financial-data
-![1](https://github.com/Fetkulingr/Web-Scraper-for-parsing-financial-data/assets/103204349/bf5fd339-07f5-4b10-9cee-d9588faae5ee)
+![Снимок экрана 2025-04-03 144545](https://github.com/user-attachments/assets/475f05c8-9d2f-4000-a80a-79db52e29eb7)
+
 
 This Python program scrapes stock market data from `[mfd.ru](https://mfd.ru/marketdata/?id=5&mode=0)` and saves it to a CSV file.  It leverages the Selenium library to interact with the website and the `csv` library to handle data output.  The program utilizes an object-oriented programming (OOP) approach with class inheritance.
 
