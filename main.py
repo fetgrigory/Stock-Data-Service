@@ -14,7 +14,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
-
+import fake_useragent
 # Path to the Chrome driver
 chromedriver_path = 'chromedriver/chromedriver.exe'
 
@@ -27,6 +27,8 @@ class WebDriverWrapper:
     # Creating an instance of Chrome WebDriver with the path to the driver and options to disable the browser window
         self.chrome_options = Options()
         self.chrome_options.add_argument('--headless')
+        self.chrome_options.add_argument('--disable-blink-features=AutomationControlled')
+        self.chrome_options.add_argument(f'--user-agent={fake_useragent.UserAgent().random}')
         self.driver = None
 
     def start_driver(self):
