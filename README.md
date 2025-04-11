@@ -57,3 +57,7 @@ selenium               4.9.1 <br />
 fake-useragent    2.1.0 <br />
 webdriver-manager 4.0.2 <br />
 python 3.11.9  <br />
+# New features that will be added in the future (Information may be updated as needed):
+1. Rename transaction price cols to 'Last Price', 'Change (abs)', 'Change (%)'.  ✅
+2. Fake_useragent.✅
+3. Replace hardcoded chromedriver path with webdriver-manager. ✅ 
