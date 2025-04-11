@@ -55,5 +55,5 @@ The program demonstrates the principles of OOP through the use of classes and in
 ## Libraries Used and Language Version
 selenium               4.9.1 <br />
 fake-useragent    2.1.0 <br />
+webdriver-manager 4.0.2 <br />
 python 3.11.9  <br />
-Download link chromedriver Chrome:https://googlechromelabs.github.io/chrome-for-testing/

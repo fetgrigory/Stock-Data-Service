@@ -1,7 +1,7 @@
 '''
 This module make
 
-Athor: Fetkulin Grigory, Fetkulin.G.R@yandex.ru
+Author: Fetkulin Grigory, Fetkulin.G.R@yandex.ru
 Starting 2023/10/04
 Ending 2024//
 
@@ -11,20 +11,18 @@ import csv
 import time
 from datetime import datetime
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 import fake_useragent
-# Path to the Chrome driver
-chromedriver_path = 'chromedriver/chromedriver.exe'
 
 
 class WebDriverWrapper:
     """AI is creating summary for
     """
-    def __init__(self, chromedriver_path):
-        self.chromedriver_path = chromedriver_path
-    # Creating an instance of Chrome WebDriver with the path to the driver and options to disable the browser window
+    def __init__(self):
+        # Creating an instance of Chrome WebDriver with the path to the driver and options to disable the browser window
         self.chrome_options = Options()
         self.chrome_options.add_argument('--headless')
         self.chrome_options.add_argument('--disable-blink-features=AutomationControlled')
@@ -34,8 +32,10 @@ class WebDriverWrapper:
     def start_driver(self):
         """AI is creating summary for start_driver
         """
-        self.driver = webdriver.Chrome(service=Service(self.chromedriver_path),
-                                       options=self.chrome_options)
+        self.driver = webdriver.Chrome(
+            service=ChromeService(ChromeDriverManager().install()),
+            options=self.chrome_options
+        )
 
     def stop_driver(self):
         """AI is creating summary for stop_driver
@@ -50,9 +50,9 @@ class DataParser(WebDriverWrapper):
     Args:
         WebDriverWrapper ([type]): [description]
     """
-    def __init__(self, chromedriver_path):
+    def __init__(self):
         # Calling the constructor of the parent class
-        super().__init__(chromedriver_path)
+        super().__init__()
 
     def parse_and_save(self, selected_date):
         """AI is creating summary for parse_and_save
@@ -87,7 +87,7 @@ class DataParser(WebDriverWrapper):
             self.stop_driver()
 
 
-data_parser = DataParser(chromedriver_path)
+data_parser = DataParser()
 
 while True:
     current_date = datetime.now().date()
