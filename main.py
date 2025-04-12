@@ -72,7 +72,12 @@ class DataParser(WebDriverWrapper):
             # Opening the file for recording
             with open(filename, 'w', newline='', encoding='utf-8') as file:
                 writer = csv.writer(file, delimiter='^')
-                writer.writerow(['Ticker', 'Time', 'Last Price', 'Change (abs)', 'Change (%)', 'Price before closing', 'Price at opening', 'Minimum price', 'Average overpriced', 'Pieces per day', 'Quantity per day', 'Rub', 'Number of transactions per day'])
+                writer.writerow([
+                    'Ticker', 'Time', 'Last Price', 'Change (abs)',
+                    'Change (%)', 'Price before closing', 'Price at opening',
+                    'Minimum price', 'Average overpriced', 'Pieces per day',
+                    'Quantity per day', 'Rub', 'Number of transactions per day'
+                ])
                 rows = table.find_elements(By.TAG_NAME, 'tr')
                 for row in rows:
                     # Get all the cells of the row
