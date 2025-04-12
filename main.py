@@ -7,6 +7,8 @@ Ending 2024//
 
 '''
 # Installing the necessary libraries
+import os
+import logging
 import csv
 import time
 from datetime import datetime
@@ -16,6 +18,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 import fake_useragent
+
+logging.basicConfig(
+    filename='parser.log',
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s')
 
 
 class WebDriverWrapper:
@@ -67,8 +74,11 @@ class DataParser(WebDriverWrapper):
             # Finding an element with a table
             element = self.driver.find_element(By.XPATH, '//*[@id="marketDataList"]')
             table = element.find_element(By.XPATH, 'tbody[2]')
+            # Create data/YYYY-MM-DD/ folder (exist_ok=True skips if folder exists)
+            folder_name = selected_date.strftime("%Y-%m-%d")
+            os.makedirs(f"data/{folder_name}", exist_ok=True)
             current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-            filename = f'mos_stock_{selected_date}_{current_datetime}.csv'
+            filename = f'data/{folder_name}/mos_stock_{current_datetime}.csv'
             # Opening the file for recording
             with open(filename, 'w', newline='', encoding='utf-8') as file:
                 writer = csv.writer(file, delimiter='^')
@@ -85,9 +95,9 @@ class DataParser(WebDriverWrapper):
                     # Extract the text from each cell and write it to a file
                     row_data = [column.text for column in columns]
                     writer.writerow(row_data)
-                print(f'The data is saved to a file: {filename}')
+                logging.info('The data is saved to a file: %s', filename)
         except Exception as e:
-            print(f"Error during parsing: {e}")
+            logging.error("Error during parsing: %s", e)
         finally:
             self.stop_driver()
 
@@ -101,5 +111,5 @@ while True:
     if current_date.weekday() < 5 and current_time.hour < 19:
         data_parser.parse_and_save(current_date)
     else:
-        print('The script will not be executed at the current time.')
+        logging.error('The script will not be executed at the current time.')
     time.sleep(600)
