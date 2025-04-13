@@ -56,6 +56,7 @@ The program demonstrates the principles of OOP through the use of classes and in
 selenium               4.9.1 <br />
 fake-useragent    2.1.0 <br />
 webdriver-manager 4.0.2 <br />
+pandas 2.2.3 <br />
 python 3.11.9  <br />
 # New features that will be added in the future (Information may be updated as needed):
 1. Rename transaction price cols to 'Last Price', 'Change (abs)', 'Change (%)'.  ✅
