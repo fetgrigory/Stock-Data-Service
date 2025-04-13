@@ -105,7 +105,7 @@ class DataParser(WebDriverWrapper):
             [type]: [description]
         """
         now = datetime.now()
-        return (now.weekday() < 7 and dt_time(10, 0) <= now.time() <= dt_time(19, 0))
+        return (now.weekday() < 5 and dt_time(10, 0) <= now.time() <= dt_time(19, 0))
 
     def parse_and_save(self, selected_date):
         """AI is creating summary for parse_and_save
