@@ -11,7 +11,7 @@ import os
 import logging
 import csv
 import time
-from datetime import datetime
+from datetime import datetime, time as dt_time
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
@@ -97,6 +97,16 @@ class DataParser(WebDriverWrapper):
         super().__init__()
         self.data_processor = DataProcessor()
 
+    # Run on weekdays between 10:00 and 19:00 MSK
+    def should_run(self):
+        """AI is creating summary for should_run
+
+        Returns:
+            [type]: [description]
+        """
+        now = datetime.now()
+        return (now.weekday() < 7 and dt_time(10, 0) <= now.time() <= dt_time(19, 0))
+
     def parse_and_save(self, selected_date):
         """AI is creating summary for parse_and_save
 
@@ -149,9 +159,7 @@ def main():
     data_parser = DataParser()
     while True:
         current_date = datetime.now().date()
-        current_time = datetime.now().time()
-    # Check if the hour is less than 19
-        if current_date.weekday() < 5 and current_time.hour < 19:
+        if data_parser.should_run():
             logging.info(f"Starting parsing for {current_date} %s")
             result_file = data_parser.parse_and_save(current_date)
             if result_file:
