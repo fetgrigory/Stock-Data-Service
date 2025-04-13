@@ -18,7 +18,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 import fake_useragent
+import pandas as pd
 
+# Configure logging
 logging.basicConfig(
     filename='parser.log',
     level=logging.INFO,
@@ -51,6 +53,38 @@ class WebDriverWrapper:
             self.driver.quit()
 
 
+class DataProcessor:
+    """AI is creating summary for
+
+    Returns:
+        [type]: [description]
+    """
+    @staticmethod
+    def clean_data(file_path):
+        """AI is creating summary for clean_data
+
+        Args:
+            file_path ([type]): [description]
+
+        Returns:
+            [type]: [description]
+        """
+        try:
+            # Read CSV with pandas
+            df = pd.read_csv(file_path, sep='^')
+            # Replace non-standard minus with standard minus
+            df = df.replace('−', '-', regex=True)
+            # Remove rows with any empty values
+            df_cleaned = df.dropna()
+            # Save cleaned data back to the same file
+            df_cleaned.to_csv(file_path, sep='^', index=False, encoding='utf-8')
+            logging.info('Data cleaned successfully. Removed %d empty rows.', len(df) - len(df_cleaned))
+            return True
+        except Exception as e:
+            logging.error("Error during data cleaning: %s", e)
+            return False
+
+
 class DataParser(WebDriverWrapper):
     """AI is creating summary for DataParser
 
@@ -60,6 +94,7 @@ class DataParser(WebDriverWrapper):
     def __init__(self):
         # Calling the constructor of the parent class
         super().__init__()
+        self.data_processor = DataProcessor()
 
     def parse_and_save(self, selected_date):
         """AI is creating summary for parse_and_save
@@ -74,12 +109,12 @@ class DataParser(WebDriverWrapper):
             # Finding an element with a table
             element = self.driver.find_element(By.XPATH, '//*[@id="marketDataList"]')
             table = element.find_element(By.XPATH, 'tbody[2]')
-            # Create data/YYYY-MM-DD/ folder (exist_ok=True skips if folder exists)
+            # Create directory structure
             folder_name = selected_date.strftime("%Y-%m-%d")
             os.makedirs(f"data/{folder_name}", exist_ok=True)
             current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
             filename = f'data/{folder_name}/mos_stock_{current_datetime}.csv'
-            # Opening the file for recording
+            # Write raw data to CSV
             with open(filename, 'w', newline='', encoding='utf-8') as file:
                 writer = csv.writer(file, delimiter='^')
                 writer.writerow([
@@ -95,21 +130,39 @@ class DataParser(WebDriverWrapper):
                     # Extract the text from each cell and write it to a file
                     row_data = [column.text for column in columns]
                     writer.writerow(row_data)
-                logging.info('The data is saved to a file: %s', filename)
+            # Clean the data (remove empty rows)
+            if os.path.exists(filename):
+                self.data_processor.clean_data(filename)
+            logging.info('The data is saved to a file: %s', filename)
+            return filename
         except Exception as e:
             logging.error("Error during parsing: %s", e)
+            return None
         finally:
             self.stop_driver()
 
 
-data_parser = DataParser()
-
-while True:
-    current_date = datetime.now().date()
-    current_time = datetime.now().time()
+def main():
+    """AI is creating summary for main
+    """
+    data_parser = DataParser()
+    while True:
+        current_date = datetime.now().date()
+        current_time = datetime.now().time()
     # Check if the hour is less than 19
-    if current_date.weekday() < 5 and current_time.hour < 19:
-        data_parser.parse_and_save(current_date)
-    else:
-        logging.error('The script will not be executed at the current time.')
-    time.sleep(600)
+        if current_date.weekday() < 5 and current_time.hour < 19:
+            logging.info(f"Starting parsing for {current_date} %s")
+            result_file = data_parser.parse_and_save(current_date)
+            if result_file:
+                logging.info("Parsing completed successfully. Data saved to %s", result_file)
+            else:
+                logging.warning("Parsing completed with errors")
+        else:
+            logging.error('The script will not be executed at the current time.')
+
+        # Wait 10 minutes before next run
+        time.sleep(600)
+
+
+if __name__ == "__main__":
+    main()
