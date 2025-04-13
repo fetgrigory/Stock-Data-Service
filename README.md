@@ -60,4 +60,7 @@ python 3.11.9  <br />
 # New features that will be added in the future (Information may be updated as needed):
 1. Rename transaction price cols to 'Last Price', 'Change (abs)', 'Change (%)'.  ✅
 2. Add Fake_useragent.✅
-3. Replace hardcoded chromedriver path with webdriver-manager. ✅ 
+3. Replace hardcoded chromedriver path with webdriver-manager. ✅
+4. Clear empty values in csv file
+5. Pack CSV files into zip
+6. Send by mail
