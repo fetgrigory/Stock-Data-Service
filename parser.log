@@ -1,0 +1,24 @@
+2025-04-14 15:30:57,666 - INFO - Starting parsing for 2025-04-14 %s
+2025-04-14 15:30:57,682 - INFO - ====== WebDriver manager ======
+2025-04-14 15:30:58,500 - INFO - Get LATEST chromedriver version for google-chrome
+2025-04-14 15:30:58,646 - INFO - Get LATEST chromedriver version for google-chrome
+2025-04-14 15:30:58,777 - INFO - Driver [C:\Users\Admin\.wdm\drivers\chromedriver\win64\135.0.7049.84\chromedriver-win32/chromedriver.exe] found in cache
+2025-04-14 15:34:11,670 - INFO - Data cleaned successfully. Removed 1087 empty rows.
+2025-04-14 15:34:11,670 - INFO - The data is saved to a file: data/2025-04-14/mos_stock_2025-04-14_15-31-18.csv
+2025-04-14 15:34:13,806 - INFO - Parsing completed successfully. Data saved to data/2025-04-14/mos_stock_2025-04-14_15-31-18.csv
+2025-04-14 15:44:13,816 - INFO - Starting parsing for 2025-04-14 %s
+2025-04-14 15:44:13,816 - INFO - ====== WebDriver manager ======
+2025-04-14 15:44:14,680 - INFO - Get LATEST chromedriver version for google-chrome
+2025-04-14 15:44:14,814 - INFO - Get LATEST chromedriver version for google-chrome
+2025-04-14 15:44:14,949 - INFO - Driver [C:\Users\Admin\.wdm\drivers\chromedriver\win64\135.0.7049.84\chromedriver-win32/chromedriver.exe] found in cache
+2025-04-14 15:47:50,289 - INFO - Data cleaned successfully. Removed 1087 empty rows.
+2025-04-14 15:47:50,289 - INFO - The data is saved to a file: data/2025-04-14/mos_stock_2025-04-14_15-44-34.csv
+2025-04-14 15:47:52,434 - INFO - Parsing completed successfully. Data saved to data/2025-04-14/mos_stock_2025-04-14_15-44-34.csv
+2025-04-14 15:57:52,435 - INFO - Starting parsing for 2025-04-14 %s
+2025-04-14 15:57:52,435 - INFO - ====== WebDriver manager ======
+2025-04-14 15:57:53,302 - INFO - Get LATEST chromedriver version for google-chrome
+2025-04-14 15:57:53,439 - INFO - Get LATEST chromedriver version for google-chrome
+2025-04-14 15:57:53,569 - INFO - Driver [C:\Users\Admin\.wdm\drivers\chromedriver\win64\135.0.7049.84\chromedriver-win32/chromedriver.exe] found in cache
+2025-04-14 16:01:24,329 - INFO - Data cleaned successfully. Removed 1079 empty rows.
+2025-04-14 16:01:24,329 - INFO - The data is saved to a file: data/2025-04-14/mos_stock_2025-04-14_15-58-11.csv
+2025-04-14 16:01:26,443 - INFO - Parsing completed successfully. Data saved to data/2025-04-14/mos_stock_2025-04-14_15-58-11.csv
