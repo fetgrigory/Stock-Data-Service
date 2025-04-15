@@ -29,9 +29,10 @@ Number of transactions per day | Количество сделок за день
 ## ⚙️ Технические характеристики
 - **Язык программирования:** Python 3.11
 - **Основные библиотеки:**
-  - Selenium 4.9.1
+  - Selenium 4.31.0
+  - webdriver-manager 4.0.2
   - Pandas 2.2.3
-  - Fake-useragent 2.1.0
+  - Fake-useragent 2.2.0
 - **Режим работы:** headless (без графического интерфейса)
 - **Формат данных:** CSV с разделителем "^"
 
