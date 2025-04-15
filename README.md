@@ -40,7 +40,7 @@ Number of transactions per day | Количество сделок за день
 
 ### Установка
 ```bash
-git clone https://github.com/yourrepo/mfd-parser.git
+git clone https://github.com/fetgrigory/Web-Scraper-for-parsing-financial-data.git
 cd mfd-parser
 python -m venv venv
 source venv/bin/activate  # Для Windows: venv\Scripts\activate
