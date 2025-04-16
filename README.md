@@ -57,7 +57,6 @@ Number of transactions per day | Количество сделок за день
 ### Установка
 ```bash
 git clone https://github.com/fetgrigory/Web-Scraper-for-parsing-financial-data.git
-cd Web-Scraper-for-parsing-financial-data
 python -m venv venv
 source venv/bin/activate  # Для Windows: venv\Scripts\activate
 pip install -r requirements.txt
