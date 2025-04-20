@@ -53,11 +53,30 @@ Number of transactions per day | Количество сделок за день
 - 📂 Локальное хранение (без облаков и БД)  
 
 ## 🚀 Быстрый старт
+1. Клонирование репозитория:
+ ```
+https://github.com/fetgrigory/Web-Scraper-for-parsing-financial-data.git
+   ```
+2. Создайте виртуальное окружение для изоляции зависимостей проекта. 
+   Используйте команду:
+   ```bash
+   python -m venv venv
+   ```
 
-### Установка
-```bash
-git clone https://github.com/fetgrigory/Web-Scraper-for-parsing-financial-data.git
-cd Web-Scraper-for-parsing-financial-data
-python -m venv venv
-source venv/bin/activate  # Для Windows: venv\Scripts\activate
-pip install -r requirements.txt
+3. Активируйте виртуальное окружение:
+   - На Windows:
+     ```bash
+     venv\Scripts\activate
+     ```
+   - На macOS и Linux:
+     ```bash
+     source venv/bin/activate
+     ```
+4. Изоляция зависимостей:
+   ```bash
+     pip install -r requirements.txt
+     ```
+5. Запустите ассистента командой:
+   ```bash
+   python main.py
+   ```
