@@ -72,7 +72,7 @@ https://github.com/fetgrigory/Web-Scraper-for-parsing-financial-data.git
      ```bash
      source venv/bin/activate
      ```
-4. Изоляция зависимостей:
+4. Установка зависимостей:
    ```bash
      pip install -r requirements.txt
      ```
