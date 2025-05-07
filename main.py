@@ -75,6 +75,8 @@ class DataProcessor:
             df = pd.read_csv(file_path, sep='^')
             # Replace non-standard minus with standard minus
             df = df.replace('−', '-', regex=True)
+            # Remove spaces in numbers (e.g., "1 000" → "1000")
+            df = df.map(lambda x: str(x).replace(' ', '') if isinstance(x, str) else x)
             # Remove rows with any empty values
             df_cleaned = df.dropna()
             # Save cleaned data back to the same file
