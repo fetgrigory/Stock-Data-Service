@@ -2,8 +2,8 @@
 This module make
 
 Author: Fetkulin Grigory, Fetkulin.G.R@yandex.ru
-Starting 2023/10/04
-Ending 2024//
+Starting 04/10/2023
+Ending //
 
 '''
 # Installing the necessary libraries
