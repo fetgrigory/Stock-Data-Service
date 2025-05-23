@@ -93,7 +93,7 @@ https://github.com/fetgrigory/Web-Scraper-for-parsing-financial-data.git
    ```bash
      pip install -r requirements.txt
      ```
-5. Запустите ассистента командой:
+5. Запустите программу командой:
    ```bash
    python main.py
    ```
