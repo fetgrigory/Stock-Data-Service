@@ -34,6 +34,8 @@ class DataProcessor:
             df = df.replace('−', '-', regex=True)
             # Remove spaces in numbers (e.g., "1 000" → "1000")
             df = df.map(lambda x: str(x).replace(' ', '') if isinstance(x, str) else x)
+            # Remove percentage signs
+            df = df.replace('%', '', regex=True)
             # Remove rows with any empty values
             df_cleaned = df.dropna()
             # Save cleaned data back to the same file
