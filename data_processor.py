@@ -8,6 +8,7 @@ Ending //
 '''
 # Installing the necessary libraries
 import logging
+from datetime import datetime
 import pandas as pd
 
 
@@ -36,6 +37,19 @@ class DataProcessor:
             df = df.map(lambda x: str(x).replace(' ', '') if isinstance(x, str) else x)
             # Remove percentage signs
             df = df.replace('%', '', regex=True)
+
+            # Function to check if the string matches the incorrect format 'dd.mm.yyyyHH:MM:SS'
+            def is_invalid_time_format(date_str):
+                try:
+                    datetime.strptime(date_str, '%d.%m.%Y%H:%M:%S')
+                    return True
+                except ValueError:
+                    return False
+
+            if 'Time' in df.columns:
+                # Apply the function to the 'Time' column
+                matches = df['Time'].apply(lambda x: is_invalid_time_format(str(x)))
+                df = df[~matches]
             # Remove rows with any empty values
             df_cleaned = df.dropna()
             # Save cleaned data back to the same file
