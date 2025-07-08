@@ -146,8 +146,15 @@ def archive_daily_data(date_to_archive):
         with zipfile.ZipFile(archive_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
             for csv_file in folder_path.glob("*.csv"):
                 zipf.write(csv_file, arcname=csv_file.name)
-
-        logging.info("Successfully archived files to %s", archive_path)
+        # Check if archive was created successfully
+        if archive_path.exists():
+            # Delete CSV files and folder after successful archiving
+            for csv_file in folder_path.glob("*.csv"):
+                csv_file.unlink()
+            folder_path.rmdir()
+            logging.info("Successfully archived files to %s and removed original folder", archive_path)
+        else:
+            logging.error("Failed to create archive, original folder kept")
 
     except Exception as e:
         logging.error("Error during archiving: %s", e)
