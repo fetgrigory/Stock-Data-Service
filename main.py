@@ -11,9 +11,7 @@ import os
 import logging
 import csv
 import time
-import zipfile
 from datetime import datetime, time as dt_time
-from pathlib import Path
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
@@ -21,6 +19,7 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 import fake_useragent
 from data_processor import DataProcessor
+from data_archiver import DataArchiver
 
 # Configure logging
 logging.basicConfig(
@@ -75,7 +74,7 @@ class DataParser(WebDriverWrapper):
             [type]: [description]
         """
         now = datetime.now()
-        return (now.weekday() < 5 and dt_time(10, 0) <= now.time() <= dt_time(19, 0))
+        return (now.weekday() < 5 and dt_time(10, 0) <= now.time() <= dt_time(16, 0))
 
     def parse_and_save(self, selected_date):
         """AI is creating summary for parse_and_save
@@ -123,43 +122,6 @@ class DataParser(WebDriverWrapper):
             self.stop_driver()
 
 
-# Archive all CSV files for the given date into a zip archive
-def archive_daily_data(date_to_archive):
-    """AI is creating summary for archive_daily_data
-
-    Args:
-        date_to_archive ([type]): [description]
-    """
-    try:
-        folder_name = date_to_archive.strftime("%Y-%m-%d")
-        folder_path = Path(f"data/{folder_name}")
-        archive_path = Path(f"data/{folder_name}.zip")
-
-        if archive_path.exists():
-            logging.info("Archive already exists: %s", archive_path)
-            return
-
-        if not folder_path.exists() or not any(folder_path.glob("*.csv")):
-            logging.warning("No files found to archive for %s", folder_name)
-            return
-
-        with zipfile.ZipFile(archive_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
-            for csv_file in folder_path.glob("*.csv"):
-                zipf.write(csv_file, arcname=csv_file.name)
-        # Check if archive was created successfully
-        if archive_path.exists():
-            # Delete CSV files and folder after successful archiving
-            for csv_file in folder_path.glob("*.csv"):
-                csv_file.unlink()
-            folder_path.rmdir()
-            logging.info("Successfully archived files to %s and removed original folder", archive_path)
-        else:
-            logging.error("Failed to create archive, original folder kept")
-
-    except Exception as e:
-        logging.error("Error during archiving: %s", e)
-
-
 def main():
     """AI is creating summary for main
     """
@@ -174,8 +136,8 @@ def main():
                 logging.info("Parsing completed successfully. Data saved to %s", result_file)
             else:
                 logging.warning("Parsing completed with errors")
-        elif now.time() >= dt_time(19, 0):
-            archive_daily_data(current_date)
+        elif now.time() >= dt_time(16, 0):
+            DataArchiver.archive(current_date)
         else:
             logging.error('The script will not be executed at the current time.')
 
