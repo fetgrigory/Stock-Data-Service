@@ -74,7 +74,7 @@ class DataParser(WebDriverWrapper):
             [type]: [description]
         """
         now = datetime.now()
-        return (now.weekday() < 5 and dt_time(10, 0) <= now.time() <= dt_time(16, 0))
+        return (now.weekday() < 5 and dt_time(10, 0) <= now.time() <= dt_time(19, 0))
 
     def parse_and_save(self, selected_date):
         """AI is creating summary for parse_and_save
@@ -136,7 +136,7 @@ def main():
                 logging.info("Parsing completed successfully. Data saved to %s", result_file)
             else:
                 logging.warning("Parsing completed with errors")
-        elif now.time() >= dt_time(16, 0):
+        elif now.time() >= dt_time(19, 0):
             DataArchiver.archive(current_date)
         else:
             logging.error('The script will not be executed at the current time.')
