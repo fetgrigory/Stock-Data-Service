@@ -2,3 +2,4 @@
 parser.log
 __pycache__/data_processor.cpython-311.pyc
 __pycache__/data_archiver.cpython-311.pyc
+__pycache__/data_parser.cpython-311.pyc
