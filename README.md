@@ -102,8 +102,30 @@ Number of transactions per day | Кол-во сделок
 ---
 
 ## 🚀 Быстрый старт
-
-1. Клонируйте репозиторий:
+1. Клонирование репозитория:
+ ```
+https://github.com/fetgrigory/mfd-mos-stock-parser.git
+   ```
+2. Создайте виртуальное окружение для изоляции зависимостей проекта. 
+   Используйте команду:
    ```bash
-   git clone https://github.com/fetgrigory/mfd-mos-stock-parser.git
-   cd mfd-mos-stock-parser
+   python -m venv venv
+   ```
+
+3. Активируйте виртуальное окружение:
+   - На Windows:
+     ```bash
+     venv\Scripts\activate
+     ```
+   - На macOS и Linux:
+     ```bash
+     source venv/bin/activate
+     ```
+4. Установка зависимостей:
+   ```bash
+     pip install -r requirements.txt
+     ```
+5. Запустите программу командой:
+   ```bash
+   python run_parser.py
+   ```
