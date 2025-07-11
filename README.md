@@ -31,21 +31,21 @@
 ![Снимок экрана](https://github.com/user-attachments/assets/b59d4643-c1e4-4cf6-883a-3e8c8ce7fa1a)
 *Рис. 1: Пример полученных данных*
 
-### Структура CSV
+### Структура данных
 Поле | Описание
 -----|---------
 Ticker | Тикер ценной бумаги
 Last Price | Последняя цена сделки
-Change (abs)| Абсолютное изменение цены
+Change (abs)|  Абсолютное изменение цены
 Change (%) | Изменение цены в процентах
-Price before closing | Цена перед закрытием
-Price at opening | Цена при открытии
-Minimum price | Минимальная цена
-Average overpriced | Средняя цена
-Pieces per day | Количество лотов
-Quantity per day | Объем сделок (шт.)
-Rub | Объем сделок (₽)
-Number of transactions per day | Кол-во сделок
+Price before closing | Цена перед закрытием предыдущей сессии
+Price at opening |  Цена при открытии текущей сессии
+Minimum price |   Минимальная цена за сессию
+Average overpriced |    Средняя цена
+Pieces per day |    Количество лотов за день
+Quantity per day | Общий объем сделок в штуках
+Rub         | Объем сделок в рублях
+Number of transactions per day | Количество сделок за день
 
 ---
 
