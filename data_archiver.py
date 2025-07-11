@@ -11,6 +11,7 @@ Ending //
 import zipfile
 import logging
 from pathlib import Path
+from email_sender import EmailSender
 
 
 class DataArchiver:
@@ -66,6 +67,14 @@ class DataArchiver:
                     csv_file.unlink()
                 folder_path.rmdir()
                 logging.info("Archiving complete for %s", folder_name)
+
+                # Send archive via email
+                email_sender = EmailSender()
+                if email_sender.send_email_with_attachment(archive_path):
+                    logging.info("Email with archive sent successfully: %s", archive_path)
+                else:
+                    logging.warning("Email sending failed for archive: %s", archive_path)
+
                 return True
             logging.error("Archive creation failed for %s", folder_name)
             return False
