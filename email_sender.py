@@ -15,6 +15,7 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 from platform import python_version
+from config import SMTP_SETTINGS
 
 
 class EmailSender:
@@ -22,11 +23,11 @@ class EmailSender:
     """
     def __init__(self):
         # SMTP server parameters and emails
-        self.server = "smtp.mail.com"
-        self.user = "info@example.com"
-        self.password = "password123"
-        self.recipients = "admin@example.com",
-        self.sender = "noreply@example.com"
+        self.server = SMTP_SETTINGS["server"]
+        self.user = SMTP_SETTINGS["username"]
+        self.password = SMTP_SETTINGS["password"]
+        self.recipients = SMTP_SETTINGS["recipients"]
+        self.sender = SMTP_SETTINGS["sender"]
         self.subject = 'Архив с данными'
         self.text = 'Здравствуйте! Во вложении находится архив с актуальными данными.'
         self.html = f'<html><head></head><body><p>{self.text}</p></body></html>'
