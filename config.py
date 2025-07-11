@@ -1,3 +1,11 @@
+'''
+This module make
+
+Author: Fetkulin Grigory, Fetkulin.G.R@yandex.ru
+Starting 11/07/2025
+Ending //
+
+'''
 SMTP_SETTINGS = {
     "server": "smtp.mail.com",
     "user": "info@example.com",
