@@ -11,7 +11,7 @@ import os
 import logging
 import csv
 import time
-from datetime import datetime, time as dt_time
+from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
@@ -19,6 +19,7 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 import fake_useragent
 from data_processor import DataProcessor
+from config import PARSER_SCHEDULE
 
 
 class WebDriverWrapper:
@@ -58,7 +59,7 @@ class DataParser(WebDriverWrapper):
         super().__init__()
         self.data_processor = DataProcessor()
 
-    # Run on weekdays between 10:00 and 19:00 MSK
+    # Checks if the current time matches the conditions for starting parsing
     def should_run(self):
         """AI is creating summary for should_run
 
@@ -66,7 +67,13 @@ class DataParser(WebDriverWrapper):
             [type]: [description]
         """
         now = datetime.now()
-        return (now.weekday() < 5 and dt_time(10, 0) <= now.time() <= dt_time(19, 0))
+        current_time = now.time()
+        current_weekday = now.weekday()
+        start_time = datetime.strptime(PARSER_SCHEDULE["start_time"], "%H:%M").time()
+        end_time = datetime.strptime(PARSER_SCHEDULE["end_time"], "%H:%M").time()
+        work_days = PARSER_SCHEDULE["work_days"]
+        return (current_weekday in work_days and
+                start_time <= current_time <= end_time)
 
     def parse_and_save(self, selected_date):
         """AI is creating summary for parse_and_save
