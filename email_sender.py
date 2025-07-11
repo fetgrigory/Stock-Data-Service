@@ -45,7 +45,7 @@ class EmailSender:
         try:
             basename = os.path.basename(filepath)
             filesize = os.path.getsize(filepath)
-        # Create multipart message container
+            # Create multipart message container
             msg = MIMEMultipart('alternative')
             msg['Subject'] = self.subject
             msg['From'] = f'Python script <{self.sender}>'
