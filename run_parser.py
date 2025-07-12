@@ -9,9 +9,26 @@ Ending //
 # Installing the necessary libraries
 import time
 import logging
-from datetime import datetime, time as dt_time
+from datetime import datetime
 from data_parser import DataParser
 from data_archiver import DataArchiver
+from config import PARSER_SCHEDULE
+
+
+def is_within_schedule():
+    """AI is creating summary for is_within_schedule
+
+    Returns:
+        [type]: [description]
+    """
+    now = datetime.now()
+    current_time = now.time()
+    current_weekday = now.weekday()
+    start_time = datetime.strptime(PARSER_SCHEDULE["start_time"], "%H:%M").time()
+    end_time = datetime.strptime(PARSER_SCHEDULE["end_time"], "%H:%M").time()
+    work_days = PARSER_SCHEDULE["work_days"]
+
+    return (current_weekday in work_days and start_time <= current_time <= end_time)
 
 
 def main():
@@ -26,17 +43,22 @@ def main():
     parser = DataParser()
 
     while True:
-        current_date = datetime.now().date()
-        now = datetime.now()
-        if parser.should_run():
+        current_datetime = datetime.now()
+        current_date = current_datetime.date()
+        current_time = current_datetime.time()
+        if is_within_schedule():
             logging.info(f"Starting parsing for {current_date} %s")
             result_file = parser.parse_and_save(current_date)
             if result_file:
                 logging.info("Parsing completed successfully. Data saved to %s", result_file)
             else:
                 logging.warning("Parsing completed with errors")
-        elif now.time() >= dt_time(19, 0):
-            DataArchiver.archive(current_date)
+        elif current_time >= datetime.strptime(PARSER_SCHEDULE["end_time"], "%H:%M").time():
+            logging.info(f"Starting archiving for {current_date} %s")
+            if DataArchiver.archive(current_date):
+                logging.info("Archiving completed successfully.")
+            else:
+                logging.warning("Archiving failed or skipped.")
         else:
             logging.error('The script will not be executed at the current time.')
 

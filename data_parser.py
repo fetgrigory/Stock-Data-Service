@@ -19,7 +19,6 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 import fake_useragent
 from data_processor import DataProcessor
-from config import PARSER_SCHEDULE
 
 
 class WebDriverWrapper:
@@ -58,22 +57,6 @@ class DataParser(WebDriverWrapper):
         # Calling the constructor of the parent class
         super().__init__()
         self.data_processor = DataProcessor()
-
-    # Checks if the current time matches the conditions for starting parsing
-    def should_run(self):
-        """AI is creating summary for should_run
-
-        Returns:
-            [type]: [description]
-        """
-        now = datetime.now()
-        current_time = now.time()
-        current_weekday = now.weekday()
-        start_time = datetime.strptime(PARSER_SCHEDULE["start_time"], "%H:%M").time()
-        end_time = datetime.strptime(PARSER_SCHEDULE["end_time"], "%H:%M").time()
-        work_days = PARSER_SCHEDULE["work_days"]
-        return (current_weekday in work_days and
-                start_time <= current_time <= end_time)
 
     def parse_and_save(self, selected_date):
         """AI is creating summary for parse_and_save

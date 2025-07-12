@@ -8,7 +8,7 @@ Ending //
 '''
 SMTP_SETTINGS = {
     "server": "smtp.mail.com",
-    "user": "info@example.com",
+    "username": "info@example.com",
     "password": "password123",
     "recipients": "admin@example.com",
     "sender": "noreply@example.com",
