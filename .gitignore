@@ -5,3 +5,4 @@ __pycache__/data_archiver.cpython-311.pyc
 __pycache__/data_parser.cpython-311.pyc
 __pycache__/email_sender.cpython-311.pyc
 __pycache__/config.cpython-311.pyc
+Web/__pycache__/models.cpython-311.pyc
