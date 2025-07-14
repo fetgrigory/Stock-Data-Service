@@ -10,7 +10,7 @@ Ending //
 from flask import Flask, render_template, request, flash, redirect
 from models import db, User
 # Initialize Flask app
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static", template_folder="templates")
 # Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SECRET_KEY'] = 'secret_key'
