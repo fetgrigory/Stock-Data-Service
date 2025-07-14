@@ -19,7 +19,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 # Create tables on first request
 with app.app_context():
-    db.drop_all()
     db.create_all()
 
 
