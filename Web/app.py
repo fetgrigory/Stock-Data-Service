@@ -19,6 +19,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 # Create tables on first request
 with app.app_context():
+    db.drop_all()
     db.create_all()
 
 
@@ -46,12 +47,13 @@ def about():
 
 
 @app.route('/signup', methods=['GET', 'POST'])
+# Render signup page
 def signup():
     if request.method == 'POST':
-        user = User(
-            username=request.form['username'],
-            password=request.form['password']
-        )
+        # Create a user with mandatory password hashing
+        user = User(username=request.form['username'])
+        # The password is hashed before saving
+        user.set_password(request.form['password'])
         db.session.add(user)
         db.session.commit()
         flash("Регистрация успешна!", "success")
@@ -60,22 +62,35 @@ def signup():
 
 
 @app.route('/login', methods=['GET', 'POST'])
+# Render login page
 def login():
+    """AI is creating summary for login
+
+    Returns:
+        [type]: [description]
+    """
     if request.method == 'POST':
-        user = User.query.filter_by(
-            username=request.form['username'],
-            password=request.form['password']
-        ).first()
-        if user:
-            flash("Вход выполнен!", "success")
+        username = request.form['username']
+        password = request.form['password']
+
+        user = User.query.filter_by(username=username).first()
+        if user and user.check_password(password):
+            flash("Вы успешно вошли в систему!", "success")
             return redirect('/test')
         else:
-            flash('Ошибка входа', 'error')
+            flash('Неверное имя пользователя или пароль.', 'error')
+
     return render_template("login.html")
 
 
 @app.route('/test')
+# Render test page
 def test():
+    """AI is creating summary for test
+
+    Returns:
+        [type]: [description]
+    """
     return render_template("test.html")
 
 
