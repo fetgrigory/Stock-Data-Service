@@ -48,6 +48,11 @@ def about():
 @app.route('/signup', methods=['GET', 'POST'])
 # Render signup page
 def signup():
+    """AI is creating summary for signup
+
+    Returns:
+        [type]: [description]
+    """
     if request.method == 'POST':
         # Create a user with mandatory password hashing
         user = User(username=request.form['username'])
