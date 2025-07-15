@@ -72,6 +72,9 @@ class DataArchiver:
                 email_sender = EmailSender()
                 if email_sender.send_email_with_attachment(archive_path):
                     logging.info("Email with archive sent successfully: %s", archive_path)
+                    # Delete archive after successful sending
+                    archive_path.unlink()
+                    logging.info("Archive deleted: %s", archive_path)
                 else:
                     logging.warning("Email sending failed for archive: %s", archive_path)
 
