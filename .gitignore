@@ -1,8 +1,7 @@
 /venv
 parser.log
-__pycache__/data_processor.cpython-311.pyc
-__pycache__/data_archiver.cpython-311.pyc
-__pycache__/data_parser.cpython-311.pyc
-__pycache__/email_sender.cpython-311.pyc
-__pycache__/config.cpython-311.pyc
-Web/__pycache__/models.cpython-311.pyc
+__pycache__/email_sender.cpython-312.pyc
+__pycache__/config.cpython-312.pyc
+__pycache__/data_archiver.cpython-312.pyc
+__pycache__/data_parser.cpython-312.pyc
+__pycache__/data_processor.cpython-312.pyc
