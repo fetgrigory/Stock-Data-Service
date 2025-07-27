@@ -12,8 +12,9 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 # Database configuration
 DATABASE_URL = "sqlite:///./users.db"
-
+# engine: SQLAlchemy engine instance used to interact with the SQLite database
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+# SessionLocal: Factory for creating new SQLAlchemy session objects
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
@@ -27,6 +28,7 @@ def get_db():
     """
     db = SessionLocal()
     try:
+        # db (Session): Active database session
         yield db
     finally:
         db.close()
