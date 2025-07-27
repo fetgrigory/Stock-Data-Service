@@ -8,14 +8,14 @@ Ending //
 '''
 # Installing the necessary libraries
 import os
-from fastapi import FastAPI, Form, Request
+from fastapi import Depends, FastAPI, Form, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from sqlalchemy import Column, Integer, String, create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Session
 from starlette.middleware.sessions import SessionMiddleware
+from .database import Base, engine, get_db
+from .models import User
 
 app = FastAPI()
 
@@ -28,20 +28,6 @@ templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 # Secret key for flash messages via sessions
 app.add_middleware(SessionMiddleware, secret_key="secret_key")
 
-# Database configuration
-DATABASE_URL = "sqlite:///./users.db"
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-Base = declarative_base()
-
-
-class User(Base):
-    __tablename__ = "users"
-    id = Column(Integer, primary_key=True, index=True)
-    username = Column(String(80), unique=True, nullable=False)
-    password = Column(String(80), nullable=False)
-
-
 # Creating tables
 Base.metadata.create_all(bind=engine)
 
@@ -50,31 +36,68 @@ Base.metadata.create_all(bind=engine)
 @app.get("/", response_class=HTMLResponse)
 @app.get("/home", response_class=HTMLResponse)
 async def home(request: Request):
+    """AI is creating summary for home
+
+    Args:
+        request (Request): [description]
+
+    Returns:
+        [type]: [description]
+    """
     return templates.TemplateResponse("index.html", {"request": request})
 
 
 # Render about page
 @app.get("/about", response_class=HTMLResponse)
 async def about(request: Request):
+    """AI is creating summary for about
+
+    Args:
+        request (Request): [description]
+
+    Returns:
+        [type]: [description]
+    """
     return templates.TemplateResponse("about.html", {"request": request})
 
 
 # Render signup page
 @app.get("/signup", response_class=HTMLResponse)
 async def signup_form(request: Request):
+    """AI is creating summary for signup_form
+
+    Args:
+        request (Request): [description]
+
+    Returns:
+        [type]: [description]
+    """
     return templates.TemplateResponse("signup.html", {"request": request})
 
 
 @app.post("/signup", response_class=HTMLResponse)
-async def signup(request: Request, username: str = Form(...), password: str = Form(...),
-                 confirm_password: str = Form(...)):
-    db = SessionLocal()
-    existing_user = db.query(User).filter(User.username == username).first()
+async def process_signup(request: Request,
+                 username: str = Form(...),
+                 password: str = Form(...),
+                 confirm_password: str = Form(...),
+                 db: Session = Depends(get_db)):
+    """AI is creating summary for process_signup
 
+    Args:
+        request (Request): [description]
+        username (str, optional): [description]. Defaults to Form(...).
+        password (str, optional): [description]. Defaults to Form(...).
+        confirm_password (str, optional): [description]. Defaults to Form(...).
+        db (Session, optional): [description]. Defaults to Depends(get_db).
+
+    Returns:
+        [type]: [description]
+    """
     if password != confirm_password:
         request.session["message"] = "Пароли не совпадают"
         return RedirectResponse("/signup", status_code=303)
 
+    existing_user = db.query(User).filter(User.username == username).first()
     if existing_user:
         request.session["message"] = "Имя пользователя уже существует."
         return RedirectResponse("/signup", status_code=303)
@@ -82,7 +105,6 @@ async def signup(request: Request, username: str = Form(...), password: str = Fo
     new_user = User(username=username, password=password)
     db.add(new_user)
     db.commit()
-    db.close()
     request.session["message"] = "Вы успешно зарегистрировались!"
     return RedirectResponse("/login", status_code=303)
 
@@ -90,14 +112,36 @@ async def signup(request: Request, username: str = Form(...), password: str = Fo
 # Render login page
 @app.get("/login", response_class=HTMLResponse)
 async def login_form(request: Request):
+    """AI is creating summary for login_form
+
+    Args:
+        request (Request): [description]
+
+    Returns:
+        [type]: [description]
+    """
     return templates.TemplateResponse("login.html", {"request": request})
 
 
 @app.post("/login", response_class=HTMLResponse)
-async def login(request: Request, username: str = Form(...), password: str = Form(...)):
-    db = SessionLocal()
+async def process_login(
+    request: Request,
+    username: str = Form(...),
+    password: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    """AI is creating summary for process_login
+
+    Args:
+        request (Request): [description]
+        username (str, optional): [description]. Defaults to Form(...).
+        password (str, optional): [description]. Defaults to Form(...).
+        db (Session, optional): [description]. Defaults to Depends(get_db).
+
+    Returns:
+        [type]: [description]
+    """
     user = db.query(User).filter_by(username=username, password=password).first()
-    db.close()
     if user:
         request.session["message"] = "Вы успешно вошли в систему!"
         return RedirectResponse("/test", status_code=303)
@@ -109,4 +153,12 @@ async def login(request: Request, username: str = Form(...), password: str = For
 # Render test page
 @app.get("/test", response_class=HTMLResponse)
 async def test(request: Request):
+    """AI is creating summary for test
+
+    Args:
+        request (Request): [description]
+
+    Returns:
+        [type]: [description]
+    """
     return templates.TemplateResponse("test.html", {"request": request})
