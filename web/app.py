@@ -32,7 +32,7 @@ app.add_middleware(SessionMiddleware, secret_key="secret_key")
 Base.metadata.create_all(bind=engine)
 
 
-# Render main page
+# Home page route
 @app.get("/", response_class=HTMLResponse)
 @app.get("/home", response_class=HTMLResponse)
 async def home(request: Request):
@@ -47,7 +47,7 @@ async def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 
-# Render about page
+# About page route
 @app.get("/about", response_class=HTMLResponse)
 async def about(request: Request):
     """AI is creating summary for about
@@ -61,7 +61,7 @@ async def about(request: Request):
     return templates.TemplateResponse("about.html", {"request": request})
 
 
-# Render signup page
+# Signup page route
 @app.get("/signup", response_class=HTMLResponse)
 async def signup_form(request: Request):
     """AI is creating summary for signup_form
@@ -109,7 +109,7 @@ async def process_signup(request: Request,
     return RedirectResponse("/login", status_code=303)
 
 
-# Render login page
+# Login page route
 @app.get("/login", response_class=HTMLResponse)
 async def login_form(request: Request):
     """AI is creating summary for login_form
@@ -150,7 +150,7 @@ async def process_login(
         return RedirectResponse("/login", status_code=303)
 
 
-# Render test page
+# Test page route
 @app.get("/test", response_class=HTMLResponse)
 async def test(request: Request):
     """AI is creating summary for test
