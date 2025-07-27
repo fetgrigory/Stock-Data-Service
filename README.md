@@ -132,6 +132,7 @@ mfd-mos-stock-parser/
 │   ├── about.html
 │   ├── login.html
 │   └── signup.html
+│   └── test.html
 │
 ├── static/                       # CSS, JS, изображения
 │   └── style.css
