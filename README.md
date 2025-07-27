@@ -109,7 +109,7 @@ https://github.com/fetgrigory/mfd-mos-stock-parser.git
    ```bash
      pip install -r requirements.txt
      ```
-5. Запустите программу командой:
+5. Запуск парсера:
    ```bash
    python run_parser.py
    ```
