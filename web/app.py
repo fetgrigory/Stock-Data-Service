@@ -144,16 +144,16 @@ async def process_login(
     user = db.query(User).filter_by(username=username, password=password).first()
     if user:
         request.session["message"] = "Вы успешно вошли в систему!"
-        return RedirectResponse("/test", status_code=303)
+        return RedirectResponse("/admin", status_code=303)
     else:
         request.session["message"] = "Неверное имя пользователя или пароль."
         return RedirectResponse("/login", status_code=303)
 
 
-# Test page route
-@app.get("/test", response_class=HTMLResponse)
-async def test(request: Request):
-    """AI is creating summary for test
+# Admin page route
+@app.get("/admin", response_class=HTMLResponse)
+async def admin(request: Request):
+    """AI is creating summary for admin
 
     Args:
         request (Request): [description]
@@ -161,4 +161,4 @@ async def test(request: Request):
     Returns:
         [type]: [description]
     """
-    return templates.TemplateResponse("test.html", {"request": request})
+    return templates.TemplateResponse("admin.html", {"request": request})
