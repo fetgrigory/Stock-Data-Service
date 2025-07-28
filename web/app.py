@@ -101,8 +101,8 @@ async def process_signup(request: Request,
     if existing_user:
         request.session["message"] = "Имя пользователя уже существует."
         return RedirectResponse("/signup", status_code=303)
-
-    new_user = User(username=username, password=password)
+    hashed_password = User.get_password_hash(password)
+    new_user = User(username=username, password=hashed_password)
     db.add(new_user)
     db.commit()
     request.session["message"] = "Вы успешно зарегистрировались!"
@@ -141,13 +141,12 @@ async def process_login(
     Returns:
         [type]: [description]
     """
-    user = db.query(User).filter_by(username=username, password=password).first()
-    if user:
-        request.session["message"] = "Вы успешно вошли в систему!"
-        return RedirectResponse("/admin", status_code=303)
-    else:
+    user = db.query(User).filter_by(username=username).first()
+    if not user or not User.verify_password(password, user.password):
         request.session["message"] = "Неверное имя пользователя или пароль."
         return RedirectResponse("/login", status_code=303)
+    request.session["message"] = "Вы успешно вошли в систему!"
+    return RedirectResponse("/admin", status_code=303)
 
 
 # Admin page route
