@@ -7,10 +7,10 @@
   <h1>Добро пожаловать в админ-панель</h1>
 
   <select class="form-select" aria-label="Default select example">
-    <option selected>Open this select menu</option>
-    <option value="1">One</option>
-    <option value="2">Two</option>
-    <option value="3">Three</option>
+    <option selected>Выберите тип smtp</option>
+    <option value="1">smtp.gmail.com</option>
+    <option value="2">smtp.yandex.ru</option>
+    <option value="3">smtp.mail.ru</option>
   </select>
 
   <div class="mb-3">
@@ -19,8 +19,20 @@
   </div>
 
   <div class="mb-3">
+    <label for="sender" class="form-label">Sender:</label>
+    <input type="text" id="sender" name="sender" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
     <label for="password" class="form-label">Пароль:</label>
     <input type="password" id="password" name="password" class="form-control" required>
   </div>
+
+  <div class="mb-3">
+    <label for="recipients" class="form-label">Recipients:</label>
+    <input type="text" id="recipients" name="recipients" class="form-control" required>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Сохранить</button>
 </body>
 </html>
