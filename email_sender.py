@@ -9,6 +9,7 @@ Ending //
 # Installing the necessary libraries
 import smtplib
 import os
+from datetime import datetime
 import logging
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -28,7 +29,7 @@ class EmailSender:
         self.password = SMTP_SETTINGS["password"]
         self.recipients = SMTP_SETTINGS["recipients"]
         self.sender = SMTP_SETTINGS["sender"]
-        self.subject = 'Архив с данными'
+        self.subject = f'Архив с биржевыми данными от {datetime.now():%d.%m.%Y}'
         self.text = 'Здравствуйте! Во вложении находится архив с актуальными данными.'
         self.html = f'<html><head></head><body><p>{self.text}</p></body></html>'
 
