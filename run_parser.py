@@ -10,9 +10,9 @@ Ending //
 import time
 import logging
 from datetime import datetime
-from data_parser import DataParser
-from data_archiver import DataArchiver
-from config import PARSER_SCHEDULE
+from src.data_parser import DataParser
+from src.data_archiver import DataArchiver
+from src.config import PARSER_SCHEDULE
 
 
 def is_within_schedule():

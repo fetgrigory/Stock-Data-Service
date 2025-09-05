@@ -11,7 +11,7 @@ Ending //
 import zipfile
 import logging
 from pathlib import Path
-from email_sender import EmailSender
+from src.email_sender import EmailSender
 
 
 class DataArchiver:

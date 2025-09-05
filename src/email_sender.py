@@ -16,7 +16,7 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 from platform import python_version
-from config import SMTP_SETTINGS
+from src.config import SMTP_SETTINGS
 
 
 class EmailSender:
