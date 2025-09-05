@@ -70,6 +70,19 @@ Number of transactions per day | Количество сделок за день
   - Архив отправляется по email
 
 ---
+## 📁 Структура проекта
+```text
+mfd-mos-stock-parser/
+│
+├── config.py                     # Конфигурация проекта
+├── data_archiver.py              # Архивация данных
+├── data_parser.py                # Парсинг MFD
+├── data_processor.py             # Обработка/очистка данных
+├── email_sender.py               # Отправка email с архивами
+├── run_parser.py                 # Основной скрипт запуска
+└── requirements.txt              # Зависимости проекта
+```
+---
 ## 🗺 Roadmap
 
 ### 🛠 Этап 1 — Сбор и предобработка данных
