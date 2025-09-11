@@ -18,7 +18,7 @@
 
 ## 📊 Пример результата
 
-| Ticker          | Time     | Last Price | Change (abs) | Change (%) | Price before closing | Price at opening | Minimum price | Average overpriced | Pieces per day | Quantity per day | Rub       | Number of transactions per day |
+| Ticker          | Time     | Last Price | Change (abs) | Change (%) | Price before closing | Price at opening | Minimum price | Average overpriced | Pieces per day | Quantity per day | Rub| Number of transactions per day |
 |-----------------|----------|------------|--------------|------------|--------------------|----------------|---------------|------------------|----------------|-----------------|-----------|-------------------------------|
 | МосЭнерго       | 16:20:13 | 2.267      | +0.0725      | +3.30     | 2.1945             | 2.187          | 2.1455        | 2.271            | 2.218          | 19935000        | 44217168  | 4489                          |
 | 2хАкции         | 16:19:09 | 932.5      | +12.5        | +1.36     | 920                | 914.5          | 910           | 940              | 927            | 5865            | 5436331   | 83                            |
