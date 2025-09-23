@@ -131,3 +131,8 @@ https://github.com/fetgrigory/mfd-mos-stock-parser.git
    ```bash
    python run_parser.py
    ```
+
+6. Запуск веб-приложения:
+   ```bash
+   uvicorn web.app:app --reload
+   ```
