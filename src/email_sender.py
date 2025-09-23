@@ -24,7 +24,7 @@ class EmailSender:
     """
     def __init__(self):
         # SMTP server parameters and emails
-        self.server = SMTP_SETTINGS["serve"]
+        self.server = SMTP_SETTINGS["server"]
         self.user = SMTP_SETTINGS["username"]
         self.password = SMTP_SETTINGS["password"]
         self.recipients = SMTP_SETTINGS["recipients"]
