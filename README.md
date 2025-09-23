@@ -80,6 +80,7 @@ Number of transactions per day | Количество сделок за день
 mfd-mos-stock-parser/
 │
 ├── src/                          # Основной код приложения
+│   ├── main.py                   # FastAPI приложение
 │   ├── config.py                 # Конфигурация проекта
 │   ├── data_archiver.py          # Архивация данных
 │   ├── data_parser.py            # Парсинг MFD
