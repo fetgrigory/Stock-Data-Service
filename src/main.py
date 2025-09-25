@@ -31,7 +31,8 @@ create_users_table()
 @app.post(
     "/users",
     tags=["Пользователи 👤"],
-    summary="Добавить нового пользователя"
+    summary="Добавить нового пользователя",
+    status_code=201
 )
 # Return the name and email
 def create_user(user: User):
