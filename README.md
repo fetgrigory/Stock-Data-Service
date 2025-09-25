@@ -52,6 +52,7 @@ Number of transactions per day | Количество сделок за день
 | `selenium`      | Парсинг динамического контента|
 | `fake-useragent`| Генерация случайных User-Agent для веб-запросов|
 | `webdriver-manager`| Управление драйверами для Selenium|
+| `FastAPI`| Создание веб-интерфейса|
 | `pandas`| Обработка и очистка данных|
 | `zipfile`| Архивирование файлов|
 | `smtplib`| email-рассылка|
