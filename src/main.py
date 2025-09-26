@@ -9,7 +9,7 @@ Ending //
 # Installing the necessary libraries
 import psycopg2
 import uvicorn
-from fastapi import FastAPI, Path, Form, HTTPException
+from fastapi import FastAPI, Path, Query, HTTPException
 from psycopg2 import errorcodes
 from database import create_users_table, insert_user, delete_user
 
@@ -27,8 +27,8 @@ create_users_table()
 )
 # Return the name and email
 def create_user(
-    name: str = Form(..., description="Имя пользователя"),
-    email: str = Form(..., description="Email пользователя")
+    name: str = Query(..., description="Имя пользователя"),
+    email: str = Query(..., description="Email пользователя")
 ):
     try:
         user_id = insert_user(name, email)
