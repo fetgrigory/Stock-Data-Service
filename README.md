@@ -121,7 +121,7 @@ https://github.com/fetgrigory/mfd-mos-stock-parser.git
 
 ### Пример заполнения:
 ```plaintext
-HOST="host.docker.internal"
+HOST="localhost"
 DBNAME="example_db"
 USER="admin_user"
 PASSWORD="strongpassword"
