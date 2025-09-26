@@ -9,20 +9,11 @@ Ending //
 # Installing the necessary libraries
 import psycopg2
 import uvicorn
-from fastapi import FastAPI, Path, HTTPException
+from fastapi import FastAPI, Path, Form, HTTPException
 from psycopg2 import errorcodes
-from pydantic import BaseModel, EmailStr
 from database import create_users_table, insert_user, delete_user
 
 app = FastAPI()
-
-
-# User data model with name and email fields
-class User(BaseModel):
-    name: str
-    email: EmailStr
-
-
 # Creating a table at the start of the application
 create_users_table()
 
@@ -35,10 +26,13 @@ create_users_table()
     status_code=201
 )
 # Return the name and email
-def create_user(user: User):
+def create_user(
+    name: str = Form(..., description="Имя пользователя"),
+    email: str = Form(..., description="Email пользователя")
+):
     try:
-        user_id = insert_user(user.name, user.email)
-        return {"id": user_id, "Имя": user.name, "Адрес электронной почты": user.email}
+        user_id = insert_user(name, email)
+        return {"id": user_id, "Имя": name, "Адрес электронной почты": email}
 
     except psycopg2.Error as e:
         if e.pgcode == errorcodes.UNIQUE_VIOLATION:
