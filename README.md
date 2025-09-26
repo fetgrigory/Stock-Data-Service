@@ -110,13 +110,30 @@ mfd-mos-stock-parser/
  ```
 https://github.com/fetgrigory/mfd-mos-stock-parser.git
    ```
-2. Создайте виртуальное окружение для изоляции зависимостей проекта. 
+2. Подключение к базе данных на PostgreSQL
+Для работы с базой данных требуется указать параметры подключения в файле ".env":
+
+- **HOST**: Адрес хоста базы данных.
+- **DBNAME**: Имя базы данных.
+- **USER**: Имя пользователя для доступа к базе данных.
+- **PASSWORD**: Пароль к базе данных.
+- **PORT**: Порт для подключения (например, 5432 по умолчанию для PostgreSQL).
+
+### Пример заполнения:
+```plaintext
+HOST="host.docker.internal"
+DBNAME="example_db"
+USER="admin_user"
+PASSWORD="strongpassword"
+PORT="5432"
+```
+3. Создайте виртуальное окружение для изоляции зависимостей проекта. 
    Используйте команду:
    ```bash
    python -m venv venv
    ```
 
-3. Активируйте виртуальное окружение:
+4. Активируйте виртуальное окружение:
    - На Windows:
      ```bash
      venv\Scripts\activate
@@ -125,16 +142,16 @@ https://github.com/fetgrigory/mfd-mos-stock-parser.git
      ```bash
      source venv/bin/activate
      ```
-4. Установка зависимостей:
+5. Установка зависимостей:
    ```bash
      pip install -r requirements.txt
      ```
-5. Запуск парсера:
+6. Запуск парсера:
    ```bash
    python run_parser.py
    ```
 
-6. Запуск веб-приложения:
+7. Запуск веб-приложения:
    ```bash
    uvicorn src.main:app --reload
    ```
