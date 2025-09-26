@@ -56,3 +56,12 @@ def insert_user(name: str, email: str):
             user_id = cursor.fetchone()[0]
         conn.commit()
     return user_id
+
+
+# Deleting a user
+def delete_user(user_id: int):
+    with db_connect() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute("DELETE FROM users WHERE id = %s", (user_id,))
+        conn.commit()
+        return user_id

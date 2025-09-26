@@ -9,10 +9,10 @@ Ending //
 # Installing the necessary libraries
 import psycopg2
 import uvicorn
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, Path, HTTPException
 from psycopg2 import errorcodes
-from pydantic import BaseModel
-from database import create_users_table, insert_user
+from pydantic import BaseModel, EmailStr
+from database import create_users_table, insert_user, delete_user
 
 app = FastAPI()
 
@@ -20,7 +20,7 @@ app = FastAPI()
 # User data model with name and email fields
 class User(BaseModel):
     name: str
-    email: str
+    email: EmailStr
 
 
 # Creating a table at the start of the application
@@ -45,6 +45,21 @@ def create_user(user: User):
             raise HTTPException(status_code=400, detail="Пользователь с таким email уже существует") from e
         else:
             raise
+
+
+# Endpoint for deleting a user by ID
+@app.delete(
+    "/users/{user_id}",
+    tags=["Пользователи 👤"],
+    summary="Удалить пользователя по ID",
+    status_code=200
+)
+# Return a message confirming the deletion of the user
+def remove_user(user_id: int = Path(..., description="ID пользователя для удаления")):
+    deleted_count = delete_user(user_id)
+    if deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Пользователь не найден")
+    return {"message": f"Пользователь с ID {user_id} успешно удален"}
 
 
 if __name__ == "__main__":
