@@ -25,7 +25,6 @@ create_users_table()
     summary="Добавить нового пользователя",
     status_code=201
 )
-# Return the name and email
 def create_user(
     name: str = Query(..., description="Имя пользователя"),
     email: str = Query(..., description="Email пользователя")
@@ -75,7 +74,6 @@ def update_user(
     summary="Удалить пользователя по ID",
     status_code=200
 )
-# Return a message confirming the deletion of the user
 def delete_user(user_id: int = Path(..., description="ID пользователя для удаления")):
     deleted_count = delete_user_data(user_id)
     if deleted_count == 0:
