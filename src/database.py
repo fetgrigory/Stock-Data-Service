@@ -46,7 +46,7 @@ def create_users_table():
 
 
 # Adding a new user
-def insert_user(name: str, email: str):
+def insert_user_data(name: str, email: str):
     with db_connect() as conn:
         with conn.cursor() as cursor:
             cursor.execute(
@@ -58,8 +58,32 @@ def insert_user(name: str, email: str):
     return user_id
 
 
+# Updating a user
+def update_user_data(user_id: int, name: str | None, email: str | None):
+    with db_connect() as conn:
+        with conn.cursor() as cursor:
+            # Getting the current user data
+            cursor.execute("SELECT name, email FROM users WHERE id = %s", (user_id,))
+            result = cursor.fetchone()
+            if not result:
+                return None
+            current_name, current_email = result
+
+            # If the field is None, leave the old value
+            new_name = name if name is not None else current_name
+            new_email = email if email is not None else current_email
+
+            cursor.execute(
+                "UPDATE users SET name = %s, email = %s WHERE id = %s RETURNING name, email",
+                (new_name, new_email, user_id)
+            )
+            updated = cursor.fetchone()
+        conn.commit()
+    return {"name": updated[0], "email": updated[1]}
+
+
 # Deleting a user
-def delete_user(user_id: int):
+def delete_user_data(user_id: int):
     with db_connect() as conn:
         with conn.cursor() as cursor:
             cursor.execute("DELETE FROM users WHERE id = %s", (user_id,))
