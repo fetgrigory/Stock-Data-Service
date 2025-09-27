@@ -6,6 +6,7 @@ Starting 25/09/2025
 Ending //
 
 '''
+# Installing the necessary libraries
 import os
 import psycopg2
 
