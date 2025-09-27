@@ -32,12 +32,12 @@ def db_connect():
     )
 
 
-# Creates the users table if it does not exist
-def create_users_table():
+# Creates the recipients table if it does not exist
+def create_recipients_table():
     with db_connect() as conn:
         with conn.cursor() as cursor:
             cursor.execute("""
-                CREATE TABLE IF NOT EXISTS users (
+                CREATE TABLE IF NOT EXISTS recipients (
                     id SERIAL PRIMARY KEY,
                     name TEXT NOT NULL,
                     email TEXT NOT NULL UNIQUE
@@ -46,25 +46,25 @@ def create_users_table():
         conn.commit()
 
 
-# Adding a new user
-def insert_user_data(name: str, email: str):
+# Adding a new recipient
+def insert_recipient_data(name: str, email: str):
     with db_connect() as conn:
         with conn.cursor() as cursor:
             cursor.execute(
-                "INSERT INTO users (name, email) VALUES (%s, %s) RETURNING id",
+                "INSERT INTO recipients (name, email) VALUES (%s, %s) RETURNING id",
                 (name, email)
             )
-            user_id = cursor.fetchone()[0]
+            recipient_id = cursor.fetchone()[0]
         conn.commit()
-    return user_id
+    return recipient_id
 
 
-# Updating a user
-def update_user_data(user_id: int, name: str | None, email: str | None):
+# Updating a recipient
+def update_recipient_data(recipient_id: int, name: str | None, email: str | None):
     with db_connect() as conn:
         with conn.cursor() as cursor:
-            # Getting the current user data
-            cursor.execute("SELECT name, email FROM users WHERE id = %s", (user_id,))
+            # Getting the current recipient data
+            cursor.execute("SELECT name, email FROM recipients WHERE id = %s", (recipient_id,))
             result = cursor.fetchone()
             if not result:
                 return None
@@ -75,18 +75,18 @@ def update_user_data(user_id: int, name: str | None, email: str | None):
             new_email = email if email is not None else current_email
 
             cursor.execute(
-                "UPDATE users SET name = %s, email = %s WHERE id = %s RETURNING name, email",
-                (new_name, new_email, user_id)
+                "UPDATE recipients SET name = %s, email = %s WHERE id = %s RETURNING name, email",
+                (new_name, new_email, recipient_id)
             )
             updated = cursor.fetchone()
         conn.commit()
     return {"name": updated[0], "email": updated[1]}
 
 
-# Deleting a user
-def delete_user_data(user_id: int):
+# Deleting a recipient
+def delete_recipient_data(recipient_id: int):
     with db_connect() as conn:
         with conn.cursor() as cursor:
-            cursor.execute("DELETE FROM users WHERE id = %s", (user_id,))
+            cursor.execute("DELETE FROM recipients WHERE id = %s", (recipient_id,))
         conn.commit()
-        return user_id
+        return recipient_id

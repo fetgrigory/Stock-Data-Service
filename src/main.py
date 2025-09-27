@@ -11,74 +11,74 @@ import psycopg2
 import uvicorn
 from fastapi import FastAPI, Path, Query, HTTPException
 from psycopg2 import errorcodes
-from database import create_users_table, insert_user_data, delete_user_data, update_user_data
+from database import create_recipients_table, insert_recipient_data, delete_recipient_data, update_recipient_data
 
 app = FastAPI()
 # Creating a table at the start of the application
-create_users_table()
+create_recipients_table()
 
 
-# Endpoint for adding a new user
+# Endpoint for adding a new recipient
 @app.post(
-    "/users",
-    tags=["Пользователи 👤"],
-    summary="Добавить нового пользователя",
+    "/recipients",
+    tags=["Получатели 👤"],
+    summary="Добавить нового получателя",
     status_code=201
 )
-def create_user(
-    name: str = Query(..., description="Имя пользователя"),
-    email: str = Query(..., description="Email пользователя")
+def create_recipient(
+    name: str = Query(..., description="Имя получателя"),
+    email: str = Query(..., description="Email получателя")
 ):
     try:
-        user_id = insert_user_data(name, email)
-        return {"id": user_id, "Имя": name, "Адрес электронной почты": email}
+        recipient_id = insert_recipient_data(name, email)
+        return {"id": recipient_id, "Имя": name, "Адрес электронной почты": email}
 
     except psycopg2.Error as e:
         if e.pgcode == errorcodes.UNIQUE_VIOLATION:
-            raise HTTPException(status_code=400, detail="Пользователь с таким email уже существует") from e
+            raise HTTPException(status_code=400, detail="Получатель с таким email уже существует") from e
         else:
             raise
 
 
-# Endpoint for update user
+# Endpoint for update recipient
 @app.patch(
-    "/users/{user_id}",
-    tags=["Пользователи 👤"],
-    summary="Обновить данные пользователя",
+    "/recipients/{recipient_id}",
+    tags=["Получатели 👤"],
+    summary="Обновить данные получателя",
     status_code=200
 )
-def update_user(
-    user_id: int = Path(..., description="ID пользователя для обновления"),
-    name: str | None = Query(None, description="Новое имя пользователя"),
-    email: str | None = Query(None, description="Новый email пользователя")
+def update_recipient(
+    recipient_id: int = Path(..., description="ID получателя для обновления"),
+    name: str | None = Query(None, description="Новое имя получателя"),
+    email: str | None = Query(None, description="Новый email получателя")
 ):
     if name is None and email is None:
         raise HTTPException(status_code=400, detail="Необходимо указать хотя бы одно поле для обновления")
     try:
-        updated_user = update_user_data(user_id, name, email)
-        if not updated_user:
-            raise HTTPException(status_code=404, detail="Пользователь не найден")
-        return {"id": user_id, "Имя": updated_user["name"], "Email": updated_user["email"]}
+        updated_recipient = update_recipient_data(recipient_id, name, email)
+        if not updated_recipient:
+            raise HTTPException(status_code=404, detail="Получатель не найден")
+        return {"id": recipient_id, "Имя": updated_recipient["name"], "Email": updated_recipient["email"]}
 
     except psycopg2.Error as e:
         if e.pgcode == errorcodes.UNIQUE_VIOLATION:
-            raise HTTPException(status_code=400, detail="Пользователь с таким email уже существует") from e
+            raise HTTPException(status_code=400, detail="Получатель с таким email уже существует") from e
         else:
             raise
 
 
-# Endpoint for deleting a user by ID
+# Endpoint for deleting a recipient by ID
 @app.delete(
-    "/users/{user_id}",
-    tags=["Пользователи 👤"],
-    summary="Удалить пользователя по ID",
+    "/recipients/{recipient_id}",
+    tags=["Получатели 👤"],
+    summary="Удалить получателя по ID",
     status_code=200
 )
-def delete_user(user_id: int = Path(..., description="ID пользователя для удаления")):
-    deleted_count = delete_user_data(user_id)
+def delete_recipient(recipient_id: int = Path(..., description="ID получателя для удаления")):
+    deleted_count = delete_recipient_data(recipient_id)
     if deleted_count == 0:
-        raise HTTPException(status_code=404, detail="Пользователь не найден")
-    return {"message": f"Пользователь с ID {user_id} успешно удален"}
+        raise HTTPException(status_code=404, detail="Получатель не найден")
+    return {"message": f"Получатель с ID {recipient_id} успешно удален"}
 
 
 if __name__ == "__main__":
