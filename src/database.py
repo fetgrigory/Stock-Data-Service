@@ -196,3 +196,51 @@ def get_all_recipients():
             cursor.execute("SELECT email FROM recipients")
             results = cursor.fetchall()
     return [row[0] for row in results]
+
+
+# Updating a recipient
+def update_smtp_data(smtp_id: int, server: str | None, port: int | None, username: str | None, password: str | None, sender: str | None):
+    """AI is creating summary for update_smtp_data
+
+    Args:
+        smtp_id (int): [description]
+        server (str): [description]
+        port (int): [description]
+        username (str): [description]
+        password (str): [description]
+        sender (str): [description]
+
+    Returns:
+        [type]: [description]
+    """
+    with db_connect() as conn:
+        with conn.cursor() as cursor:
+            # Getting the current SMTP data
+            cursor.execute(
+                "SELECT server, port, username, password, sender FROM smtp_settings WHERE id = %s", (smtp_id,))
+            result = cursor.fetchone()
+            if not result:
+                return None
+
+            current_server, current_port, current_username, current_password, current_sender = result
+
+        # If the field is None, leave the old value
+            new_server = server if server is not None else current_server
+            new_port = port if port is not None else current_port
+            new_username = username if username is not None else current_username
+            new_password = password if password is not None else current_password
+            new_sender = sender if sender is not None else current_sender
+
+            cursor.execute(
+                """
+                UPDATE smtp_settings
+                SET server = %s, port = %s, username = %s, password = %s, sender = %s
+                WHERE id = %s
+                RETURNING server, port, username, password, sender
+                """,
+                (new_server, new_port, new_username, new_password, new_sender, smtp_id)
+            )
+            updated = cursor.fetchone()
+        conn.commit()
+
+    return {"server": updated[0], "port": updated[1], "username": updated[2], "password": updated[3], "sender": updated[4]}

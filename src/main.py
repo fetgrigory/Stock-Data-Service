@@ -11,7 +11,7 @@ import psycopg2
 import uvicorn
 from fastapi import FastAPI, Path, Query, HTTPException
 from psycopg2 import errorcodes
-from database import create_recipients_table, insert_recipient_data, delete_recipient_data, update_recipient_data, insert_smtp_setting
+from database import create_recipients_table, insert_recipient_data, delete_recipient_data, update_recipient_data, insert_smtp_setting, update_smtp_data
 
 app = FastAPI()
 # Creating a table at the start of the application
@@ -102,6 +102,36 @@ def create_smtp_settings(
     except psycopg2.Error as e:
         if e.pgcode == errorcodes.UNIQUE_VIOLATION:
             raise HTTPException(status_code=400, detail="Такая конфигурация настроек уже существует") from e
+        else:
+            raise HTTPException(status_code=500, detail="Ошибка сервера") from e
+
+
+# Endpoint for updating SMTP settings
+@app.patch(
+    "/smtp-settings/{smtp_id}",
+    tags=["SMTP Настройки ⚙️"],
+    summary="Обновить SMTP настройки",
+    status_code=200
+)
+def update_smtp_settings(
+    smtp_id: int = Path(..., description="ID SMTP настройки для обновления"),
+    server: str | None = Query(None, description="Новый SMTP сервер"),
+    port: int | None = Query(None, description="Новый порт"),
+    username: str | None = Query(None, description="Новое имя пользователя"),
+    password: str | None = Query(None, description="Новый пароль"),
+    sender: str | None = Query(None, description="Новый email отправителя")
+):
+    if all(field is None for field in [server, port, username, password, sender]):
+        raise HTTPException(status_code=400, detail="Необходимо указать хотя бы одно поле для обновления")
+    try:
+        updated_smtp = update_smtp_data(smtp_id, server, port, username, password, sender)
+        if not updated_smtp:
+            raise HTTPException(status_code=404, detail="SMTP настройка не найдена")
+        return {"id": smtp_id, "server": updated_smtp["server"], "port": updated_smtp["port"], "username": updated_smtp["username"], "sender": updated_smtp["sender"]}
+
+    except psycopg2.Error as e:
+        if e.pgcode == errorcodes.UNIQUE_VIOLATION:
+            raise HTTPException(status_code=400, detail="SMTP с таким email отправителя уже существует") from e
         else:
             raise HTTPException(status_code=500, detail="Ошибка сервера") from e
 
