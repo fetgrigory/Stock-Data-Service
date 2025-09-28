@@ -7,28 +7,32 @@ Ending //
 
 '''
 # Installing the necessary libraries
-import smtplib
-import os
-from datetime import datetime
 import logging
+import os
+import smtplib
+from datetime import datetime
+from email import encoders
+from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from email.mime.base import MIMEBase
-from email import encoders
 from platform import python_version
-from src.config import SMTP_SETTINGS
+from src.database import get_all_recipients, get_smtp_setting
 
 
 class EmailSender:
     """AI is creating summary for
     """
     def __init__(self):
-        # SMTP server parameters and emails
-        self.server = SMTP_SETTINGS["server"]
-        self.user = SMTP_SETTINGS["username"]
-        self.password = SMTP_SETTINGS["password"]
-        self.recipients = SMTP_SETTINGS["recipients"]
-        self.sender = SMTP_SETTINGS["sender"]
+        # Getting SMTP settings from the database
+        smtp_config = get_smtp_setting()
+        if not smtp_config:
+            raise ValueError("SMTP настройки не найдены в базе данных.")
+        self.smtp_id, self.server, self.port, self.user, self.password, self.sender = smtp_config
+        # Getting a list of recipients
+        self.recipients = get_all_recipients()
+        if not self.recipients:
+            logging.warning("Список получателей пуст!")
+        # Dynamic subject and text of the letter
         self.subject = f'Архив с биржевыми данными от {datetime.now():%d.%m.%Y}'
         self.text = 'Здравствуйте! Во вложении находится архив с актуальными данными.'
         self.html = f'<html><head></head><body><p>{self.text}</p></body></html>'
@@ -71,7 +75,7 @@ class EmailSender:
             msg.attach(part_html)
             msg.attach(part_file)
             # Send email via SMTP server
-            with smtplib.SMTP_SSL(self.server) as mail:
+            with smtplib.SMTP_SSL(self.server, self.port) as mail:
                 mail.login(self.user, self.password)
                 mail.sendmail(self.sender, self.recipients, msg.as_string())
 
