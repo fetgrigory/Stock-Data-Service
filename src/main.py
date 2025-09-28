@@ -11,7 +11,7 @@ import psycopg2
 import uvicorn
 from fastapi import FastAPI, Path, Query, HTTPException
 from psycopg2 import errorcodes
-from database import create_recipients_table, insert_recipient_data, delete_recipient_data, update_recipient_data
+from database import create_recipients_table, insert_recipient_data, delete_recipient_data, update_recipient_data, insert_smtp_setting
 
 app = FastAPI()
 # Creating a table at the start of the application
@@ -79,6 +79,31 @@ def delete_recipient(recipient_id: int = Path(..., description="ID получа�
     if deleted_count == 0:
         raise HTTPException(status_code=404, detail="Получатель не найден")
     return {"message": f"Получатель с ID {recipient_id} успешно удален"}
+
+
+# Endpoint for adding a new smtp settings
+@app.post(
+    "/smtp-settings",
+    tags=["SMTP Настройки ⚙️"],
+    summary="Добавить SMTP настройки",
+    status_code=201
+)
+def create_smtp_settings(
+    server: str = Query(..., description="SMTP сервер"),
+    port: int = Query(..., description="Порт"),
+    username: str = Query(..., description="Имя пользователя"),
+    password: str = Query(..., description="Пароль"),
+    sender: str = Query(..., description="Email отправителя")
+):
+    try:
+        smtp_id = insert_smtp_setting(server, port, username, password, sender)
+        return {"id": smtp_id, "server": server, "port": port, "username": username, "sender": sender}
+
+    except psycopg2.Error as e:
+        if e.pgcode == errorcodes.UNIQUE_VIOLATION:
+            raise HTTPException(status_code=400, detail="Такая конфигурация настроек уже существует") from e
+        else:
+            raise HTTPException(status_code=500, detail="Ошибка сервера") from e
 
 
 if __name__ == "__main__":
