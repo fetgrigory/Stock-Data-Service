@@ -198,7 +198,7 @@ def get_all_recipients():
     return [row[0] for row in results]
 
 
-# Updating a recipient
+# Updating a configuration
 def update_smtp_data(smtp_id: int, server: str | None, port: int | None, username: str | None, password: str | None, sender: str | None):
     """AI is creating summary for update_smtp_data
 
@@ -244,3 +244,20 @@ def update_smtp_data(smtp_id: int, server: str | None, port: int | None, usernam
         conn.commit()
 
     return {"server": updated[0], "port": updated[1], "username": updated[2], "password": updated[3], "sender": updated[4]}
+
+
+# Deleting a configuration
+def delete_smtp_data(smtp_id: int):
+    """AI is creating summary for delete_smtp_data
+
+    Args:
+        smtp_id (int): [description]
+
+    Returns:
+        [type]: [description]
+    """
+    with db_connect() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute("DELETE FROM smtp_settings WHERE id = %s", (smtp_id,))
+        conn.commit()
+        return smtp_id

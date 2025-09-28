@@ -11,7 +11,7 @@ import psycopg2
 import uvicorn
 from fastapi import FastAPI, Path, Query, HTTPException
 from psycopg2 import errorcodes
-from database import create_recipients_table, insert_recipient_data, delete_recipient_data, update_recipient_data, insert_smtp_setting, update_smtp_data
+from database import create_recipients_table, insert_recipient_data, delete_recipient_data, update_recipient_data, insert_smtp_setting, update_smtp_data, delete_smtp_data
 
 app = FastAPI()
 # Creating a table at the start of the application
@@ -134,6 +134,20 @@ def update_smtp_settings(
             raise HTTPException(status_code=400, detail="SMTP с таким email отправителя уже существует") from e
         else:
             raise HTTPException(status_code=500, detail="Ошибка сервера") from e
+
+
+# Endpoint for deleting a SMTP settings
+@app.delete(
+    "/smtp-settings/{smtp_id}",
+    tags=["SMTP Настройки ⚙️"],
+    summary="Удалить SMTP настройки",
+    status_code=200
+)
+def delete_smtp_settings(smtp_id: int = Path(..., description="ID SMTP настройки для для удаления")):
+    deleted_count = delete_smtp_data(smtp_id)
+    if deleted_count == 0:
+        raise HTTPException(status_code=404, detail="SMTP настройка не найдена")
+    return {"message": f"SMTP с ID {smtp_id} успешно удален"}
 
 
 if __name__ == "__main__":
