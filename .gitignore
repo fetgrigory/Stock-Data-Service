@@ -9,4 +9,8 @@ tests/__pycache__/test_data_processor.cpython-312-pytest-8.4.1.pyc
 /.vscode
 src/__pycache__/main.cpython-312.pyc
 src/__pycache__/database.cpython-312.pyc
-/src
+src/__pycache__/email_sender.cpython-312.pyc
+src/__pycache__/data_processor.cpython-312.pyc
+src/__pycache__/data_parser.cpython-312.pyc
+src/__pycache__/config.cpython-312.pyc
+src/__pycache__/data_archiver.cpython-312.pyc
