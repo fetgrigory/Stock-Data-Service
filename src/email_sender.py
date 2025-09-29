@@ -28,7 +28,7 @@ class EmailSender:
         if not smtp_config:
             raise ValueError("SMTP настройки не найдены в базе данных.")
         self.smtp_id, self.server, self.port, self.user, self.password, self.sender = smtp_config
-        self.password = self.password.strip()
+        self.password = self.password.strip("\n\r\t")
         # Getting a list of recipients
         self.recipients = get_all_recipients()
         if not self.recipients:
