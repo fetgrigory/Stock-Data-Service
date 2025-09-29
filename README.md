@@ -52,6 +52,7 @@ Number of transactions per day | Количество сделок за день
 | `fake-useragent`| Генерация случайных User-Agent для веб-запросов|
 | `webdriver-manager`| Управление драйверами для Selenium|
 | `FastAPI`| Создание веб-интерфейса|
+| `psycopg2`| Работа с PostgreSQL, подключение и выполнение SQL-запросов|
 | `pandas`| Обработка и очистка данных|
 | `zipfile`| Архивирование файлов|
 | `smtplib`| email-рассылка|
