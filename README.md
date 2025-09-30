@@ -67,9 +67,11 @@ mfd-mos-stock-parser/
 │   ├── main.py                   # FastAPI приложение
 │   ├── config.py                 # Конфигурация проекта
 │   ├── database.py               # Работа с хранилищем данных
-│   ├── data_archiver.py          # Архивация данных
-│   ├── data_parser.py            # Парсинг MFD
-│   ├── data_processor.py         # Обработка/очистка данных
+│   ├── parsing/
+│       ├── data_archiver.py          # Архивация данных
+│       ├── data_parser.py            # Парсинг MFD
+│       ├── data_processor.py         # Обработка/очистка данных
+├── email/
 │   ├── email_sender.py           # Отправка email с архивами
 ├── run_parser.py                 # Основной скрипт запуска
 └── requirements.txt              # Зависимости проекта
