@@ -10,8 +10,8 @@ Ending //
 import time
 import logging
 from datetime import datetime
-from src.data_parser import DataParser
-from src.data_archiver import DataArchiver
+from src.parsing.data_parser import DataParser
+from src.parsing.data_archiver import DataArchiver
 from src.config import PARSER_SCHEDULE
 
 

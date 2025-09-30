@@ -8,7 +8,7 @@ Ending //
 '''
 # Installing the necessary libraries
 import pandas as pd
-from src.data_processor import DataProcessor
+from src.parsing.data_processor import DataProcessor
 
 
 def test_clean_data(tmp_path):

@@ -18,7 +18,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 import fake_useragent
-from src.data_processor import DataProcessor
+from src.parsing.data_processor import DataProcessor
 
 
 class WebDriverWrapper:
