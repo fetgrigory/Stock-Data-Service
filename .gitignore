@@ -14,3 +14,7 @@ src/__pycache__/data_processor.cpython-312.pyc
 src/__pycache__/data_parser.cpython-312.pyc
 src/__pycache__/config.cpython-312.pyc
 src/__pycache__/data_archiver.cpython-312.pyc
+src/parsing/__pycache__/data_processor.cpython-312.pyc
+src/parsing/__pycache__/data_parser.cpython-312.pyc
+src/parsing/__pycache__/data_archiver.cpython-312.pyc
+src/email/__pycache__/email_sender.cpython-312.pyc
