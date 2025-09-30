@@ -64,13 +64,17 @@ Number of transactions per day | Количество сделок за день
 mfd-mos-stock-parser/
 │
 ├── src/                          # Основной код приложения
+│   ├── recipients/
+│   │   └── router.py             # эндпоинты /recipients
+│   ├── smtp/
+│   │   └── router.py             # эндпоинты /smtp
 │   ├── main.py                   # FastAPI приложение
 │   ├── config.py                 # Конфигурация проекта
 │   ├── database.py               # Работа с хранилищем данных
 │   ├── parsing/
-│       ├── data_archiver.py          # Архивация данных
-│       ├── data_parser.py            # Парсинг MFD
-│       ├── data_processor.py         # Обработка/очистка данных
+│       ├── data_archiver.py      # Архивация данных
+│       ├── data_parser.py        # Парсинг MFD
+│       ├── data_processor.py     # Обработка/очистка данных
 ├── email/
 │   ├── email_sender.py           # Отправка email с архивами
 ├── run_parser.py                 # Основной скрипт запуска
