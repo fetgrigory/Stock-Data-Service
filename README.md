@@ -80,8 +80,9 @@ mfd-mos-stock-parser/
 ├── email/
 │   ├── email_sender.py           # Отправка email с архивами
 ├── templates/
-│   ├── index.html                # главная страница
+│   ├── about.html                # страница "О нас"
 │   ├── base.html                 # базовый шаблон для всех страниц
+│   ├── index.html                # главная страница
 ├── run_parser.py                 # Основной скрипт запуска
 └── requirements.txt              # Зависимости проекта
 ```
