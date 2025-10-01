@@ -87,6 +87,7 @@ mfd-mos-stock-parser/
 │   ├── base.html                 # базовый шаблон для всех страниц
 │   ├── index.html                # главная страница
 │   ├── login.html                # страница авторизации
+│   ├── signup.html               # страница регистрации
 ├── run_parser.py                 # Основной скрипт запуска
 └── requirements.txt              # Зависимости проекта
 ```
