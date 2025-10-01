@@ -14,7 +14,7 @@ from fastapi.templating import Jinja2Templates
 
 router = APIRouter()
 
-# Templates and statics
+# Templates
 templates = Jinja2Templates(directory=os.path.join("src", "templates"))
 
 
