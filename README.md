@@ -64,6 +64,8 @@ Number of transactions per day | Количество сделок за день
 mfd-mos-stock-parser/
 │
 ├── src/                          # Основной код приложения
+├── core/
+│   └── router.py                 # эндпоинты главная страница
 │   ├── recipients/
 │   │   └── router.py             # эндпоинты /recipients
 │   ├── smtp/
@@ -77,6 +79,9 @@ mfd-mos-stock-parser/
 │       ├── data_processor.py     # Обработка/очистка данных
 ├── email/
 │   ├── email_sender.py           # Отправка email с архивами
+├── templates/
+│   ├── index.html                # главная страница
+│   ├── base.html                 # базовый шаблон для всех страниц
 ├── run_parser.py                 # Основной скрипт запуска
 └── requirements.txt              # Зависимости проекта
 ```
