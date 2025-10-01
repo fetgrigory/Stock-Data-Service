@@ -65,6 +65,8 @@ Number of transactions per day | Количество сделок за день
 mfd-mos-stock-parser/
 │
 ├── src/                          # Основной код приложения
+├── auth/
+│   └── router.py                 # эндпоинты авторизации
 ├── core/
 │   └── router.py                 # эндпоинты главная страница
 │   ├── recipients/
@@ -84,6 +86,7 @@ mfd-mos-stock-parser/
 │   ├── about.html                # страница "О нас"
 │   ├── base.html                 # базовый шаблон для всех страниц
 │   ├── index.html                # главная страница
+│   ├── login.html                # страница авторизации
 ├── run_parser.py                 # Основной скрипт запуска
 └── requirements.txt              # Зависимости проекта
 ```
