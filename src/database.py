@@ -32,6 +32,60 @@ def db_connect():
     )
 
 
+# Creates the users table
+def create_users_table():
+    """AI is creating summary for create_users_table
+    """
+    with db_connect() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS users (
+                    id SERIAL PRIMARY KEY,
+                    username TEXT UNIQUE NOT NULL,
+                    password TEXT NOT NULL
+                )
+            """)
+        conn.commit()
+
+
+# Adding a new user
+def insert_user(username: str, password: str):
+    """AI is creating summary for insert_user
+
+    Args:
+        username (str): [description]
+        password (str): [description]
+
+    Returns:
+        [type]: [description]
+    """
+    with db_connect() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                "INSERT INTO users (username, password) VALUES (%s, %s) RETURNING id",
+                (username, password)
+            )
+            user_id = cursor.fetchone()[0]
+        conn.commit()
+    return user_id
+
+
+# Getting the user's by username
+def get_user_by_username(username: str):
+    """AI is creating summary for get_user_by_username
+
+    Args:
+        username (str): [description]
+
+    Returns:
+        [type]: [description]
+    """
+    with db_connect() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute("SELECT id, username, password FROM users WHERE username=%s", (username,))
+            return cursor.fetchone()
+
+
 # Creates the recipients table if it does not exist
 def create_recipients_table():
     """AI is creating summary for create_recipients_table
