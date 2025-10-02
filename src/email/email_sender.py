@@ -16,7 +16,7 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from platform import python_version
-from src.database import get_all_recipients, get_smtp_setting
+from src.database import get_all_recipients, get_smtp_setting, get_recipient_name
 
 
 class EmailSender:
@@ -34,8 +34,10 @@ class EmailSender:
         if not self.recipients:
             logging.warning("Список получателей пуст!")
         # Dynamic subject and text of the letter
+        for recipient in self.recipients:
+            name = get_recipient_name(recipient)
         self.subject = f'Архив с биржевыми данными от {datetime.now():%d.%m.%Y}'
-        self.text = 'Здравствуйте! Во вложении находится архив с актуальными данными.'
+        self.text = f'Здравствуйте, {name}! Во вложении находится архив с актуальными данными.'
         self.html = f'<html><head></head><body><p>{self.text}</p></body></html>'
 
     # Send email with file attachment

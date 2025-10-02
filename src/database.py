@@ -261,3 +261,20 @@ def delete_smtp_data(smtp_id: int):
             cursor.execute("DELETE FROM smtp_settings WHERE id = %s", (smtp_id,))
         conn.commit()
         return smtp_id
+
+
+# Getting the recipient's name by email
+def get_recipient_name(email: str):
+    """AI is creating summary for get_recipient_name
+
+    Args:
+        email (str): [description]
+
+    Returns:
+        [type]: [description]
+    """
+    with db_connect() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute("SELECT name FROM recipients WHERE email = %s", (email,))
+            result = cursor.fetchone()
+    return result[0] if result else None
