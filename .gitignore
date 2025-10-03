@@ -26,3 +26,4 @@ src/smtp/__pycache__/__init__.cpython-312.pyc
 src/auth/__pycache__/router.cpython-312.pyc
 src/__pycache__/__init__.cpython-312.pyc
 src/auth/__pycache__/__init__.cpython-312.pyc
+src/auth/__pycache__/service.cpython-312.pyc

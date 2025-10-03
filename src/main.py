@@ -10,11 +10,11 @@ Ending //
 import uvicorn
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from recipients.router import router as recipients_router
-from smtp.router import router as smtp_router
-from core.router import router as page_router
-from auth.router import router as auth_router
-from database import create_recipients_table
+from src.auth.router import router as auth_router
+from src.core.router import router as page_router
+from src.recipients.router import router as recipients_router
+from src.smtp.router import router as smtp_router
+from src.database import create_recipients_table
 
 app = FastAPI()
 # Connecting static files
@@ -28,4 +28,4 @@ app.include_router(page_router)
 app.include_router(auth_router)
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host='127.0.0.1', port=8000, reload=True)
+    uvicorn.run("src.main:app", host='127.0.0.1', port=8000, reload=True)
