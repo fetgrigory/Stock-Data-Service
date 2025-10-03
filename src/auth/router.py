@@ -25,12 +25,12 @@ async def login_page(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
 
 
-# Verifies user credentials and redirects to /test on success, or returns login page with error
+# Verifies user credentials and redirects to /admin on success, or returns login page with error
 @router.post("/login", response_class=HTMLResponse)
 async def login(request: Request, username: str = Form(...), password: str = Form(...)):
     if service.verify_user(username, password):
         token = service.create_access_token(username)
-        response = RedirectResponse(url="/test", status_code=302)
+        response = RedirectResponse(url="/admin", status_code=302)
         response.set_cookie(service.config.JWT_ACCESS_COOKIE_NAME, token)
         return response
     return templates.TemplateResponse("login.html", {"request": request, "error": "Неверный логин или пароль"})
@@ -53,6 +53,6 @@ async def signup(request: Request, username: str = Form(...), password: str = Fo
 
 
 # Renders the protected test page; accessible only with a valid access token
-@router.get("/test", response_class=HTMLResponse, dependencies=[Depends(service.security.access_token_required)])
-async def test_page(request: Request):
-    return templates.TemplateResponse("test.html", {"request": request})
+@router.get("/admin", response_class=HTMLResponse, dependencies=[Depends(service.security.access_token_required)])
+async def admin_page(request: Request):
+    return templates.TemplateResponse("admin.html", {"request": request})
