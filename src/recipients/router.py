@@ -10,7 +10,7 @@ Ending //
 from fastapi import APIRouter, Path, Query, HTTPException
 import psycopg2
 from psycopg2 import errorcodes
-from database import insert_recipient_data, update_recipient_data, delete_recipient_data
+from src.database import insert_recipient_data, update_recipient_data, delete_recipient_data
 
 router = APIRouter(tags=["Пользователи 👤"])
 
