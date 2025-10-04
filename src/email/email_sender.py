@@ -83,6 +83,8 @@ class EmailSender:
                     mail.login(self.user, self.password)
                     mail.sendmail(self.sender, recipient_email, msg.as_string())
                 logging.info("Email sent successfully to: %s", recipient_email)
+                success = True
 
             except Exception as e:
                 logging.error("Failed to send email to %s: %s", recipient_email, e)
+        return success
