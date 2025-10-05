@@ -7,29 +7,32 @@ Ending //
 
 '''
 # Installing the necessary libraries
-from fastapi import APIRouter, Path, Query, HTTPException
+from fastapi import APIRouter, Path, Query, HTTPException, Request, Form
+from fastapi.templating import Jinja2Templates
 import psycopg2
 from psycopg2 import errorcodes
 from src.database import insert_recipient_data, update_recipient_data, delete_recipient_data
 
 router = APIRouter(tags=["Пользователи 👤"])
+templates = Jinja2Templates(directory="templates")
 
 
 # Endpoint for adding a new recipient
-@router.post(
-    "/recipients",
-    tags=["Получатели 👤"],
-    summary="Добавить нового получателя",
-    status_code=201
-)
+@router.get("/recipients")
+def get_recipient_form(request: Request):
+    # List of current recipients
+    recipients = get_all_recipients()
+    return templates.TemplateResponse("recipients.html", {"request": request, "recipients": recipients})
+
+
+@router.post("/recipients")
 def create_recipient(
-    name: str = Query(..., description="Имя получателя"),
-    email: str = Query(..., description="Email получателя")
+    name: str = Form(..., description="Имя получателя"),
+    email: str = Form(..., description="Email получателя")
 ):
     try:
         recipient_id = insert_recipient_data(name, email)
-        return {"id": recipient_id, "Имя": name, "Адрес электронной почты": email}
-
+        return {"id": recipient_id, "Имя": name, "Email": email}
     except psycopg2.Error as e:
         if e.pgcode == errorcodes.UNIQUE_VIOLATION:
             raise HTTPException(status_code=400, detail="Получатель с таким email уже существует") from e
