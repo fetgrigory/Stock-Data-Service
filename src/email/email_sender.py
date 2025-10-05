@@ -53,7 +53,7 @@ class EmailSender:
                 # Get the name of a specific recipient
                 name = get_recipient_name(recipient_email)
                 subject = f'Архив с биржевыми данными от {datetime.now():%d.%m.%Y}'
-                text = f'Здравствуйте, {name}! Во вложении находится архив с актуальными данными.'
+                text = f"Здравствуйте, {name}! Во вложении вы найдёте архив с актуальными данными. Обратите внимание: в CSV-файлах используется '^' как разделитель столбцов."
                 html = f'<html><head></head><body><p>{text}</p></body></html>'
 
                 # Create multipart message container
