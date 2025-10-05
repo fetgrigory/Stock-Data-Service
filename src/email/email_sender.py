@@ -15,6 +15,7 @@ from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from email.header import Header
 from platform import python_version
 from src.database import get_all_recipients, get_smtp_setting, get_recipient_name
 
@@ -40,9 +41,12 @@ class EmailSender:
 
         Args:
             filepath ([type]): [description]
+
+        Returns:
+            [type]: [description]
         """
         basename = os.path.basename(filepath)
-        filesize = os.path.getsize(filepath)
+        success = False
         # Dynamic subject and text of the letter
         for recipient_email in self.recipients:
             try:
@@ -53,7 +57,7 @@ class EmailSender:
                 html = f'<html><head></head><body><p>{text}</p></body></html>'
 
                 # Create multipart message container
-                msg = MIMEMultipart('alternative')
+                msg = MIMEMultipart('mixed')
                 msg['Subject'] = subject
                 msg['From'] = f'Python script <{self.sender}>'
                 msg['To'] = recipient_email
@@ -62,20 +66,17 @@ class EmailSender:
                 msg['X-Mailer'] = f'Python/{python_version()}'
 
                 # Create text and HTML email parts
-                part_text = MIMEText(text, 'plain')
-                part_html = MIMEText(html, 'html')
+                msg_text = MIMEMultipart('alternative')
+                msg_text.attach(MIMEText(text, 'plain'))
+                msg_text.attach(MIMEText(html, 'html'))
+                msg.attach(msg_text)
 
                 # Add file headers
-                part_file = MIMEBase('application', f'octet-stream; name="{basename}"')
+                part_file = MIMEBase('application', 'octet-stream')
                 with open(filepath, "rb") as f:
                     part_file.set_payload(f.read())
-                part_file.add_header('Content-Description', basename)
-                part_file.add_header('Content-Disposition', f'attachment; filename="{basename}"; size={filesize}')
                 encoders.encode_base64(part_file)
-
-                # Attach all parts to message
-                msg.attach(part_text)
-                msg.attach(part_html)
+                part_file.add_header('Content-Disposition', 'attachment', filename=Header(basename, 'utf-8').encode())
                 msg.attach(part_file)
 
                 # Send email via SMTP server
