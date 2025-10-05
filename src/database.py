@@ -178,6 +178,20 @@ def delete_recipient_data(recipient_id: int):
         return recipient_id
 
 
+# Returns a list of all recipients with id, name, and email
+def get_all_recipients():
+    """AI is creating summary for get_all_recipients
+
+    Returns:
+        [type]: [description]
+    """    
+    with db_connect() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute("SELECT id, name, email FROM recipients ORDER BY id ASC")
+            results = cursor.fetchall()
+    return [{"id": row[0], "name": row[1], "email": row[2]} for row in results]
+
+
 # Create the smtp_settings table
 def create_smtp_settings_table():
     """AI is creating summary for create_smtp_settings_table
@@ -242,7 +256,7 @@ def get_smtp_setting():
 
 
 # Returns a list of all email addresses of recipients
-def get_all_recipients():
+def get_all_recipient_emails():
     """AI is creating summary for get_all_recipients
 
     Returns:

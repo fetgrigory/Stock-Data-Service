@@ -11,7 +11,7 @@ from fastapi import APIRouter, Path, Query, HTTPException, Request, Form
 from fastapi.templating import Jinja2Templates
 import psycopg2
 from psycopg2 import errorcodes
-from src.database import insert_recipient_data, update_recipient_data, delete_recipient_data
+from src.database import insert_recipient_data, update_recipient_data, delete_recipient_data, get_all_recipients
 
 router = APIRouter(tags=["Пользователи 👤"])
 templates = Jinja2Templates(directory="templates")

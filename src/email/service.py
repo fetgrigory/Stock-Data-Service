@@ -17,7 +17,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.header import Header
 from platform import python_version
-from src.database import get_all_recipients, get_smtp_setting, get_recipient_name
+from src.database import get_all_recipient_emails, get_smtp_setting, get_recipient_name
 
 
 class EmailSender:
@@ -31,7 +31,7 @@ class EmailSender:
         self.smtp_id, self.server, self.port, self.user, self.password, self.sender = smtp_config
         self.password = self.password.strip("\n\r\t")
         # Getting a list of recipients
-        self.recipients = get_all_recipients()
+        self.recipients = get_all_recipient_emails()
         if not self.recipients:
             logging.warning("Список получателей пуст!")
 
