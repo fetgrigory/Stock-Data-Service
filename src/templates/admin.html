@@ -42,7 +42,6 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Имя</th>
                                     <th scope="col">Email</th>
-                                    <th scope="col">Дата добавления</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -51,7 +50,6 @@
                                     <td>{{ loop.index }}</td>
                                     <td>{{ recipient.name }}</td>
                                     <td>{{ recipient.email }}</td>
-                                    <td>{{ recipient.created_at }}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
