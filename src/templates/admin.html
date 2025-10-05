@@ -10,15 +10,16 @@
 <body>
     <section>
         <div class="container">
-            <h3 class="text-center">Управление получателями рассылки</h3>
+            <h3 class="text-center">Управление получателями рассылки</h3>  
+           <!-- Recipient's addition form -->
             <div class="card mb-3">
                 <div class="card-body">
-                    <form>
+                    <form method="post" action="/recipients">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="id_first_name" class="form-label">Имя*:</label>
-                                <input type="text" class="form-control" id="id_first_name" name="first_name"
-                                       placeholder="Введите ваше имя" required>
+                                <label for="id_name" class="form-label">Имя*:</label>
+                                <input type="text" class="form-control" id="id_name" name="name"
+                                       placeholder="Введите имя получателя" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="id_email" class="form-label">Email*:</label>
@@ -45,18 +46,14 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {% for recipient in recipients %}
                                 <tr>
-                                    <td>1</td>
-                                    <td>Иван</td>
-                                    <td>ivan@example.com</td>
-                                    <td>2025-10-01</td>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ recipient.name }}</td>
+                                    <td>{{ recipient.email }}</td>
+                                    <td>{{ recipient.created_at }}</td>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Мария</td>
-                                    <td>maria@example.com</td>
-                                    <td>2025-10-02</td>
-                                </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
