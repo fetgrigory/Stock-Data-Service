@@ -22,7 +22,7 @@ templates = Jinja2Templates(directory="templates")
 def get_recipient_form(request: Request):
     # List of current recipients
     recipients = get_all_recipients()
-    return templates.TemplateResponse("recipients.html", {"request": request, "recipients": recipients})
+    return templates.TemplateResponse("admin.html", {"request": request, "recipients": recipients})
 
 
 @router.post("/recipients")

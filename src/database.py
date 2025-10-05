@@ -184,7 +184,7 @@ def get_all_recipients():
 
     Returns:
         [type]: [description]
-    """    
+    """
     with db_connect() as conn:
         with conn.cursor() as cursor:
             cursor.execute("SELECT id, name, email FROM recipients ORDER BY id ASC")
