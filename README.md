@@ -21,6 +21,10 @@
 ### Форма авторизации
 <img width="638" height="550" alt="Снимок экрана 2025-10-06 215319" src="https://github.com/user-attachments/assets/13e2f859-7757-4835-9c3e-f09fb09d445c" /><br />
 *Форма входа для авторизации администратора*
+
+### Форма авторизации
+<img width="508" height="529" alt="Снимок экрана 2025-10-06 220450" src="https://github.com/user-attachments/assets/3e422822-2b78-41db-b360-e24e83965ea4" /><br />
+*Форма входа для авторизации администратора*
 ## 📊 Пример результата
 
 | Ticker          | Time     | Last Price | Change (abs) | Change (%) | Price before closing | Price at opening | Minimum price | Average overpriced | Pieces per day | Quantity per day | Rub| Number of transactions per day |
