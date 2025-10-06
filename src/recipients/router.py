@@ -7,14 +7,18 @@ Ending //
 
 '''
 # Installing the necessary libraries
-from fastapi import APIRouter, Path, Query, HTTPException, Request, Form
-from fastapi.templating import Jinja2Templates
+from pathlib import Path as SysPath
 import psycopg2
+from fastapi import APIRouter, Form, HTTPException, Path, Query, Request
+from fastapi.templating import Jinja2Templates
 from psycopg2 import errorcodes
-from src.database import insert_recipient_data, update_recipient_data, delete_recipient_data, get_all_recipients
+from src.database import delete_recipient_data, get_all_recipients, insert_recipient_data, update_recipient_data
 
 router = APIRouter(tags=["Пользователи 👤"])
-templates = Jinja2Templates(directory="templates")
+
+# The absolute path to the templates folder
+BASE_DIR = SysPath(__file__).resolve().parent.parent
+templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 
 
 # Endpoint for adding a new recipient
