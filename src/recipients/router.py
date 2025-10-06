@@ -22,14 +22,14 @@ templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 
 
 # Endpoint for adding a new recipient
-@router.get("/recipients")
+@router.get("/admin")
 def get_recipient_form(request: Request):
     # List of current recipients
     recipients = get_all_recipients()
     return templates.TemplateResponse("admin.html", {"request": request, "recipients": recipients})
 
 
-@router.post("/recipients")
+@router.post("/admin")
 def create_recipient(
     name: str = Form(..., description="Имя получателя"),
     email: str = Form(..., description="Email получателя")
