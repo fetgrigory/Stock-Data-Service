@@ -85,7 +85,7 @@ mfd-mos-stock-parser/
 │   │   └── data_processor.py
 │   ├── email/                    # Логика отправки email
 │   │   ├── __init__.py
-│   │   └── router.py
+│   │   ├── router.py
 │   │   └── service.py
 │   └── static/                   # Статические файлы (css, js, изображения)
 ├── templates/                    # Jinja2 шаблоны
