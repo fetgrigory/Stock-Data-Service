@@ -93,6 +93,7 @@ mfd-mos-stock-parser/
 │   ├── index.html
 │   ├── login.html
 │   ├── signup.html
+│   └── admin.html
 │   └── about.html
 ├── tests/                        # Тесты
 │   ├── __init__.py
