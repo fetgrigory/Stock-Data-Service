@@ -1,4 +1,4 @@
-# 📈 MFD Stock Data Service
+# 📈 Stock Data Service
 
 ## 📌 Описание
 **Stock Data Service** — это автономный сервис для сбора, обработки и доставки биржевых данных с [mfd.ru](https://mfd.ru/marketdata/?id=5&mode=0).  
