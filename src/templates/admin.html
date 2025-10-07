@@ -11,7 +11,7 @@
     <section>
         <div class="container">
             <h3 class="text-center">Управление получателями рассылки</h3>
-            <!-- Recipient's addition form -->
+             <!-- Recipient's addition form -->
             <div class="card mb-3">
                 <div class="card-body">
                     <form method="post" action="/admin">
@@ -35,19 +35,18 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <form method="post" action="/recipients/delete">
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <label for="recipient_id" class="form-label">ID получателя для удаления*:</label>
-            <input type="text" class="form-control" id="recipient_id" name="recipient_id"
-            placeholder="Введите ID получателя" required>
-        </div>
-    </div>
-    <button type="submit" class="btn btn-danger">Удалить</button>
-</form>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="recipient_id" class="form-label">ID получателя для удаления*:</label>
+                                <input type="text" class="form-control" id="recipient_id" name="recipient_id"
+                                       placeholder="Введите ID получателя" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-danger">Удалить</button>
                     </form>
                 </div>
             </div>
-            <!-- Recipient table -->
+           <!-- Recipient table -->
             <div class="card">
                 <div class="card-body">
                     <h5 class="mb-3">Список получателей</h5>
