@@ -31,6 +31,21 @@
                     </form>
                 </div>
             </div>
+            <!-- Recipient's deletion form by ID -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form method="post" action="/admin/delete">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="recipient_id" class="form-label">ID получателя для удаления*:</label>
+                                <input type="text" class="form-control" id="recipient_id" name="id"
+                                       placeholder="Введите ID получателя" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-danger">Удалить</button>
+                    </form>
+                </div>
+            </div>
             <!-- Recipient table -->
             <div class="card">
                 <div class="card-body">
