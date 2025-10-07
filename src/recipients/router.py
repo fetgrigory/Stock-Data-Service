@@ -72,13 +72,13 @@ def update_recipient(
 
 
 # Endpoint for deleting a recipient by ID
-@router.delete(
-    "/recipients/{recipient_id}",
+@router.post(
+    "/recipients/delete",
     tags=["Получатели 👤"],
-    summary="Удалить получателя по ID",
+    summary="Удалить получателя по ID через форму",
     status_code=200
 )
-def delete_recipient(recipient_id: int = Path(..., description="ID получателя для удаления")):
+def delete_recipient_form(recipient_id: int = Form(..., description="ID получателя для удаления")):
     deleted_count = delete_recipient_data(recipient_id)
     if deleted_count == 0:
         raise HTTPException(status_code=404, detail="Получатель не найден")
