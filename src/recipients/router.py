@@ -9,7 +9,7 @@ Ending //
 # Installing the necessary libraries
 from pathlib import Path as SysPath
 import psycopg2
-from fastapi import APIRouter, Form, HTTPException, Path, Query, Request
+from fastapi import APIRouter, Form, HTTPException, Request
 from fastapi.templating import Jinja2Templates
 from psycopg2 import errorcodes
 from src.database import delete_recipient_data, get_all_recipients, insert_recipient_data, update_recipient_data
