@@ -11,19 +11,19 @@
     <section>
         <div class="container">
             <h3 class="text-center">Управление получателями рассылки</h3>
-             <!-- Recipient's addition form -->
+            <!-- Recipient's addition form -->
             <div class="card mb-3">
                 <div class="card-body">
                     <form method="post" action="/admin">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="id_name" class="form-label">Имя*:</label>
-                                <input type="text" class="form-control" id="id_name" name="name"
+                                <label for="add_name" class="form-label">Имя*:</label>
+                                <input type="text" class="form-control" id="add_name" name="name"
                                        placeholder="Введите имя получателя" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="id_email" class="form-label">Email*:</label>
-                                <input type="email" class="form-control" id="id_email" name="email"
+                                <label for="add_email" class="form-label">Email*:</label>
+                                <input type="email" class="form-control" id="add_email" name="email"
                                        placeholder="example@mail.com" required>
                             </div>
                         </div>
@@ -31,14 +31,41 @@
                     </form>
                 </div>
             </div>
+
+            <!-- Recipient's update form -->
+            <div class="card mb-3">
+                <div class="card-body">
+                    <form method="post" action="/admin/update">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="update_id" class="form-label">ID получателя для обновления*:</label>
+                                <input type="text" class="form-control" id="update_id" name="recipient_id"
+                                       placeholder="Введите ID получателя" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="update_name" class="form-label">Имя:</label>
+                                <input type="text" class="form-control" id="update_name" name="name"
+                                       placeholder="Новое имя получателя">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="update_email" class="form-label">Email:</label>
+                                <input type="email" class="form-control" id="update_email" name="email"
+                                       placeholder="Новый email">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-dark">Обновить данные получателя</button>
+                    </form>
+                </div>
+            </div>
+
             <!-- Recipient's deletion form by ID -->
             <div class="card mb-4">
                 <div class="card-body">
                     <form method="post" action="/recipients/delete">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="recipient_id" class="form-label">ID получателя для удаления*:</label>
-                                <input type="text" class="form-control" id="recipient_id" name="recipient_id"
+                                <label for="delete_id" class="form-label">ID получателя для удаления*:</label>
+                                <input type="text" class="form-control" id="delete_id" name="recipient_id"
                                        placeholder="Введите ID получателя" required>
                             </div>
                         </div>
@@ -46,7 +73,7 @@
                     </form>
                 </div>
             </div>
-           <!-- Recipient table -->
+            <!-- Recipient table -->
             <div class="card">
                 <div class="card-body">
                     <h5 class="mb-3">Список получателей</h5>
