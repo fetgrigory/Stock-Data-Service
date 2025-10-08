@@ -45,16 +45,16 @@ def create_recipient(
 
 
 # Endpoint for update recipient
-@router.patch(
-    "/recipients/{recipient_id}",
+@router.post(
+    "/admin/update",
     tags=["Получатели 👤"],
     summary="Обновить данные получателя",
     status_code=200
 )
 def update_recipient(
-    recipient_id: int = Path(..., description="ID получателя для обновления"),
-    name: str | None = Query(None, description="Новое имя получателя"),
-    email: str | None = Query(None, description="Новый email получателя")
+    recipient_id: int = Form(..., description="ID получателя для обновления"),
+    name: str | None = Form(None, description="Новое имя получателя"),
+    email: str | None = Form(None, description="Новый email получателя")
 ):
     if name is None and email is None:
         raise HTTPException(status_code=400, detail="Необходимо указать хотя бы одно поле для обновления")

@@ -148,9 +148,9 @@ def update_recipient_data(recipient_id: int, name: str | None, email: str | None
                 return None
             current_name, current_email = result
 
-            # If the field is None, leave the old value
-            new_name = name if name is not None else current_name
-            new_email = email if email is not None else current_email
+            # If the field is empty, keep the old value
+            new_name = name if name and name.strip() else current_name
+            new_email = email if email and email.strip() else current_email
 
             cursor.execute(
                 "UPDATE recipients SET name = %s, email = %s WHERE id = %s RETURNING name, email",
