@@ -71,9 +71,10 @@ def start_schedule():
         format='%(asctime)s - %(levelname)s - %(message)s'
     )
 
-    # Task planning
+    # Scheduling tasks every 10 minutes
     parse_job()
     logging.info("Scheduler started.")
+    schedule.every(10).minutes.do(parse_job)
     while True:
         schedule.run_pending()
         time.sleep(1)
