@@ -82,7 +82,7 @@ mfd-mos-stock-parser/
 │   ├── __init__.py
 │   ├── main.py                   # FastAPI приложение
 │   ├── database.py               # Работа с базой данных
-│   ├── config.py                 # Конфигурация проекта
+│   ├── scheduler.py              # Планировщик задач
 │   ├── auth/                     # Авторизация и регистрация
 │   │   ├── __init__.py
 │   │   ├── router.py
