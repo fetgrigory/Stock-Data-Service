@@ -42,6 +42,7 @@ class Scheduler:
         start = datetime.strptime(self.work_hours["start_time"], "%H:%M").time()
         end = datetime.strptime(self.work_hours["end_time"], "%H:%M").time()
         return now.weekday() in self.work_hours["work_days"] and start <= now.time() <= end
+
 # Parses data for the current date during business hours
     def parse_job(self):
         """AI is creating summary for parse_job
