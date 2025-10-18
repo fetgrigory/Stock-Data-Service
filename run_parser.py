@@ -7,7 +7,7 @@ Ending //
 
 '''
 # Installing the necessary libraries
-from src.scheduler import start_schedule
+from src.scheduler import Scheduler
 
 if __name__ == "__main__":
-    start_schedule()
+    Scheduler().start_schedule()
