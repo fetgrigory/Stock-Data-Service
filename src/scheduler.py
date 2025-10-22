@@ -27,9 +27,8 @@ class Scheduler:
         }
 
         logging.basicConfig(
-            filename='parser.log',
             level=logging.INFO,
-            format='%(asctime)s - %(levelname)s - %(message)s'
+            format='%(asctime)s [%(levelname)s] %(message)s',
         )
 
     def _within_work_hours(self):
