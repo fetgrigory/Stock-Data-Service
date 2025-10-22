@@ -7,7 +7,7 @@ Ending //
 
 '''
 # Installing the necessary libraries
-import hashlib
+import bcrypt
 from authx import AuthX, AuthXConfig
 from src.database import insert_user, get_user_by_username
 
@@ -34,7 +34,20 @@ def create_user(username: str, password: str):
     return insert_user(username, hashed)
 
 
-# Hashes the password using SHA-256
+def verify_password(password: str, hashed: str) -> bool:
+    """AI is creating summary for verify_password
+
+    Args:
+        password (str): [description]
+        hashed (str): [description]
+
+    Returns:
+        bool: [description]
+    """
+    return bcrypt.checkpw(password.encode(), hashed.encode())
+
+
+# Salt generation and hashing
 def hash_password(password: str) -> str:
     """AI is creating summary for hash_password
 
@@ -44,7 +57,8 @@ def hash_password(password: str) -> str:
     Returns:
         str: [description]
     """
-    return hashlib.sha256(password.encode()).hexdigest()
+    hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+    return hashed.decode()
 
 
 # Verifies that the user's password matches the hash stored in the database
@@ -61,7 +75,7 @@ def verify_user(username: str, password: str) -> bool:
     user = get_user_by_username(username)
     if not user:
         return False
-    return user[2] == hash_password(password)
+    return verify_password(password, user[2])
 
 
 # Generates a JWT access token for user authentication based on UID
