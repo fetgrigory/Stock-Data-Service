@@ -13,6 +13,13 @@ import schedule
 from src.parsing.data_archiver import DataArchiver
 from src.parsing.data_parser import DataParser
 
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s [%(levelname)s] %(message)s'
+)
+
+logger = logging.getLogger(__name__)
+
 
 class Scheduler:
     """AI is creating summary for
@@ -25,11 +32,6 @@ class Scheduler:
             "end_time": "19:00",
             "work_days": [0, 1, 2, 3, 4],
         }
-
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s [%(levelname)s] %(message)s',
-        )
 
     def _within_work_hours(self):
         """AI is creating summary for _within_work_hours
