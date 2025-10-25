@@ -14,7 +14,7 @@ from src.auth.router import router as auth_router
 from src.core.router import router as page_router
 from src.recipients.router import router as recipients_router
 from src.email.router import router as smtp_router
-from src.database import create_recipients_table
+from src.db.database import create_recipients_table
 
 app = FastAPI()
 # Connecting static files

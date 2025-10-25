@@ -10,7 +10,7 @@ Ending //
 from fastapi import APIRouter, Path, Query, HTTPException
 import psycopg2
 from psycopg2 import errorcodes
-from src.database import insert_smtp_setting, update_smtp_data, delete_smtp_data
+from src.db.database import insert_smtp_setting, update_smtp_data, delete_smtp_data
 
 router = APIRouter(tags=["SMTP Настройки ⚙️"])
 

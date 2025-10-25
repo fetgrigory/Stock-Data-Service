@@ -9,7 +9,7 @@ Ending //
 # Installing the necessary libraries
 import bcrypt
 from authx import AuthX, AuthXConfig
-from src.database import insert_user, get_user_by_username
+from src.db.database import insert_user, get_user_by_username
 
 # Setting up AuthX
 config = AuthXConfig()

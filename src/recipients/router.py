@@ -12,7 +12,7 @@ import psycopg2
 from fastapi import APIRouter, Form, HTTPException, Request
 from fastapi.templating import Jinja2Templates
 from psycopg2 import errorcodes
-from src.database import delete_recipient_data, get_all_recipients, insert_recipient_data, update_recipient_data
+from src.db.database import delete_recipient_data, get_all_recipients, insert_recipient_data, update_recipient_data
 
 router = APIRouter(tags=["Пользователи 👤"])
 

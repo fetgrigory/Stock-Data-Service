@@ -17,7 +17,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.header import Header
 from platform import python_version
-from src.database import get_all_recipient_emails, get_smtp_setting, get_recipient_name
+from src.db.database import get_all_recipient_emails, get_smtp_setting, get_recipient_name
 
 
 class EmailSender:
