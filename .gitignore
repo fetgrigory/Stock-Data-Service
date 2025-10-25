@@ -33,3 +33,5 @@ src/parsing/__pycache__/__init__.cpython-312.pyc
 src/email/__pycache__/service.cpython-312.pyc
 src/email/__pycache__/router.cpython-312.pyc
 src/__pycache__/scheduler.cpython-312.pyc
+src/db/__pycache__/database.cpython-312.pyc
+src/db/__pycache__/__init__.cpython-312.pyc
