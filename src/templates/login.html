@@ -7,8 +7,13 @@
 <body>
     <div class="container">
         <h2>Авторизация для администратора</h2>
-            <div class="alert alert-info">
-            </div>
+        {% if error %}
+        <div class="alert alert-danger my-3">
+            <h5 class="alert-heading">Ошибка авторизации</h5>
+            Неверное имя пользователя или пароль. Пожалуйста, попробуйте снова.
+        </div>
+        {% endif %}
+
         <form method="post" action="/login">
             <div class="mb-3">
                 <label for="username" class="form-label">Имя пользователя:</label>
