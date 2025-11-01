@@ -7,8 +7,12 @@
 <body>
     <div class="container">
         <h2>Регистрация для администратора</h2>
-            <div class="alert alert-info">
-            </div>
+        {% if error %}
+        <div class="alert alert-danger my-3">
+            <h5 class="alert-heading">Ошибка регистрации</h5>
+            Пользователь с таким именем уже существует. Пожалуйста, выберите другое имя.
+        </div>
+        {% endif %}
         <form method="post" action="/signup">
             <div class="mb-3">
                 <label for="username" class="form-label">Имя пользователя:</label>

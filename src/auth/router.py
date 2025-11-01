@@ -33,7 +33,7 @@ async def login(request: Request, username: str = Form(...), password: str = For
         response = RedirectResponse(url="/admin", status_code=302)
         response.set_cookie(service.config.JWT_ACCESS_COOKIE_NAME, token)
         return response
-    return templates.TemplateResponse("login.html", {"request": request, "error": "Неверный логин или пароль"})
+    return templates.TemplateResponse("login.html", {"request": request, "error": True})
 
 
 # Signup page route
@@ -49,7 +49,7 @@ async def signup(request: Request, username: str = Form(...), password: str = Fo
         service.create_user(username, password)
         return RedirectResponse(url="/login", status_code=302)
     except Exception:
-        return templates.TemplateResponse("signup.html", {"request": request, "error": "Пользователь уже существует"})
+        return templates.TemplateResponse("signup.html", {"request": request, "error": True})
 
 
 # Renders the protected test page; accessible only with a valid access token
