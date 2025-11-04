@@ -78,6 +78,8 @@ class Scheduler:
         self.parse_job()
         logging.info("Scheduler started.")
         schedule.every(10).minutes.do(self.parse_job)
+        end_time = self.work_hours["end_time"]
+        schedule.every().day.at(end_time).do(self.archive_job)
         while True:
             schedule.run_pending()
             time.sleep(1)
