@@ -11,6 +11,12 @@
     <section>
         <div class="container">
             <h3 class="text-center">Управление получателями рассылки</h3>
+             {% if success %}
+            <div class="alert alert-success my-3">
+                <h5 class="alert-heading">Пользователь добавлен</h5>
+                Адрес успешно добавлен в список рассылки.
+            </div>
+            {% endif %}
             <!-- Recipient's addition form -->
             <div class="card mb-3">
                 <div class="card-body">
