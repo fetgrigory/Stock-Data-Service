@@ -11,6 +11,7 @@ from pathlib import Path as SysPath
 import psycopg2
 from fastapi import APIRouter, Form, HTTPException, Request
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
 from psycopg2 import errorcodes
 from src.db.database import delete_recipient_data, get_all_recipients, insert_recipient_data, update_recipient_data
 
@@ -29,14 +30,16 @@ def get_recipient_form(request: Request):
     return templates.TemplateResponse("admin.html", {"request": request, "recipients": recipients})
 
 
-@router.post("/admin")
+@router.post("/admin", response_class=HTMLResponse)
 def create_recipient(
+    request: Request,
     name: str = Form(..., description="Имя получателя"),
     email: str = Form(..., description="Email получателя")
 ):
     try:
-        recipient_id = insert_recipient_data(name, email)
-        return {"id": recipient_id, "Имя": name, "Email": email}
+        insert_recipient_data(name, email)
+        recipients = get_all_recipients()
+        return templates.TemplateResponse("admin.html", {"request": request, "success": True, "name": name, "email": email, "recipients": recipients})
     except psycopg2.Error as e:
         if e.pgcode == errorcodes.UNIQUE_VIOLATION:
             raise HTTPException(status_code=400, detail="Получатель с таким email уже существует") from e
