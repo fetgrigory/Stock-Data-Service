@@ -10,7 +10,6 @@ Ending //
 import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 from src.db.models import metadata_obj
 # Loading variables from .env
 load_dotenv()
