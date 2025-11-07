@@ -23,6 +23,7 @@ PORT = os.getenv("PORT")
 DATABASE_URL = f"postgresql+psycopg2://{USER}:{PASSWORD}@{HOST}:{PORT}/{DBNAME}"
 # Creating an engine
 engine = create_engine(
+    DATABASE_URL,
     echo=False,
     pool_size=5,
     max_overflow=10
