@@ -10,7 +10,7 @@ Ending //
 import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
-from src.db.models import metadata_obj
+from src.db.models import Base
 # Loading variables from .env
 load_dotenv()
 # Getting variables from the environment
@@ -28,4 +28,4 @@ engine = create_engine(
     pool_size=5,
     max_overflow=10
 )
-metadata_obj.bind = engine
+Base.metadata.bind = engine
