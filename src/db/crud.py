@@ -7,9 +7,9 @@ Ending //
 
 '''
 # Installing the necessary libraries
-from sqlalchemy import insert, select
+from sqlalchemy.orm import Session
 from src.db.database_orm import engine
-from src.db.models import users_table
+from src.db.models import User
 
 
 # Adding a new user
@@ -20,10 +20,10 @@ def insert_user(username: str, password: str):
         username (str): [description]
         password (str): [description]
     """
-    with engine.connect() as conn:
-        stmt = insert(users_table).values(username=username, password=password)
-        conn.execute(stmt)
-        conn.commit()
+    with Session(engine) as session:
+        user = User(username=username, password=password)
+        session.add(user)
+        session.commit()
 
 
 # Getting the user's by username
@@ -36,7 +36,5 @@ def get_user_by_username(username: str):
     Returns:
         [type]: [description]
     """
-    with engine.connect() as conn:
-        stmt = select(users_table).where(users_table.c.username == username)
-        result = conn.execute(stmt).first()
-        return result
+    with Session(engine) as session:
+        return session.query(User).filter(User.username == username).first()

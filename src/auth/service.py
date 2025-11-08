@@ -62,7 +62,7 @@ def hash_password(password: str) -> str:
 
 
 # Verifies that the user's password matches the hash stored in the database
-def verify_user(username: str, password: str) -> bool:
+def verify_user(username: str, password: str):
     """AI is creating summary for verify_user
 
     Args:
@@ -70,12 +70,12 @@ def verify_user(username: str, password: str) -> bool:
         password (str): [description]
 
     Returns:
-        bool: [description]
+        [type]: [description]
     """
     user = get_user_by_username(username)
     if not user:
         return False
-    return verify_password(password, user[2])
+    return verify_password(password, user.password)
 
 
 # Generates a JWT access token for user authentication based on UID
