@@ -7,34 +7,40 @@ Ending //
 
 '''
 # Installing the necessary libraries
-from sqlalchemy import Table, Column, Integer, Text, MetaData
-# Creating a metadata object to hold table definitions
-metadata_obj = MetaData()
+from sqlalchemy import Column, Integer, Text
+from sqlalchemy.orm import DeclarativeBase
+
+
+# Creating a base class for models
+class Base(DeclarativeBase):
+    pass
+
+
 # Defining the 'users' table structure
-users_table = Table(
-    "users",
-    metadata_obj,
-    Column("id", Integer, primary_key=True),
-    Column("username", Text),
-    Column("password", Text),
-)
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(Text, nullable=False)
+    password = Column(Text, nullable=False)
+
+
 # Defining the 'recipients' table structure
-recipients_table = Table(
-    "recipients",
-    metadata_obj,
-    Column("id", Integer, primary_key=True),
-    Column("name", Text),
-    Column("email", Text),
-)
+class Recipient(Base):
+    __tablename__ = "recipients"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(Text, nullable=False)
+    email = Column(Text, nullable=False)
+
 
 # Defining the 'smtp_settings' table structure
-smtp_settings_table = Table(
-    "smtp_settings",
-    metadata_obj,
-    Column("id", Integer, primary_key=True),
-    Column("server", Text),
-    Column("port", Integer),
-    Column("username", Text),
-    Column("password", Text),
-    Column("sender", Text),
-)
+class SmtpSetting(Base):
+    __tablename__ = "smtp_settings"
+
+    id = Column(Integer, primary_key=True, index=True)
+    server = Column(Text, nullable=False)
+    port = Column(Integer, nullable=False)
+    username = Column(Text, nullable=False)
+    password = Column(Text, nullable=False)
+    sender = Column(Text, nullable=False)
