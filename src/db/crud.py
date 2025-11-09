@@ -8,7 +8,7 @@ Ending //
 '''
 # Installing the necessary libraries
 from sqlalchemy.orm import Session
-from src.db.database_orm import engine
+from src.db.database import engine
 from src.db.models import User, Recipient, SmtpSetting
 
 
@@ -62,7 +62,7 @@ def insert_recipient(name: str, email: str):
 
 
 # Updating a recipient
-def update_recipient_data(recipient_id: int, name: str | None, email: str | None):
+def update_recipient(recipient_id: int, name: str | None, email: str | None):
     """AI is creating summary for update_recipient_data
 
     Args:
@@ -171,7 +171,7 @@ def get_all_recipient_emails():
 
 
 # Updating a configuration
-def update_smtp_data(smtp_id: int, server: str | None, port: int | None, username: str | None, password: str | None, sender: str | None):
+def update_smtp(smtp_id: int, server: str | None, port: int | None, username: str | None, password: str | None, sender: str | None):
     """AI is creating summary for update_smtp_data
 
     Args:
@@ -215,7 +215,7 @@ def update_smtp_data(smtp_id: int, server: str | None, port: int | None, usernam
 
 
 # Deleting a configuration
-def delete_smtp_data(smtp_id: int):
+def delete_smtp(smtp_id: int):
     """AI is creating summary for delete_smtp_data
 
     Args:
