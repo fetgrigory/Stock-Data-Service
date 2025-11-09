@@ -171,8 +171,8 @@ def get_all_recipient_emails():
 
 
 # Updating a configuration
-def update_smtp(smtp_id: int, server: str | None, port: int | None, username: str | None, password: str | None, sender: str | None):
-    """AI is creating summary for update_smtp_data
+def update_smtp_setting(smtp_id: int, server: str | None, port: int | None, username: str | None, password: str | None, sender: str | None):
+    """AI is creating summary for update_smtp_setting_data
 
     Args:
         smtp_id (int): [description]
@@ -215,8 +215,8 @@ def update_smtp(smtp_id: int, server: str | None, port: int | None, username: st
 
 
 # Deleting a configuration
-def delete_smtp(smtp_id: int):
-    """AI is creating summary for delete_smtp_data
+def delete_smtp_setting(smtp_id: int):
+    """AI is creating summary for delete_smtp_setting_data
 
     Args:
         smtp_id (int): [description]
