@@ -10,7 +10,7 @@ Ending //
 from fastapi import APIRouter, Path, Query, HTTPException
 import psycopg2
 from psycopg2 import errorcodes
-from src.db.crud import insert_smtp_setting, update_smtp, delete_smtp
+from src.db.crud import insert_smtp_setting, update_smtp_setting, delete_smtp_setting
 
 router = APIRouter(tags=["SMTP Настройки ⚙️"])
 
@@ -47,7 +47,7 @@ def create_smtp_settings(
     summary="Обновить SMTP настройки",
     status_code=200
 )
-def update_smtp_settings(
+def update_smtp_setting_settings(
     smtp_id: int = Path(..., description="ID SMTP настройки для обновления"),
     server: str | None = Query(None, description="Новый SMTP сервер"),
     port: int | None = Query(None, description="Новый порт"),
@@ -58,7 +58,7 @@ def update_smtp_settings(
     if all(field is None for field in [server, port, username, password, sender]):
         raise HTTPException(status_code=400, detail="Необходимо указать хотя бы одно поле для обновления")
     try:
-        updated_smtp = update_smtp(smtp_id, server, port, username, password, sender)
+        updated_smtp = update_smtp_setting(smtp_id, server, port, username, password, sender)
         if not updated_smtp:
             raise HTTPException(status_code=404, detail="SMTP настройка не найдена")
         return {"id": smtp_id, "server": updated_smtp["server"], "port": updated_smtp["port"], "username": updated_smtp["username"], "sender": updated_smtp["sender"]}
@@ -77,8 +77,8 @@ def update_smtp_settings(
     summary="Удалить SMTP настройки",
     status_code=200
 )
-def delete_smtp_settings(smtp_id: int = Path(..., description="ID SMTP настройки для для удаления")):
-    deleted_count = delete_smtp(smtp_id)
+def delete_smtp_setting_settings(smtp_id: int = Path(..., description="ID SMTP настройки для для удаления")):
+    deleted_count = delete_smtp_setting(smtp_id)
     if deleted_count == 0:
         raise HTTPException(status_code=404, detail="SMTP настройка не найдена")
     return {"message": f"SMTP с ID {smtp_id} успешно удален"}
