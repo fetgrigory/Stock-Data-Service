@@ -13,7 +13,7 @@ from fastapi import APIRouter, Form, HTTPException, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from psycopg2 import errorcodes
-from src.db.database import delete_recipient_data, get_all_recipients, insert_recipient_data, update_recipient_data
+from src.db.crud import delete_recipient, get_all_recipients, insert_recipient, update_recipient
 
 router = APIRouter(tags=["Пользователи 👤"])
 
@@ -37,7 +37,7 @@ def create_recipient(
     email: str = Form(..., description="Email получателя")
 ):
     try:
-        insert_recipient_data(name, email)
+        insert_recipient(name, email)
         recipients = get_all_recipients()
         return templates.TemplateResponse("admin.html", {"request": request, "success": True, "name": name, "email": email, "recipients": recipients})
     except psycopg2.Error as e:
@@ -62,7 +62,7 @@ def update_recipient(
     if name is None and email is None:
         raise HTTPException(status_code=400, detail="Необходимо указать хотя бы одно поле для обновления")
     try:
-        updated_recipient = update_recipient_data(recipient_id, name, email)
+        updated_recipient = update_recipient(recipient_id, name, email)
         if not updated_recipient:
             raise HTTPException(status_code=404, detail="Получатель не найден")
         return {"id": recipient_id, "Имя": updated_recipient["name"], "Email": updated_recipient["email"]}
@@ -82,7 +82,7 @@ def update_recipient(
     status_code=200
 )
 def delete_recipient_form(recipient_id: int = Form(..., description="ID получателя для удаления")):
-    deleted_count = delete_recipient_data(recipient_id)
+    deleted_count = delete_recipient(recipient_id)
     if deleted_count == 0:
         raise HTTPException(status_code=404, detail="Получатель не найден")
     return {"message": f"Получатель с ID {recipient_id} успешно удален"}
