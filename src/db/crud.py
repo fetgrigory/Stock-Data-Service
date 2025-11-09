@@ -230,3 +230,18 @@ def delete_smtp_data(smtp_id: int):
             session.delete(smtp_setting)
             session.commit()
         return smtp_id
+
+
+# Getting the recipient's name by email
+def get_recipient_name(email: str):
+    """AI is creating summary for get_recipient_name
+
+    Args:
+        email (str): [description]
+
+    Returns:
+        [type]: [description]
+    """
+    with Session(engine) as session:
+        recipient = session.query(Recipient).filter(Recipient.email == email).first()
+        return recipient.name if recipient else None
