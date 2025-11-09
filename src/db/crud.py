@@ -155,3 +155,16 @@ def get_smtp_setting():
     with Session(engine) as session:
         smtp_setting = session.query(SmtpSetting).first()
         return smtp_setting
+
+
+# Returns a list of all email addresses of recipients
+def get_all_recipient_emails():
+    """AI is creating summary for get_all_recipient_emails
+
+    Returns:
+        [type]: [description]
+    """
+    with Session(engine) as session:
+        recipients = session.query(Recipient).all()
+        emails = [recipient.email for recipient in recipients]
+        return emails
