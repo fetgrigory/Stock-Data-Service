@@ -212,3 +212,22 @@ def update_smtp_data(smtp_id: int, server: str | None, port: int | None, usernam
             "sender": smtp_setting.sender
         }
         return updated_data
+
+
+# Deleting a configuration
+def delete_smtp_data(smtp_id: int):
+    """AI is creating summary for delete_smtp_data
+
+    Args:
+        smtp_id (int): [description]
+
+    Returns:
+        [type]: [description]
+    """
+    with Session(engine) as session:
+        smtp_setting = session.get(SmtpSetting, smtp_id)
+        if not smtp_setting:
+            return None
+        session.delete(smtp_setting)
+        session.commit()
+        return smtp_id
