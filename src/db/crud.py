@@ -168,3 +168,47 @@ def get_all_recipient_emails():
         recipients = session.query(Recipient).all()
         emails = [recipient.email for recipient in recipients]
         return emails
+
+
+# Updating a configuration
+def update_smtp_data(smtp_id: int, server: str | None, port: int | None, username: str | None, password: str | None, sender: str | None):
+    """AI is creating summary for update_smtp_data
+
+    Args:
+        smtp_id (int): [description]
+        server (str): [description]
+        port (int): [description]
+        username (str): [description]
+        password (str): [description]
+        sender (str): [description]
+
+    Returns:
+        [type]: [description]
+    """
+    with Session(engine) as session:
+        # Getting the current record
+        smtp_setting = session.get(SmtpSetting, smtp_id)
+        if not smtp_setting:
+            return None
+    # Update fields only if a new value is passed
+        if server is not None:
+            smtp_setting.server = server
+        if port is not None:
+            smtp_setting.port = port
+        if username is not None:
+            smtp_setting.username = username
+        if password is not None:
+            smtp_setting.password = password
+        if sender is not None:
+            smtp_setting.sender = sender
+
+        session.commit()
+
+        updated_data = {
+            "server": smtp_setting.server,
+            "port": smtp_setting.port,
+            "username": smtp_setting.username,
+            "password": smtp_setting.password,
+            "sender": smtp_setting.sender
+        }
+        return updated_data
