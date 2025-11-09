@@ -9,7 +9,7 @@ Ending //
 # Installing the necessary libraries
 from sqlalchemy.orm import Session
 from src.db.database_orm import engine
-from src.db.models import User, Recipient
+from src.db.models import User, Recipient, SmtpSetting
 
 
 # Adding a new user
@@ -116,3 +116,42 @@ def get_all_recipients():
     with Session(engine) as session:
         recipients = session.query(Recipient).order_by(Recipient.id.asc()).all()
         return [{"id": r.id, "name": r.name, "email": r.email} for r in recipients]
+
+
+# Add a new configuration
+def insert_smtp_setting(server: str, port: int, username: str, password: str, sender: str) -> int:
+    """AI is creating summary for insert_smtp_setting
+
+    Args:
+        server (str): [description]
+        port (int): [description]
+        username (str): [description]
+        password (str): [description]
+        sender (str): [description]
+
+    Returns:
+        int: [description]
+    """
+    with Session(engine) as session:
+        smtp_setting = SmtpSetting(
+            server=server,
+            port=port,
+            username=username,
+            password=password,
+            sender=sender
+        )
+        session.add(smtp_setting)
+        session.commit()
+        return smtp_setting.id
+
+
+# Get the first configuration
+def get_smtp_setting():
+    """AI is creating summary for get_smtp_setting
+
+    Returns:
+        [type]: [description]
+    """
+    with Session(engine) as session:
+        smtp_setting = session.query(SmtpSetting).first()
+        return smtp_setting
