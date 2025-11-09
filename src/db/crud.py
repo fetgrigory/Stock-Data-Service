@@ -226,8 +226,7 @@ def delete_smtp_data(smtp_id: int):
     """
     with Session(engine) as session:
         smtp_setting = session.get(SmtpSetting, smtp_id)
-        if not smtp_setting:
-            return None
-        session.delete(smtp_setting)
-        session.commit()
+        if smtp_setting:
+            session.delete(smtp_setting)
+            session.commit()
         return smtp_id
