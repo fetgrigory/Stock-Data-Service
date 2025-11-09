@@ -61,6 +61,33 @@ def insert_recipient(name: str, email: str):
     return recipient_id
 
 
+# Updating a recipient
+def update_recipient_data(recipient_id: int, name: str | None, email: str | None):
+    """AI is creating summary for update_recipient_data
+
+    Args:
+        recipient_id (int): [description]
+        name (str): [description]
+        email (str): [description]
+
+    Returns:
+        [type]: [description]
+    """
+    with Session(engine) as session:
+        recipient = session.get(Recipient, recipient_id)
+        if not recipient:
+            return None
+
+        # Update the field if given, else retain current
+        if name and name.strip():
+            recipient.name = name
+        if email and email.strip():
+            recipient.email = email
+
+        session.commit()
+        return {"name": recipient.name, "email": recipient.email}
+
+
 # Deleting a recipient
 def delete_recipient(recipient_id: int):
     """AI is creating summary for delete_recipient
