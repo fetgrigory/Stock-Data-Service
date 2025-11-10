@@ -12,7 +12,7 @@ from fastapi import APIRouter, Form, HTTPException, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from sqlalchemy.exc import IntegrityError
-from src.db.crud import delete_recipient, get_all_recipients, insert_recipient, update_recipient
+from src.db.crud import insert_recipient, refresh_recipient, delete_recipient, get_all_recipients
 
 router = APIRouter(tags=["Пользователи 👤"])
 
@@ -60,7 +60,7 @@ def update_recipient(
     if name is None and email is None:
         raise HTTPException(status_code=400, detail="Необходимо указать хотя бы одно поле для обновления")
     try:
-        updated_recipient = update_recipient(recipient_id, name, email)
+        updated_recipient = refresh_recipient(recipient_id, name, email)
         if not updated_recipient:
             raise HTTPException(status_code=404, detail="Получатель не найден")
         return {"id": recipient_id, "Имя": updated_recipient["name"], "Email": updated_recipient["email"]}

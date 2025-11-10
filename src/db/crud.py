@@ -62,7 +62,7 @@ def insert_recipient(name: str, email: str):
 
 
 # Updating a recipient
-def update_recipient(recipient_id: int, name: str | None, email: str | None):
+def refresh_recipient(recipient_id: int, name: str | None, email: str | None):
     """AI is creating summary for update_recipient_data
 
     Args:
