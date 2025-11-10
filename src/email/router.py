@@ -8,8 +8,7 @@ Ending //
 '''
 # Installing the necessary libraries
 from fastapi import APIRouter, Path, Query, HTTPException
-import psycopg2
-from psycopg2 import errorcodes
+from sqlalchemy.exc import IntegrityError
 from src.db.crud import insert_smtp_setting, update_smtp_setting, delete_smtp_setting
 
 router = APIRouter(tags=["SMTP Настройки ⚙️"])
@@ -33,11 +32,10 @@ def create_smtp_settings(
         smtp_id = insert_smtp_setting(server, port, username, password, sender)
         return {"id": smtp_id, "server": server, "port": port, "username": username, "sender": sender}
 
-    except psycopg2.Error as e:
-        if e.pgcode == errorcodes.UNIQUE_VIOLATION:
-            raise HTTPException(status_code=400, detail="Такая конфигурация настроек уже существует") from e
-        else:
-            raise HTTPException(status_code=500, detail="Ошибка сервера") from e
+    except IntegrityError as e:
+        raise HTTPException(status_code=400, detail="Такая конфигурация настроек уже существует") from e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Ошибка сервера") from e
 
 
 # Endpoint for updating SMTP settings
@@ -63,11 +61,10 @@ def update_smtp_setting_settings(
             raise HTTPException(status_code=404, detail="SMTP настройка не найдена")
         return {"id": smtp_id, "server": updated_smtp["server"], "port": updated_smtp["port"], "username": updated_smtp["username"], "sender": updated_smtp["sender"]}
 
-    except psycopg2.Error as e:
-        if e.pgcode == errorcodes.UNIQUE_VIOLATION:
-            raise HTTPException(status_code=400, detail="SMTP с таким email отправителя уже существует") from e
-        else:
-            raise HTTPException(status_code=500, detail="Ошибка сервера") from e
+    except IntegrityError as e:
+        raise HTTPException(status_code=400, detail="SMTP с таким email отправителя уже существует") from e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Ошибка сервера") from e
 
 
 # Endpoint for deleting a SMTP settings

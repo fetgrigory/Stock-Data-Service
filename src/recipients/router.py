@@ -8,11 +8,10 @@ Ending //
 '''
 # Installing the necessary libraries
 from pathlib import Path as SysPath
-import psycopg2
 from fastapi import APIRouter, Form, HTTPException, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
-from psycopg2 import errorcodes
+from sqlalchemy.exc import IntegrityError
 from src.db.crud import delete_recipient, get_all_recipients, insert_recipient, update_recipient
 
 router = APIRouter(tags=["Пользователи 👤"])
@@ -40,11 +39,10 @@ def create_recipient(
         insert_recipient(name, email)
         recipients = get_all_recipients()
         return templates.TemplateResponse("admin.html", {"request": request, "success": True, "name": name, "email": email, "recipients": recipients})
-    except psycopg2.Error as e:
-        if e.pgcode == errorcodes.UNIQUE_VIOLATION:
-            raise HTTPException(status_code=400, detail="Получатель с таким email уже существует") from e
-        else:
-            raise
+    except IntegrityError as e:
+        raise HTTPException(status_code=400, detail="Получатель с таким email уже существует") from e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Ошибка сервера") from e
 
 
 # Endpoint for update recipient
@@ -66,12 +64,10 @@ def update_recipient(
         if not updated_recipient:
             raise HTTPException(status_code=404, detail="Получатель не найден")
         return {"id": recipient_id, "Имя": updated_recipient["name"], "Email": updated_recipient["email"]}
-
-    except psycopg2.Error as e:
-        if e.pgcode == errorcodes.UNIQUE_VIOLATION:
-            raise HTTPException(status_code=400, detail="Получатель с таким email уже существует") from e
-        else:
-            raise
+    except IntegrityError as e:
+        raise HTTPException(status_code=400, detail="Получатель с таким email уже существует") from e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Ошибка сервера") from e
 
 
 # Endpoint for deleting a recipient by ID
