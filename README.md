@@ -94,6 +94,7 @@ mfd-mos-stock-parser/
 │   ├── db/                       # Работа с базой данных
 │   │   ├── __init__.py
 │   │   ├── database.py
+│   │   ├── crud.py
 │   ├── recipients/               # Роутеры для получателей
 │   │   ├── __init__.py
 │   │   └── router.py
