@@ -7,8 +7,7 @@ Ending //
 
 '''
 # Installing the necessary libraries
-from sqlalchemy.orm import Session
-from src.db.database import engine
+from src.db.database import session_factory
 from src.db.models import User, Recipient, SmtpSetting
 
 
@@ -20,7 +19,7 @@ def insert_user(username: str, password: str):
         username (str): [description]
         password (str): [description]
     """
-    with Session(engine) as session:
+    with session_factory() as session:
         user = User(username=username, password=password)
         session.add(user)
         session.commit()
@@ -38,7 +37,7 @@ def get_user_by_username(username: str):
     Returns:
         [type]: [description]
     """
-    with Session(engine) as session:
+    with session_factory() as session:
         return session.query(User).filter(User.username == username).first()
 
 
@@ -53,7 +52,7 @@ def insert_recipient(name: str, email: str):
     Returns:
         [type]: [description]
     """
-    with Session(engine) as session:
+    with session_factory() as session:
         recipient = Recipient(name=name, email=email)
         session.add(recipient)
         session.commit()
@@ -73,7 +72,7 @@ def refresh_recipient(recipient_id: int, name: str | None, email: str | None):
     Returns:
         [type]: [description]
     """
-    with Session(engine) as session:
+    with session_factory() as session:
         recipient = session.get(Recipient, recipient_id)
         if not recipient:
             return None
@@ -98,7 +97,7 @@ def delete_recipient(recipient_id: int):
     Returns:
         [type]: [description]
     """
-    with Session(engine) as session:
+    with session_factory() as session:
         recipient = session.get(Recipient, recipient_id)
         if recipient:
             session.delete(recipient)
@@ -113,7 +112,7 @@ def get_all_recipients():
     Returns:
         [type]: [description]
     """
-    with Session(engine) as session:
+    with session_factory() as session:
         recipients = session.query(Recipient).order_by(Recipient.id.asc()).all()
         return [{"id": r.id, "name": r.name, "email": r.email} for r in recipients]
 
@@ -132,7 +131,7 @@ def insert_smtp_setting(server: str, port: int, username: str, password: str, se
     Returns:
         int: [description]
     """
-    with Session(engine) as session:
+    with session_factory() as session:
         smtp_setting = SmtpSetting(
             server=server,
             port=port,
@@ -152,7 +151,7 @@ def get_smtp_setting():
     Returns:
         [type]: [description]
     """
-    with Session(engine) as session:
+    with session_factory() as session:
         smtp_setting = session.query(SmtpSetting).first()
         return smtp_setting
 
@@ -164,7 +163,7 @@ def get_all_recipient_emails():
     Returns:
         [type]: [description]
     """
-    with Session(engine) as session:
+    with session_factory() as session:
         recipients = session.query(Recipient).all()
         emails = [recipient.email for recipient in recipients]
         return emails
@@ -185,7 +184,7 @@ def update_smtp_setting(smtp_id: int, server: str | None, port: int | None, user
     Returns:
         [type]: [description]
     """
-    with Session(engine) as session:
+    with session_factory() as session:
         # Getting the current record
         smtp_setting = session.get(SmtpSetting, smtp_id)
         if not smtp_setting:
@@ -224,7 +223,7 @@ def delete_smtp_setting(smtp_id: int):
     Returns:
         [type]: [description]
     """
-    with Session(engine) as session:
+    with session_factory() as session:
         smtp_setting = session.get(SmtpSetting, smtp_id)
         if smtp_setting:
             session.delete(smtp_setting)
@@ -242,6 +241,6 @@ def get_recipient_name(email: str):
     Returns:
         [type]: [description]
     """
-    with Session(engine) as session:
+    with session_factory() as session:
         recipient = session.query(Recipient).filter(Recipient.email == email).first()
         return recipient.name if recipient else None
