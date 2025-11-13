@@ -10,6 +10,7 @@ Ending //
 import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 from src.db.models import Base
 # Loading variables from .env
 load_dotenv()
@@ -22,10 +23,11 @@ PORT = os.getenv("PORT")
 # Creating a connection string
 DATABASE_URL = f"postgresql+psycopg2://{USER}:{PASSWORD}@{HOST}:{PORT}/{DBNAME}"
 # Creating an engine
-engine = create_engine(
+sync_engine = create_engine(
     DATABASE_URL,
     echo=False,
     pool_size=5,
     max_overflow=10
 )
-Base.metadata.bind = engine
+Base.metadata.bind = sync_engine
+session_factory = sessionmaker(sync_engine)
