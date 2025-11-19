@@ -7,14 +7,60 @@ html, body {
   background-color: #f5f5f5;
 }
 
-/* Form container */
-.container {
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background-color: #142634;
+  color: #b8caff;
+  display: flex;
+  flex-direction: column;
+  padding-top: 1rem;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  z-index: 1000; 
+}
+
+.sidebar h5 {
+  padding: 0 15px 10px 15px;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #495057;
+}
+
+.sidebar a {
+  color: #fff;
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  transition: 0.2s ease-in-out;
+}
+
+.sidebar a:hover {
+  background-color: #28384a;
+  border-radius: 4px;
+}
+
+.sidebar a.active {
+  background-color: #536ac2;
+  border-radius: 4px;
+}
+
+/* Content area */
+.content {
+  margin-left: 220px; /* indent for panel width */
+  width: calc(100% - 220px); /* remaining space */
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+/* Container inside content */
+.content .container {
   max-width: 900px;
-  margin: 50px auto;
-  padding: 20px;
-  background-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  border-radius: 10px;
+  margin: 0 auto;
+  padding-top: 20px;
 }
 
 /* Header */
@@ -45,6 +91,12 @@ html, body {
 .col-md-6 {
   flex: 1 1 48%;
   min-width: 280px;
+  box-sizing: border-box;
+}
+
+.col-md-4 {
+  flex: 1 1 30%;
+  min-width: 180px;
   box-sizing: border-box;
 }
 
@@ -95,15 +147,20 @@ html, body {
 
 /* Adaptive */
 @media (max-width: 768px) {
-  .container {
-    padding: 10px;
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    z-index: 1000;
   }
 
-  .card-body {
-    padding: 20px;
+  .content {
+    margin-left: 0;
+    width: 100%;
+    padding: 1rem;
   }
 
-  .col-md-6 {
+  .col-md-6, .col-md-4 {
     flex: 1 1 100%;
   }
 }
