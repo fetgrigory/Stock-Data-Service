@@ -8,7 +8,7 @@ Ending //
 '''
 # Installing the necessary libraries
 from src.db.database import session_factory
-from src.db.models import User, Recipient, SmtpSetting
+from src.db.models import User, Recipient, SmtpSetting, Quote
 
 
 # Adding a new user
@@ -244,3 +244,33 @@ def get_recipient_name(email: str):
     with session_factory() as session:
         recipient = session.query(Recipient).filter(Recipient.email == email).first()
         return recipient.name if recipient else None
+
+
+# Inserts a new stock quote into the database
+def insert_quote(ticker: str, trade_time: str, last_price: float, change_abs: float, change_percent: float, price_before_closing: float, price_at_opening: float, minimum_price: float, average_overpriced: float,  pieces_per_day: float, quantity_per_day: int, rub: float, num_transactions_per_day: int):
+    """AI is creating summary for insert_quote
+
+    Args:
+        ticker (str): [description]
+        trade_time (str): [description]
+        last_price (float): [description]
+        change_abs (float): [description]
+        change_percent (float): [description]
+        price_before_closing (float): [description]
+        price_at_opening (float): [description]
+        minimum_price (float): [description]
+        average_overpriced (float): [description]
+        pieces_per_day (float): [description]
+        quantity_per_day (int): [description]
+        rub (float): [description]
+        num_transactions_per_day (int): [description]
+
+    Returns:
+        [type]: [description]
+    """
+    with session_factory() as session:
+        quote = Quote(ticker=ticker, trade_time=trade_time, last_price=last_price, change_abs=change_abs, change_percent=change_percent, price_before_closing=price_before_closing, price_at_opening=price_at_opening, minimum_price=minimum_price, average_overpriced=average_overpriced,  pieces_per_day=pieces_per_day, quantity_per_day=quantity_per_day, rub=rub, num_transactions_per_day=num_transactions_per_day)
+        session.add(quote)
+        session.commit()
+        quote_id = quote.id
+        return quote_id

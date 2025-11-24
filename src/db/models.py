@@ -8,7 +8,7 @@ Ending //
 '''
 # Installing the necessary libraries
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import Integer, Text
+from sqlalchemy import Integer, Text, Numeric, String
 
 
 # Creating a base class for models
@@ -44,3 +44,23 @@ class SmtpSetting(Base):
     username: Mapped[str] = mapped_column(Text, nullable=False)
     password: Mapped[str] = mapped_column(Text, nullable=False)
     sender: Mapped[str] = mapped_column(Text, nullable=False)
+
+
+# Defining the 'quotes' table structure
+class Quote(Base):
+    __tablename__ = "quotes"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    ticker: Mapped[str] = mapped_column(String(20), nullable=False)
+    trade_time: Mapped[str] = mapped_column(String(8), nullable=False)
+    last_price: Mapped[float] = mapped_column(Numeric(12, 4), nullable=False)
+    change_abs: Mapped[float] = mapped_column(Numeric(12, 4))
+    change_percent: Mapped[float] = mapped_column(Numeric(6, 2))
+    price_before_closing: Mapped[float] = mapped_column(Numeric(12, 4))
+    price_at_opening: Mapped[float] = mapped_column(Numeric(12, 4))
+    minimum_price: Mapped[float] = mapped_column(Numeric(12, 4))
+    average_overpriced: Mapped[float] = mapped_column(Numeric(12, 4))
+    pieces_per_day: Mapped[float] = mapped_column(Numeric(12, 4))
+    quantity_per_day: Mapped[int] = mapped_column(Integer)
+    rub: Mapped[float] = mapped_column(Numeric(15, 2))
+    num_transactions_per_day: Mapped[int] = mapped_column(Integer)
