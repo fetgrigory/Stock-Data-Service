@@ -118,7 +118,13 @@ def get_all_recipients():
 
 
 # Add a new configuration
-def insert_smtp_setting(server: str, port: int, username: str, password: str, sender: str) -> int:
+def insert_smtp_setting(
+        server: str,
+        port: int,
+        username: str,
+        password: str,
+        sender: str
+        ) -> int:
     """AI is creating summary for insert_smtp_setting
 
     Args:
@@ -170,7 +176,14 @@ def get_all_recipient_emails():
 
 
 # Updating a configuration
-def update_smtp_setting(smtp_id: int, server: str | None, port: int | None, username: str | None, password: str | None, sender: str | None):
+def update_smtp_setting(
+    smtp_id: int,
+    server: str | None,
+    port: int | None,
+    username: str | None,
+    password: str | None,
+    sender: str | None,
+):
     """AI is creating summary for update_smtp_setting_data
 
     Args:
@@ -247,7 +260,21 @@ def get_recipient_name(email: str):
 
 
 # Inserts a new stock quote into the database
-def insert_quote(ticker: str, trade_time: str, last_price: float, change_abs: float, change_percent: float, price_before_closing: float, price_at_opening: float, minimum_price: float, average_overpriced: float,  pieces_per_day: float, quantity_per_day: int, rub: float, num_transactions_per_day: int):
+def insert_quote(
+    ticker: str,
+    trade_time: str,
+    last_price: float,
+    change_abs: float,
+    change_percent: float,
+    price_before_closing: float,
+    price_at_opening: float,
+    minimum_price: float,
+    average_overpriced: float,
+    pieces_per_day: float,
+    quantity_per_day: int,
+    rub: float,
+    num_transactions_per_day: int,
+):
     """AI is creating summary for insert_quote
 
     Args:
@@ -269,7 +296,21 @@ def insert_quote(ticker: str, trade_time: str, last_price: float, change_abs: fl
         [type]: [description]
     """
     with session_factory() as session:
-        quote = Quote(ticker=ticker, trade_time=trade_time, last_price=last_price, change_abs=change_abs, change_percent=change_percent, price_before_closing=price_before_closing, price_at_opening=price_at_opening, minimum_price=minimum_price, average_overpriced=average_overpriced,  pieces_per_day=pieces_per_day, quantity_per_day=quantity_per_day, rub=rub, num_transactions_per_day=num_transactions_per_day)
+        quote = Quote(
+            ticker=ticker,
+            trade_time=trade_time,
+            last_price=last_price,
+            change_abs=change_abs,
+            change_percent=change_percent,
+            price_before_closing=price_before_closing,
+            price_at_opening=price_at_opening,
+            minimum_price=minimum_price,
+            average_overpriced=average_overpriced,
+            pieces_per_day=pieces_per_day,
+            quantity_per_day=quantity_per_day,
+            rub=rub,
+            num_transactions_per_day=num_transactions_per_day,
+        )
         session.add(quote)
         session.commit()
         quote_id = quote.id
