@@ -7,9 +7,7 @@ Ending //
 
 '''
 # Installing the necessary libraries
-import os
 import logging
-import csv
 import time
 from datetime import datetime
 from selenium import webdriver
@@ -19,6 +17,7 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 import fake_useragent
 from src.parsing.data_processor import DataProcessor
+from src.db.crud import insert_quote
 
 
 class WebDriverWrapper:
@@ -58,11 +57,14 @@ class DataParser(WebDriverWrapper):
         super().__init__()
         self.data_processor = DataProcessor()
 
-    def parse_and_save(self, selected_date):
+    def parse_and_save(self, selected_date: datetime.date):
         """AI is creating summary for parse_and_save
 
         Args:
-            selected_date ([type]): [description]
+            selected_date (datetime.date): [description]
+
+        Returns:
+            [type]: [description]
         """
         try:
             self.start_driver()
@@ -71,32 +73,60 @@ class DataParser(WebDriverWrapper):
             # Finding an element with a table
             element = self.driver.find_element(By.XPATH, '//*[@id="marketDataList"]')
             table = element.find_element(By.XPATH, 'tbody[2]')
-            # Create directory structure
-            folder_name = selected_date.strftime("%Y-%m-%d")
-            os.makedirs(f"data/{folder_name}", exist_ok=True)
-            current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-            filename = f'data/{folder_name}/mos_stock_{current_datetime}.csv'
-            # Write raw data to CSV
-            with open(filename, 'w', newline='', encoding='utf-8') as file:
-                writer = csv.writer(file, delimiter='^')
-                writer.writerow([
-                    'Ticker', 'Time', 'Last Price', 'Change (abs)',
-                    'Change (%)', 'Price before closing', 'Price at opening',
-                    'Minimum price', 'Average overpriced', 'Pieces per day',
-                    'Quantity per day', 'Rub', 'Number of transactions per day'
-                ])
-                rows = table.find_elements(By.TAG_NAME, 'tr')
-                for row in rows:
-                    # Get all the cells of the row
-                    columns = row.find_elements(By.TAG_NAME, 'td')
-                    # Extract the text from each cell and write it to a file
-                    row_data = [column.text for column in columns]
-                    writer.writerow(row_data)
-            # Clean the data (remove empty rows)
-            if os.path.exists(filename):
-                self.data_processor.clean_data(filename)
-            logging.info('The data is saved to a file: %s', filename)
-            return filename
+            data_list = []
+            rows = table.find_elements(By.TAG_NAME, 'tr')
+            # Get all the cells of the row
+            for row in rows:
+                columns = row.find_elements(By.TAG_NAME, 'td')
+                row_data = [col.text for col in columns]
+                if len(row_data) < 13:
+                    continue
+
+                data_dict = {
+                    'Ticker': row_data[0],
+                    'Time': row_data[1],
+                    'Last Price': row_data[2],
+                    'Change (abs)': row_data[3],
+                    'Change (%)': row_data[4],
+                    'Price before closing': row_data[5],
+                    'Price at opening': row_data[6],
+                    'Minimum price': row_data[7],
+                    'Average overpriced': row_data[8],
+                    'Pieces per day': row_data[9],
+                    'Quantity per day': row_data[10],
+                    'Rub': row_data[11],
+                    'Number of transactions per day': row_data[12]
+                }
+                data_list.append(data_dict)
+
+            cleaned_data_list = self.data_processor.clean_data(data_list)
+
+            for row in cleaned_data_list:
+                # Convert time to full datetime for DB
+                trade_time_str = row['Time']
+                trade_datetime = datetime.combine(
+                    selected_date,
+                    datetime.strptime(trade_time_str, '%H:%M:%S').time()
+                )
+
+                insert_quote(
+                    ticker=row['Ticker'],
+                    trade_time=trade_datetime,
+                    last_price=row['Last Price'],
+                    change_abs=row['Change (abs)'],
+                    change_percent=row['Change (%)'],
+                    price_before_closing=row['Price before closing'],
+                    price_at_opening=row['Price at opening'],
+                    minimum_price=row['Minimum price'],
+                    average_overpriced=row['Average overpriced'],
+                    pieces_per_day=row['Pieces per day'],
+                    quantity_per_day=row['Quantity per day'],
+                    rub=row['Rub'],
+                    num_transactions_per_day=row['Number of transactions per day'],
+                )
+
+            return True
+
         except Exception as e:
             logging.error("Error during parsing: %s", e)
             return None
