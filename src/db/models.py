@@ -7,8 +7,9 @@ Ending //
 
 '''
 # Installing the necessary libraries
+from datetime import datetime
+from sqlalchemy import DateTime, Integer, Numeric, String, Text
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import Integer, Text, Numeric, String
 
 
 # Creating a base class for models
@@ -52,7 +53,7 @@ class Quote(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     ticker: Mapped[str] = mapped_column(String(20), nullable=False)
-    trade_time: Mapped[str] = mapped_column(String(8), nullable=False)
+    trade_time: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     last_price: Mapped[float] = mapped_column(Numeric(12, 4), nullable=False)
     change_abs: Mapped[float] = mapped_column(Numeric(12, 4))
     change_percent: Mapped[float] = mapped_column(Numeric(6, 2))
