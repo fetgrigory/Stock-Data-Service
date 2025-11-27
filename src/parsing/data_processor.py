@@ -33,15 +33,14 @@ class DataProcessor:
             # Convert to DataFrame
             df = pd.DataFrame(data_list)
             # Replace non-standard minus and remove spaces
-            df = df.apply(lambda col: col.astype(str).str.replace('−', '-').str.replace(' ', '') if col.dtype == object else col)
-
+            df = df.replace('−', '-', regex=True)
+            # Remove spaces only inside string values
+            df = df.applymap(lambda x: x.replace(' ', '') if isinstance(x, str) else x)
             # Remove percentage signs
             df = df.replace('%', '', regex=True)
-
             # Remove rows with empty values
             df = df.dropna()
-
-            # Remove rows with invalid time format
+            # Function to check if the string matches the incorrect format 'dd.mm.yyyyHH:MM:SS'
             if 'Time' in df.columns:
                 def is_invalid_time_format(date_str):
                     try:
@@ -50,7 +49,6 @@ class DataProcessor:
                     except ValueError:
                         return True
                 df = df[~df['Time'].apply(lambda x: is_invalid_time_format(str(x)))]
-
             # Convert numeric fields
             numeric_fields_float = [
                 'Last Price', 'Change (abs)', 'Change (%)', 'Price before closing',
