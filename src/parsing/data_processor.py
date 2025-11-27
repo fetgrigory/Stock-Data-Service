@@ -19,6 +19,23 @@ class DataProcessor:
     Returns:
         [type]: [description]
     """
+
+    # Unified time parser
+    @staticmethod
+    def parse_time(time_str: str):
+        """AI is creating summary for parse_time
+
+        Args:
+            time_str (str): [description]
+
+        Returns:
+            [type]: [description]
+        """
+        try:
+            return datetime.strptime(time_str, '%H:%M:%S').time()
+        except (ValueError, TypeError):
+            return None
+
     @staticmethod
     def clean_data(data_list: list[dict]) -> list[dict]:
         """AI is creating summary for clean_data
@@ -35,36 +52,35 @@ class DataProcessor:
             # Replace non-standard minus and remove spaces
             df = df.replace('−', '-', regex=True)
             # Remove spaces only inside string values
-            df = df.applymap(lambda x: x.replace(' ', '') if isinstance(x, str) else x)
+            str_cols = df.select_dtypes(include=['object']).columns
+            df[str_cols] = df[str_cols].apply(lambda col: col.str.replace(' ', '', regex=False))
             # Remove percentage signs
             df = df.replace('%', '', regex=True)
             # Remove rows with empty values
             df = df.dropna()
-            # Function to check if the string matches the incorrect format 'dd.mm.yyyyHH:MM:SS'
+            # Validate time field
             if 'Time' in df.columns:
-                def is_invalid_time_format(date_str):
-                    try:
-                        datetime.strptime(date_str, '%H:%M:%S')
-                        return False
-                    except ValueError:
-                        return True
-                df = df[~df['Time'].apply(lambda x: is_invalid_time_format(str(x)))]
-            # Convert numeric fields
+                df['ParsedTime'] = df['Time'].apply(lambda x: DataProcessor.parse_time(str(x)))
+                df = df[df['ParsedTime'].notna()]
+
+            # Convert numeric fields (float)
             numeric_fields_float = [
                 'Last Price', 'Change (abs)', 'Change (%)', 'Price before closing',
                 'Price at opening', 'Minimum price', 'Average overpriced', 'Rub'
             ]
-            numeric_fields_int = ['Pieces per day', 'Quantity per day', 'Number of transactions per day']
 
             for field in numeric_fields_float:
                 if field in df.columns:
                     df[field] = pd.to_numeric(df[field], errors='coerce')
 
+            # Convert numeric fields (int)
+            numeric_fields_int = [
+                'Pieces per day', 'Quantity per day', 'Number of transactions per day'
+            ]
             for field in numeric_fields_int:
                 if field in df.columns:
                     df[field] = pd.to_numeric(df[field], errors='coerce', downcast='integer')
 
-            df = df.dropna()
             logging.info('Data cleaned successfully. Records remaining: %d', len(df))
             return df.to_dict(orient='records')
 
@@ -84,13 +100,9 @@ class DataProcessor:
         Returns:
             dict: [description]
         """
-        trade_time_str = row.get('Time')
-        if trade_time_str:
-            try:
-                row['TradeDatetime'] = datetime.combine(
-                    selected_date,
-                    datetime.strptime(trade_time_str, '%H:%M:%S').time()
-                )
-            except ValueError:
-                row['TradeDatetime'] = None
+        time_str = row.get('Time')
+        parsed = DataProcessor.parse_time(time_str)
+        row['TradeDatetime'] = (
+            datetime.combine(selected_date, parsed) if parsed else None
+        )
         return row
