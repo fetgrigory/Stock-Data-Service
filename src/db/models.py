@@ -8,7 +8,7 @@ Ending //
 '''
 # Installing the necessary libraries
 from datetime import datetime
-from sqlalchemy import DateTime, Integer, Numeric, String, Text
+from sqlalchemy import DateTime, Integer, Numeric, String, Text, BigInteger
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -62,6 +62,6 @@ class Quote(Base):
     minimum_price: Mapped[float] = mapped_column(Numeric(12, 4))
     average_overpriced: Mapped[float] = mapped_column(Numeric(12, 4))
     pieces_per_day: Mapped[float] = mapped_column(Numeric(12, 4))
-    quantity_per_day: Mapped[int] = mapped_column(Integer)
+    quantity_per_day: Mapped[int] = mapped_column(BigInteger)
     rub: Mapped[float] = mapped_column(Numeric(15, 2))
     num_transactions_per_day: Mapped[int] = mapped_column(Integer)
