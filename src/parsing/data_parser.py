@@ -97,19 +97,21 @@ class DataParser(WebDriverWrapper):
                 }
                 data_list.append(data_dict)
 
+            # Clean data first
             cleaned_data_list = self.data_processor.clean_data(data_list)
+            if not cleaned_data_list:
+                return None
+
+            # Convert trade time using DataProcessor
+            cleaned_data_list = [
+                self.data_processor.process_trade_time(row, selected_date)
+                for row in cleaned_data_list
+            ]
 
             for row in cleaned_data_list:
-                # Convert time to full datetime for DB
-                trade_time_str = row['Time']
-                trade_datetime = datetime.combine(
-                    selected_date,
-                    datetime.strptime(trade_time_str, '%H:%M:%S').time()
-                )
-
                 insert_quote(
                     ticker=row['Ticker'],
-                    trade_time=trade_datetime,
+                    trade_time=row['TradeDatetime'],
                     last_price=row['Last Price'],
                     change_abs=row['Change (abs)'],
                     change_percent=row['Change (%)'],

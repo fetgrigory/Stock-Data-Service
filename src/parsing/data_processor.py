@@ -73,3 +73,26 @@ class DataProcessor:
         except Exception as e:
             logging.error("Error during data cleaning: %s", e)
             return False
+
+    # Converts 'Time' string to full datetime using the selected date
+    @staticmethod
+    def process_trade_time(row: dict, selected_date: datetime.date) -> dict:
+        """AI is creating summary for process_trade_time
+
+        Args:
+            row (dict): [description]
+            selected_date (datetime.date): [description]
+
+        Returns:
+            dict: [description]
+        """
+        trade_time_str = row.get('Time')
+        if trade_time_str:
+            try:
+                row['TradeDatetime'] = datetime.combine(
+                    selected_date,
+                    datetime.strptime(trade_time_str, '%H:%M:%S').time()
+                )
+            except ValueError:
+                row['TradeDatetime'] = None
+        return row
