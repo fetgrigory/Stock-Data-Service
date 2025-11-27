@@ -79,9 +79,7 @@ class DataParser(WebDriverWrapper):
             for row in rows:
                 columns = row.find_elements(By.TAG_NAME, 'td')
                 row_data = [col.text for col in columns]
-                if len(row_data) < 13:
-                    continue
-
+                # Create a dictionary from the table row and add it to the list
                 data_dict = {
                     'Ticker': row_data[0],
                     'Time': row_data[1],
