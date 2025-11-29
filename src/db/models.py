@@ -53,10 +53,10 @@ class Quote(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     ticker: Mapped[str] = mapped_column(String(20), nullable=False)
-    trade_time: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    trade_time: Mapped[str] = mapped_column(String(20), nullable=False)
     last_price: Mapped[float] = mapped_column(Numeric(12, 4), nullable=False)
     change_abs: Mapped[float] = mapped_column(Numeric(12, 4))
-    change_percent: Mapped[float] = mapped_column(Numeric(6, 2))
+    change_percent: Mapped[float] = mapped_column(Numeric(20, 4))
     price_before_closing: Mapped[float] = mapped_column(Numeric(12, 4))
     price_at_opening: Mapped[float] = mapped_column(Numeric(12, 4))
     minimum_price: Mapped[float] = mapped_column(Numeric(12, 4))

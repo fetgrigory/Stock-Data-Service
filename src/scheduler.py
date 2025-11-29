@@ -52,8 +52,8 @@ class Scheduler:
             return
         now = datetime.now()
         logging.info("Starting parsing for %s", now.date())
-        result_file = self.parser.parse_and_save(now.date())
-        if result_file:
+        result = self.parser.parse_and_save()
+        if result:
             logging.info("Parsing completed successfully.")
         else:
             logging.warning("Parsing completed with errors.")
