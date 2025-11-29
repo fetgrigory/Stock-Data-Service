@@ -49,10 +49,16 @@ class DataProcessor:
                 lambda col: col.str.replace(' ', '').str.replace('%', '', regex=False)
             )
 
-            # Convert the time column
+            # Function to check if the string matches the incorrect format 'dd.mm.yyyyHH:MM:SS'
             if 'Time' in df.columns:
-                df['Time'] = df['Time'].str.strip()
+                def is_invalid_time_format(date_str):
+                    try:
+                        pd.to_datetime(date_str, format='%d.%m.%Y%H:%M:%S', errors='raise')
+                        return True
+                    except Exception:
+                        return False
 
+                df = df[~df['Time'].apply(lambda x: is_invalid_time_format(str(x)))]
                 # Convert numeric fields (float)
             numeric_fields_float = [
                 'Last Price', 'Change (abs)', 'Change (%)', 'Price before closing',
