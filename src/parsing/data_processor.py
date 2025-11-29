@@ -8,32 +8,12 @@ Ending //
 '''
 # Installing the necessary libraries
 import logging
-from datetime import datetime
 import pandas as pd
 
 
 class DataProcessor:
     """AI is creating summary for
     """
-    # Converting a time string to a datetime object with the current date.
-    @staticmethod
-    def convert_time_to_timestamp(time_str: str) -> datetime:
-        """AI is creating summary for convert_time_to_timestamp
-
-        Args:
-            time_str (str): [description]
-
-        Returns:
-            datetime: [description]
-        """
-        today = datetime.now().date()
-        datetime_str = f"{today} {time_str}"
-        try:
-            return datetime.strptime(datetime_str, "%Y-%m-%d %H:%M:%S")
-        except ValueError as e:
-            logging.error(f"Ошибка при преобразовании времени {time_str}: {e}")
-            return None
-
     @staticmethod
     def clean_data(data_list: list[dict]) -> list[dict] | bool:
         try:
