@@ -16,6 +16,11 @@ class DataProcessor:
     """
     @staticmethod
     def clean_data(data_list: list[dict]) -> list[dict] | bool:
+        """AI is creating summary for clean_data
+
+        Returns:
+            [type]: [description]
+        """
         try:
             # Convert a list of dictionaries to a DataFrame
             df = pd.DataFrame(data_list)
