@@ -9,7 +9,6 @@ Ending //
 # Installing the necessary libraries
 import logging
 import time
-from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
@@ -57,7 +56,7 @@ class DataParser(WebDriverWrapper):
         super().__init__()
         self.data_processor = DataProcessor()
 
-    def parse_and_save(self, selected_date: datetime.date):
+    def parse_and_save(self):
         """AI is creating summary for parse_and_save
 
         Args:
@@ -97,38 +96,35 @@ class DataParser(WebDriverWrapper):
                 }
                 data_list.append(data_dict)
 
-            # Clean data first
-            cleaned_data_list = self.data_processor.clean_data(data_list)
-            if not cleaned_data_list:
+            # Clean data before saving
+            cleaned_data = self.data_processor.clean_data(data_list)
+            if not cleaned_data:
+                logging.error("No valid data to insert after cleaning")
                 return None
 
-            # Convert trade time using DataProcessor
-            cleaned_data_list = [
-                self.data_processor.process_trade_time(row, selected_date)
-                for row in cleaned_data_list
-            ]
-
-            for row in cleaned_data_list:
+            # Insert cleaned data into the database
+            for data_dict in cleaned_data:
                 insert_quote(
-                    ticker=row['Ticker'],
-                    trade_time=row['TradeDatetime'],
-                    last_price=row['Last Price'],
-                    change_abs=row['Change (abs)'],
-                    change_percent=row['Change (%)'],
-                    price_before_closing=row['Price before closing'],
-                    price_at_opening=row['Price at opening'],
-                    minimum_price=row['Minimum price'],
-                    average_overpriced=row['Average overpriced'],
-                    pieces_per_day=row['Pieces per day'],
-                    quantity_per_day=row['Quantity per day'],
-                    rub=row['Rub'],
-                    num_transactions_per_day=row['Number of transactions per day'],
+                    ticker=data_dict['Ticker'],
+                    trade_time=data_dict['Time'],
+                    last_price=data_dict['Last Price'],
+                    change_abs=data_dict['Change (abs)'],
+                    change_percent=data_dict['Change (%)'],
+                    price_before_closing=data_dict['Price before closing'],
+                    price_at_opening=data_dict['Price at opening'],
+                    minimum_price=data_dict['Minimum price'],
+                    average_overpriced=data_dict['Average overpriced'],
+                    pieces_per_day=data_dict['Pieces per day'],
+                    quantity_per_day=data_dict['Quantity per day'],
+                    rub=data_dict['Rub'],
+                    num_transactions_per_day=data_dict['Number of transactions per day'],
                 )
 
+            logging.info("Data successfully collected, cleaned, and saved to the database")
             return True
 
         except Exception as e:
-            logging.error("Error during parsing: %s", e)
+            logging.error("Error during parsing or saving data: %s", e)
             return None
         finally:
             self.stop_driver()
