@@ -60,30 +60,6 @@ class DataProcessor:
                     downcast=None if is_float else 'integer'
                 )
 
-    # Remove rows with incorrectly formatted time strings
-    @staticmethod
-    def filter_invalid_time(df: pd.DataFrame, column: str = 'Time') -> pd.DataFrame:
-        """AI is creating summary for filter_invalid_time
-
-        Args:
-            df (pd.DataFrame): [description]
-            column (str, optional): [description]. Defaults to 'Time'.
-
-        Returns:
-            pd.DataFrame: [description]
-        """
-        if column not in df.columns:
-            return df
-
-        def is_invalid_time_format(date_str):
-            try:
-                pd.to_datetime(date_str, format='%d.%m.%Y%H:%M:%S', errors='raise')
-                return True
-            except Exception:
-                return False
-
-        return df[~df[column].apply(lambda x: is_invalid_time_format(str(x)))]
-
     # Create a full datetime string by combining current date with time string
     @staticmethod
     def create_datetime_from_time(time_str: str) -> str:
@@ -96,8 +72,7 @@ class DataProcessor:
             str: [description]
         """
         today = datetime.now().date()
-        datetime_str = f"{today} {time_str}"
-        return datetime_str
+        return f"{today} {time_str}"
 
     # Clean and convert a list of dictionaries to a standardized format
     @staticmethod
@@ -113,10 +88,11 @@ class DataProcessor:
             # Standardize string columns
             str_cols = df.select_dtypes(include='object').columns
             df[str_cols] = df[str_cols].apply(lambda col: col.str.replace('−', '-').str.strip())
-
-            # Remove invalid time formats
-            df = DataProcessor.filter_invalid_time(df, 'Time')
-
+            # Convert and clean 'Time' column
+            if 'Time' in df.columns:
+                df = df.dropna(subset=['Time'])
+                df['Time'] = df['Time'].apply(DataProcessor.create_datetime_from_time)
+                df['Time'] = pd.to_datetime(df['Time'], errors='coerce')
             # Convert float columns
             float_columns = [
                 'Last Price', 'Change (abs)', 'Change (%)', 'Price before closing',
