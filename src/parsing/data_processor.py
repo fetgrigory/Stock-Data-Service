@@ -8,6 +8,7 @@ Ending //
 '''
 # Installing the necessary libraries
 import logging
+from datetime import datetime
 import pandas as pd
 
 
@@ -82,6 +83,21 @@ class DataProcessor:
                 return False
 
         return df[~df[column].apply(lambda x: is_invalid_time_format(str(x)))]
+
+    # Create a full datetime string by combining current date with time string
+    @staticmethod
+    def create_datetime_from_time(time_str: str) -> str:
+        """AI is creating summary for create_datetime_from_time
+
+        Args:
+            time_str (str): [description]
+
+        Returns:
+            str: [description]
+        """
+        today = datetime.now().date()
+        datetime_str = f"{today} {time_str}"
+        return datetime_str
 
     # Clean and convert a list of dictionaries to a standardized format
     @staticmethod
