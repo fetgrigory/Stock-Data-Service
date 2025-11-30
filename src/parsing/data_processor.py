@@ -87,7 +87,9 @@ class DataProcessor:
 
             # Standardize string columns
             str_cols = df.select_dtypes(include='object').columns
-            df[str_cols] = df[str_cols].apply(lambda col: col.str.replace('−', '-').str.strip())
+            df[str_cols] = df[str_cols].apply(
+                lambda col: col.apply(lambda x: DataProcessor.clean_string_for_numeric(str(x), is_float=False))
+                .str.strip())
             # Convert and clean 'Time' column
             if 'Time' in df.columns:
                 df = df.dropna(subset=['Time'])
