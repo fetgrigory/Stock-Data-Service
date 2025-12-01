@@ -38,3 +38,4 @@ src/db/__pycache__/__init__.cpython-312.pyc
 src/db/__pycache__/database_orm.cpython-312.pyc
 src/db/__pycache__/models.cpython-312.pyc
 src/db/__pycache__/crud.cpython-312.pyc
+tests/__pycache__/__init__.cpython-312.pyc
