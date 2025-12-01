@@ -34,12 +34,8 @@ class DataProcessor:
             return s
         s = s.replace('−', '-')
         s = s.replace(' ', '')
-        s = s.replace('+', '')
         if is_float:
-            s = s.replace(',', '.')
             s = s.replace('%', '')
-        else:
-            s = s.replace(',', '')
         return s
 
     # Convert specified columns to numeric type
