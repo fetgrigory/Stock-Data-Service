@@ -22,14 +22,14 @@ templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 
 
 # Endpoint for adding a new recipient
-@router.get("/admin")
+@router.get("/user")
 def get_recipient_form(request: Request):
     # List of current recipients
     recipients = get_all_recipients()
-    return templates.TemplateResponse("admin.html", {"request": request, "recipients": recipients})
+    return templates.TemplateResponse("user.html", {"request": request, "recipients": recipients})
 
 
-@router.post("/admin", response_class=HTMLResponse)
+@router.post("/user", response_class=HTMLResponse)
 def create_recipient(
     request: Request,
     name: str = Form(..., description="Имя получателя"),
@@ -38,7 +38,7 @@ def create_recipient(
     try:
         insert_recipient(name, email)
         recipients = get_all_recipients()
-        return templates.TemplateResponse("admin.html", {"request": request, "success": True, "name": name, "email": email, "recipients": recipients})
+        return templates.TemplateResponse("user.html", {"request": request, "success": True, "name": name, "email": email, "recipients": recipients})
     except IntegrityError as e:
         raise HTTPException(status_code=400, detail="Получатель с таким email уже существует") from e
     except Exception as e:
@@ -47,7 +47,7 @@ def create_recipient(
 
 # Endpoint for update recipient
 @router.post(
-    "/admin/update",
+    "/user/update",
     tags=["Получатели 👤"],
     summary="Обновить данные получателя",
     status_code=200

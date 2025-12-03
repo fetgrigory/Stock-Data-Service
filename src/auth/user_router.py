@@ -25,12 +25,12 @@ def login_page(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
 
 
-# Verifies user credentials and redirects to /admin on success, or returns login page with error
+# Verifies user credentials and redirects to /user on success, or returns login page with error
 @router.post("/login", response_class=HTMLResponse)
 def login(request: Request, username: str = Form(...), password: str = Form(...)):
     if service.verify_user(username, password):
         token = service.create_access_token(username)
-        response = RedirectResponse(url="/admin", status_code=302)
+        response = RedirectResponse(url="/user", status_code=302)
         response.set_cookie(service.config.JWT_ACCESS_COOKIE_NAME, token)
         return response
     return templates.TemplateResponse("login.html", {"request": request, "error": True})
@@ -53,6 +53,6 @@ def signup(request: Request, username: str = Form(...), password: str = Form(...
 
 
 # Renders the protected test page; accessible only with a valid access token
-@router.get("/admin", response_class=HTMLResponse, dependencies=[Depends(service.security.access_token_required)])
-def admin_page(request: Request):
-    return templates.TemplateResponse("admin.html", {"request": request})
+@router.get("/user", response_class=HTMLResponse, dependencies=[Depends(service.security.access_token_required)])
+def user_page(request: Request):
+    return templates.TemplateResponse("user.html", {"request": request})
