@@ -10,7 +10,7 @@ Ending //
 import uvicorn
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from src.auth.router import router as auth_router
+from src.auth.user_router import router as auth_router
 from src.core.router import router as page_router
 from src.recipients.router import router as recipients_router
 from src.email.router import router as smtp_router
