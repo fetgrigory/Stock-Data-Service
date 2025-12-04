@@ -10,19 +10,42 @@ Ending //
 import uvicorn
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from sqladmin import Admin
+from src.db.database import sync_engine, init_db
+from src.admin_panel.views import RecipientAdmin
 from src.auth.user_router import router as auth_router
 from src.core.router import router as page_router
 from src.recipients.router import router as recipients_router
 from src.email.router import router as smtp_router
 
-app = FastAPI()
-# Connecting static files
-app.mount("/static", StaticFiles(directory="src/static"), name="static")
-# Connecting routers
-app.include_router(recipients_router)
-app.include_router(smtp_router)
-app.include_router(page_router)
-app.include_router(auth_router)
+
+def create_app():
+    """AI is creating summary for create_app
+
+    Returns:
+        FastAPI: [description]
+    """
+    fastapi_app = FastAPI()
+
+    # Connecting static files
+    fastapi_app.mount("/static", StaticFiles(directory="src/static"), name="static")
+
+    # Connecting routers
+    fastapi_app.include_router(recipients_router)
+    fastapi_app.include_router(smtp_router)
+    fastapi_app.include_router(page_router)
+    fastapi_app.include_router(auth_router)
+
+    # Initializing the database
+    init_db()
+    # Configuring SQLAdmin
+    admin = Admin(fastapi_app, sync_engine)
+    admin.add_view(RecipientAdmin)
+
+    return fastapi_app
+
+
+app = create_app()
 
 if __name__ == "__main__":
     uvicorn.run("src.main:app", host='127.0.0.1', port=8000, reload=True)

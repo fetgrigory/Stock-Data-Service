@@ -7,8 +7,7 @@ Ending //
 
 '''
 # Installing the necessary libraries
-from datetime import datetime
-from sqlalchemy import DateTime, Integer, Numeric, String, Text, BigInteger
+from sqlalchemy import Integer, Numeric, String, Text, BigInteger
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -39,7 +38,7 @@ class Recipient(Base):
 class SmtpSetting(Base):
     __tablename__ = "smtp_settings"
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True, nullable=False, autoincrement=True)
     server: Mapped[str] = mapped_column(Text, nullable=False)
     port: Mapped[int] = mapped_column(Integer, nullable=False)
     username: Mapped[str] = mapped_column(Text, nullable=False)
