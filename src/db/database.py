@@ -29,5 +29,18 @@ sync_engine = create_engine(
     pool_size=5,
     max_overflow=10
 )
-Base.metadata.bind = sync_engine
+# Session factory
+SessionLocal = sessionmaker(
+    bind=sync_engine,
+    autoflush=False,
+    autocommit=False
+
+)
 session_factory = sessionmaker(sync_engine)
+
+
+# Creates all tables if they do not exist
+def init_db():
+    """AI is creating summary for init_db
+    """
+    Base.metadata.create_all(bind=sync_engine)
