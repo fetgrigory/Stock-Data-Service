@@ -33,7 +33,7 @@ graph LR
 <img width="508" height="529" alt="Снимок экрана 2025-10-06 220450" src="https://github.com/user-attachments/assets/3e422822-2b78-41db-b360-e24e83965ea4" /><br />
 
 ### Форма авторизации пользователя
-<img width="638" height="550" alt="Снимок экрана 2025-10-06 215319" src="https://github.com/user-attachments/assets/13e2f859-7757-4835-9c3e-f09fb09d445c" /><br />
+<img width="558" height="439" alt="Снимок экрана 2025-12-06 002005" src="https://github.com/user-attachments/assets/67e1d488-93be-47e4-bec8-dee4ff745fd6" /><br />
 
 ## 🧑‍💼 Веб-интерфейс администратора
 <img width="1900" height="904" alt="Снимок экрана 2025-11-19 143336" src="https://github.com/user-attachments/assets/932c944f-01ac-47e4-9427-34d8784a79ee" /><br />
