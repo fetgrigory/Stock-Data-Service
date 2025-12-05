@@ -12,7 +12,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from sqladmin import Admin
 from src.db.database import sync_engine, init_db
-from src.admin_panel.views import RecipientAdmin, UserAdmin
+from src.admin_panel.views import RecipientAdmin, UserAdmin, SmtpSettingAdmin
 from src.auth.user_router import router as auth_router
 from src.core.router import router as page_router
 from src.recipients.router import router as recipients_router
@@ -42,7 +42,7 @@ def create_app():
     admin = Admin(fastapi_app, sync_engine)
     admin.add_view(RecipientAdmin)
     admin.add_view(UserAdmin)
-
+    admin.add_view(SmtpSettingAdmin)
     return fastapi_app
 
 

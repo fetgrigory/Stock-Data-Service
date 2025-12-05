@@ -9,7 +9,7 @@ Ending //
 # Installing the necessary libraries
 
 from sqladmin import ModelView
-from src.db.models import Recipient, User
+from src.db.models import Recipient, User, SmtpSetting
 
 
 class RecipientAdmin(ModelView, model=Recipient):
@@ -18,3 +18,7 @@ class RecipientAdmin(ModelView, model=Recipient):
 
 class UserAdmin(ModelView, model=User):
     column_list = [User.id, User.username]
+
+
+class SmtpSettingAdmin(ModelView, model=SmtpSetting):
+    column_list = [SmtpSetting.id,  SmtpSetting.server, SmtpSetting.port, SmtpSetting.username, SmtpSetting.password, SmtpSetting.sender]
