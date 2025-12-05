@@ -41,3 +41,4 @@ src/db/__pycache__/crud.cpython-312.pyc
 tests/__pycache__/__init__.cpython-312.pyc
 src/auth/__pycache__/user_router.cpython-312.pyc
 src/admin_panel/__pycache__/views.cpython-312.pyc
+src/admin_panel/__pycache__/__init__.cpython-312.pyc
