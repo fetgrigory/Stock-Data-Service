@@ -93,6 +93,9 @@ Stock-Data-Service/
 │   ├── __init__.py
 │   ├── main.py                   # FastAPI приложение
 │   ├── scheduler.py              # Планировщик задач
+│   ├── admin_panel/              # Панель администратора
+│   │   ├── __init__.py
+│   │   └── views.py
 │   ├── auth/                     # Авторизация и регистрация
 │   │   ├── __init__.py
 │   │   ├── router.py
@@ -104,18 +107,18 @@ Stock-Data-Service/
 │   │   ├── __init__.py
 │   │   ├── database.py
 │   │   ├── crud.py
-│   ├── recipients/               # Роутеры для получателей
+│   ├── email/                    # Логика отправки email
 │   │   ├── __init__.py
-│   │   └── router.py
+│   │   ├── router.py
+│   │   └── service.py
 │   ├── parsing/                  # Парсинг и обработка данных
 │   │   ├── __init__.py
 │   │   ├── data_archiver.py
 │   │   ├── data_parser.py
 │   │   └── data_processor.py
-│   ├── email/                    # Логика отправки email
+│   ├── recipients/               # Роутеры для получателей
 │   │   ├── __init__.py
-│   │   ├── router.py
-│   │   └── service.py
+│   │   └── router.py
 │   └── static/                   # Статические файлы (css, js, изображения)
 ├── templates/                    # Jinja2 шаблоны
 │   ├── base.html
@@ -127,6 +130,7 @@ Stock-Data-Service/
 ├── tests/                        # Тесты
 │   ├── __init__.py
 │   └── test_data_processor.py
+├── .env                          # Файл с переменными окружения
 ├── run_parser.py                 # Основной скрипт запуска
 └── requirements.txt              # Зависимости проекта
 ```
