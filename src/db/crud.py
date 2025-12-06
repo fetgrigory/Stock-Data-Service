@@ -315,3 +315,9 @@ def insert_quote(
         session.commit()
         quote_id = quote.id
         return quote_id
+
+
+# Fetch all stock quotes from the database
+def get_all_quotes():
+    with session_factory() as session:
+        return session.query(Quote).all()
