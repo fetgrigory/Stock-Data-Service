@@ -17,6 +17,7 @@ from src.auth.user_router import router as auth_router
 from src.core.router import router as page_router
 from src.recipients.router import router as recipients_router
 from src.email.router import router as smtp_router
+from src.quotes.router import router as quotes_router
 
 
 def create_app():
@@ -35,7 +36,7 @@ def create_app():
     fastapi_app.include_router(smtp_router)
     fastapi_app.include_router(page_router)
     fastapi_app.include_router(auth_router)
-
+    fastapi_app.include_router(quotes_router)
     # Initializing the database
     init_db()
     # Configuring SQLAdmin

@@ -320,4 +320,23 @@ def insert_quote(
 # Fetch all stock quotes from the database
 def get_all_quotes():
     with session_factory() as session:
-        return session.query(Quote).all()
+        quotes = session.query(Quote).order_by(Quote.id.asc()).all()
+        return [
+            {
+                "id": q.id,
+                "ticker": q.ticker,
+                "trade_time": q.trade_time,
+                "last_price": q.last_price,
+                "change_abs": q.change_abs,
+                "change_percent": q.change_percent,
+                "price_before_closing": q.price_before_closing,
+                "price_at_opening": q.price_at_opening,
+                "minimum_price": q.minimum_price,
+                "average_overpriced": q.average_overpriced,
+                "pieces_per_day": q.pieces_per_day,
+                "quantity_per_day": q.quantity_per_day,
+                "rub": q.rub,
+                "num_transactions_per_day": q.num_transactions_per_day
+            }
+            for q in quotes
+        ]

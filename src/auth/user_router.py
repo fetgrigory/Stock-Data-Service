@@ -55,4 +55,4 @@ def signup(request: Request, username: str = Form(...), password: str = Form(...
 # Renders the protected test page; accessible only with a valid access token
 @router.get("/user", response_class=HTMLResponse, dependencies=[Depends(service.security.access_token_required)])
 def user_page(request: Request):
-    return templates.TemplateResponse("user.html", {"request": request})
+    return templates.TemplateResponse("quotes.html", {"request": request})

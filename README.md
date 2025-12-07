@@ -112,6 +112,9 @@ Stock-Data-Service/
 │   │   ├── __init__.py
 │   │   ├── router.py
 │   │   └── service.py
+│   ├── quotes/                  # Отображение данных
+│   │   ├── __init__.py
+│   │   ├── router.py
 │   ├── parsing/                  # Парсинг и обработка данных
 │   │   ├── __init__.py
 │   │   ├── data_archiver.py
@@ -126,7 +129,7 @@ Stock-Data-Service/
 │   ├── index.html
 │   ├── login.html
 │   ├── signup.html
-│   └── admin.html
+│   └── quotes.html
 │   └── about.html
 ├── tests/                        # Тесты
 │   ├── __init__.py
