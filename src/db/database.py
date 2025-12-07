@@ -30,13 +30,12 @@ sync_engine = create_engine(
     max_overflow=10
 )
 # Session factory
-SessionLocal = sessionmaker(
+session_factory = sessionmaker(
     bind=sync_engine,
     autoflush=False,
     autocommit=False
 
 )
-session_factory = sessionmaker(sync_engine)
 
 
 # Creates all tables if they do not exist
