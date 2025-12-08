@@ -12,7 +12,7 @@ from fastapi import APIRouter, Request, Form, Depends
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from . import service
-
+from src.db.crud import get_all_quotes
 router = APIRouter()
 
 # Templates
@@ -55,4 +55,5 @@ def signup(request: Request, username: str = Form(...), password: str = Form(...
 # Renders the protected test page; accessible only with a valid access token
 @router.get("/user", response_class=HTMLResponse, dependencies=[Depends(service.security.access_token_required)])
 def user_page(request: Request):
-    return templates.TemplateResponse("quotes.html", {"request": request})
+    quotes = get_all_quotes()
+    return templates.TemplateResponse("user.html", {"request": request, "quotes": quotes})
