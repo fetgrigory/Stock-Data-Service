@@ -24,4 +24,4 @@ templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 def get_quotes_form(request: Request):
     # List of current quotes
     quotes = get_all_quotes()
-    return templates.TemplateResponse("quotes.html", {"request": request, "quotes": quotes})
+    return templates.TemplateResponse("user.html", {"request": request, "quotes": quotes})

@@ -129,7 +129,7 @@ Stock-Data-Service/
 │   ├── index.html
 │   ├── login.html
 │   ├── signup.html
-│   └── quotes.html
+│   └── user.html
 │   └── about.html
 ├── tests/                        # Тесты
 │   ├── __init__.py
