@@ -20,7 +20,7 @@ security = AuthX(config=config)
 
 
 # Creates a new user with a hashed password
-def create_user(username: str, password: str):
+def create_user(username: str, email: str, password: str):
     """AI is creating summary for create_user
 
     Args:
@@ -31,7 +31,7 @@ def create_user(username: str, password: str):
         [type]: [description]
     """
     hashed = hash_password(password)
-    return insert_user(username, hashed)
+    return insert_user(username, email, hashed)
 
 
 def verify_password(password: str, hashed: str) -> bool:
