@@ -12,7 +12,7 @@ from src.db.models import User, Recipient, SmtpSetting, Quote
 
 
 # Adding a new user
-def insert_user(username: str, password: str):
+def insert_user(username: str, email: str, password: str):
     """AI is creating summary for insert_user
 
     Args:
@@ -20,7 +20,7 @@ def insert_user(username: str, password: str):
         password (str): [description]
     """
     with session_factory() as session:
-        user = User(username=username, password=password)
+        user = User(username=username, email=email, password=password)
         session.add(user)
         session.commit()
         user_id = user.id
@@ -39,6 +39,20 @@ def get_user_by_username(username: str):
     """
     with session_factory() as session:
         return session.query(User).filter(User.username == username).first()
+
+
+# Getting the user's by email
+def get_user_by_email(email: str):
+    """AI is creating summary for get_user_by_email
+
+    Args:
+        email (str): [description]
+
+    Returns:
+        [type]: [description]
+    """
+    with session_factory() as session:
+        return session.query(User).filter(User.email == email).first()
 
 
 # Adding a new recipient

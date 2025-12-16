@@ -44,9 +44,9 @@ def signup_page(request: Request):
 
 # Creates a new user, or returns signup page with error if user already exists
 @router.post("/signup", response_class=HTMLResponse)
-def signup(request: Request, username: str = Form(...), password: str = Form(...)):
+def signup(request: Request, username: str = Form(...), email: str = Form(...), password: str = Form(...)):
     try:
-        service.create_user(username, password)
+        service.create_user(username, email, password)
         return RedirectResponse(url="/login", status_code=302)
     except Exception:
         return templates.TemplateResponse("signup.html", {"request": request, "error": True})
