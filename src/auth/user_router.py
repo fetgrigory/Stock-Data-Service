@@ -8,11 +8,13 @@ Ending //
 '''
 # Installing the necessary libraries
 import os
-from fastapi import APIRouter, Request, Form, Depends
+from fastapi import APIRouter, Depends, Form, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
-from . import service
+from src.auth.service import check_email_exists
 from src.db.crud import get_all_quotes
+from . import service
+
 router = APIRouter()
 
 # Templates
@@ -45,7 +47,12 @@ def signup_page(request: Request):
 # Creates a new user, or returns signup page with error if user already exists
 @router.post("/signup", response_class=HTMLResponse)
 def signup(request: Request, username: str = Form(...), email: str = Form(...), password: str = Form(...)):
+    # Checking if a user with this email already exists
+    existing_user = check_email_exists(email)
+    if existing_user:
+        return templates.TemplateResponse("signup.html", {"request": request, "error": True})
     try:
+        # Create a new user if the email is unique
         service.create_user(username, email, password)
         return RedirectResponse(url="/login", status_code=302)
     except Exception:

@@ -9,7 +9,7 @@ Ending //
 # Installing the necessary libraries
 import bcrypt
 from authx import AuthX, AuthXConfig
-from src.db.crud import insert_user, get_user_by_username
+from src.db.crud import insert_user, get_user_by_username, get_user_by_email
 
 # Setting up AuthX
 config = AuthXConfig()
@@ -34,6 +34,19 @@ def create_user(username: str, email: str, password: str):
     return insert_user(username, email, hashed)
 
 
+# Checking if a user with this email exists
+def check_email_exists(email: str):
+    """AI is creating summary for check_email_exists
+
+    Args:
+        email (str): [description]
+
+    Returns:
+        [type]: [description]
+    """
+    return get_user_by_email(email)
+
+
 def verify_password(password: str, hashed: str) -> bool:
     """AI is creating summary for verify_password
 
@@ -45,6 +58,19 @@ def verify_password(password: str, hashed: str) -> bool:
         bool: [description]
     """
     return bcrypt.checkpw(password.encode(), hashed.encode())
+
+
+# Generates a JWT access token for user authentication based on UID
+def create_access_token(uid: str) -> str:
+    """AI is creating summary for create_access_token
+
+    Args:
+        uid (str): [description]
+
+    Returns:
+        str: [description]
+    """
+    return security.create_access_token(uid=uid)
 
 
 # Salt generation and hashing
@@ -76,16 +102,3 @@ def verify_user(username: str, password: str):
     if not user:
         return False
     return verify_password(password, user.password)
-
-
-# Generates a JWT access token for user authentication based on UID
-def create_access_token(uid: str) -> str:
-    """AI is creating summary for create_access_token
-
-    Args:
-        uid (str): [description]
-
-    Returns:
-        str: [description]
-    """
-    return security.create_access_token(uid=uid)
