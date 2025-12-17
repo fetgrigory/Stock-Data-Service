@@ -44,3 +44,4 @@ src/admin_panel/__pycache__/views.cpython-312.pyc
 src/admin_panel/__pycache__/__init__.cpython-312.pyc
 src/quotes/__pycache__/__init__.cpython-312.pyc
 src/quotes/__pycache__/router.cpython-312.pyc
+src/auth/__pycache__/schemas.cpython-312.pyc

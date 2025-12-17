@@ -12,6 +12,7 @@ from fastapi import APIRouter, Depends, Form, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from src.auth.service import check_email_exists
+from src.auth.schemas import UserCreate
 from src.db.crud import get_all_quotes
 from . import service
 
@@ -53,7 +54,8 @@ def signup(request: Request, username: str = Form(...), email: str = Form(...), 
         return templates.TemplateResponse("signup.html", {"request": request, "error": True})
     try:
         # Create a new user if the email is unique
-        service.create_user(username, email, password)
+        user = UserCreate(username=username, email=email, password=password)
+        service.create_user(user)
         return RedirectResponse(url="/login", status_code=302)
     except Exception:
         return templates.TemplateResponse("signup.html", {"request": request, "error": True})
