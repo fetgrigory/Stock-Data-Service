@@ -6,6 +6,7 @@ Starting 17/12/2025
 Ending //
 
 '''
+# Installing the necessary libraries
 from pydantic import BaseModel, EmailStr, field_validator
 
 # Whitelist of allowed email domains
