@@ -30,7 +30,7 @@ graph LR
 <img width="1910" height="901" alt="Снимок экрана 2025-12-05 235426" src="https://github.com/user-attachments/assets/e73157a5-a825-4d07-890d-b8996f2a01e5" /><br />
 *Простейшая админка на SQL Admin для внутреннего тестирования. Позже планируется переход на полноценную админку с авторизацией.*
 ### Форма регистрации пользователя
-<img width="557" height="513" alt="Снимок экрана 2025-12-06 002645" src="https://github.com/user-attachments/assets/58ade003-5115-4016-b39e-073e9d8951c4" /><br />
+<img width="539" height="608" alt="Снимок экрана 2025-12-16 221659" src="https://github.com/user-attachments/assets/2c18e666-7c92-4845-9f0c-ff4cb20fb0bd" /><br />
 
 ### Форма авторизации пользователя
 <img width="558" height="439" alt="Снимок экрана 2025-12-06 002005" src="https://github.com/user-attachments/assets/993086b2-4282-4e2d-a3fc-072da89eacd0" /><br />
