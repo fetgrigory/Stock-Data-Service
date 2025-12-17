@@ -9,6 +9,7 @@ Ending //
 # Installing the necessary libraries
 import bcrypt
 from authx import AuthX, AuthXConfig
+from src.auth.schemas import UserCreate
 from src.db.crud import insert_user, get_user_by_username, get_user_by_email
 
 # Setting up AuthX
@@ -20,18 +21,17 @@ security = AuthX(config=config)
 
 
 # Creates a new user with a hashed password
-def create_user(username: str, email: str, password: str):
+def create_user(user: UserCreate):
     """AI is creating summary for create_user
 
     Args:
-        username (str): [description]
-        password (str): [description]
+        user (UserCreate): [description]
 
     Returns:
         [type]: [description]
     """
-    hashed = hash_password(password)
-    return insert_user(username, email, hashed)
+    hashed = hash_password(user.password)
+    return insert_user(user.username, user.email, hashed)
 
 
 # Checking if a user with this email exists

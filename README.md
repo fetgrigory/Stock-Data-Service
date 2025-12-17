@@ -100,8 +100,9 @@ Stock-Data-Service/
 │   │   └── views.py
 │   ├── auth/                     # Авторизация и регистрация
 │   │   ├── __init__.py
-│   │   ├── router.py
-│   │   └── service.py
+│   │   ├── schemas.py
+│   │   ├── service.py
+│   │   └── user_router.py
 │   ├── core/                     # Основной роутер и бизнес-логика
 │   │   ├── __init__.py
 │   │   └── router.py
