@@ -57,7 +57,8 @@ class StockDataParser(MOEXApiWrapper):
     def __init__(self):
         super().__init__()
         self.data_processor = DataProcessor()
-#Fetch, parse, clean, and save all TQBR stocks data
+
+# Fetch, parse, clean, and save all TQBR stocks data
     def parse_and_save(self):
         try:
             data = self.fetch_data(ALL_TQBR_URL)
