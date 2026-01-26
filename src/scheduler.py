@@ -11,7 +11,7 @@ import time
 from datetime import datetime
 import schedule
 from src.parsing.data_archiver import DataArchiver
-from src.parsing.data_parser import DataParser
+from src.parsing.data_parser import StockDataParser
 
 logging.basicConfig(
     level=logging.INFO,
@@ -25,7 +25,7 @@ class Scheduler:
     """AI is creating summary for
     """
     def __init__(self, parser=None, archiver=None, work_hours=None):
-        self.parser = parser or DataParser()
+        self.parser = parser or StockDataParser()
         self.archiver = archiver or DataArchiver()
         self.work_hours = work_hours or {
             "start_time": "10:00",
