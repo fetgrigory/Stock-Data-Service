@@ -24,47 +24,47 @@
                 <h5 class="mb-3">Таблица котировок</h5>
                 <div class="table-responsive small">
                     <table class="table table-striped table-sm">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Тикер ценной бумаги</th>
-                                <th scope="col">Дата и время сделки</th>
-                                <th scope="col">Последняя цена сделки</th>
-                                <th scope="col">Абсолютное изменение цены</th>
-                                <th scope="col">Изменение цены в процентах</th>
-                                <th scope="col">Цена перед закрытием предыдущей сессии</th>
-                                <th scope="col">Цена при открытии текущей сессии</th>
-                                <th scope="col">Минимальная цена за сессию</th>
-                                <th scope="col">Средняя цена</th>
-                                <th scope="col">Количество лотов за день</th>
-                                <th scope="col">Общий объем сделок в штуках</th>
-                                <th scope="col">Объем сделок в рублях</th>
-                                <th scope="col">Количество сделок за день</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% if quotes %}
-                                {% for quote in quotes %}
-                                <tr>
-                                    <td>{{ quote.id }}</td>
-                                    <td>{{ quote.ticker }}</td>
-                                    <td>{{ quote.trade_time }}</td>
-                                    <td>{{ quote.last_price }}</td> 
-                                    <td>{{ quote.change_abs }}</td> 
-                                    <td>{{ quote.change_percent }}</td> 
-                                    <td>{{ quote.price_before_closing }}</td> 
-                                    <td>{{ quote.price_at_opening }}</td> 
-                                    <td>{{ quote.minimum_price }}</td> 
-                                    <td>{{ quote.average_overpriced }}</td> 
-                                    <td>{{ quote.pieces_per_day }}</td> 
-                                    <td>{{ quote.quantity_per_day }}</td> 
-                                    <td>{{ quote.rub }}</td>
-                                    <td>{{ quote.num_transactions_per_day }}</td>
-                                </tr>
-                                {% endfor %}
-                            {% else %}
-                                <tr>
-                                    <td colspan="14" class="text-center">Нет данных</td>
+<thead>
+<tr>
+    <th>ID</th>
+    <th>Тикер ценной бумаги</th>
+    <th>Название ценной бумаги</th>
+    <th>Дата и время котировки</th>
+    <th>Последняя цена</th>
+    <th>Цена закрытия предыдущей сессии</th>
+    <th>Абсолютное изменение цены</th>
+    <th>Изменение цены в процентах</th>
+    <th>Цена открытия</th>
+    <th>Максимальная цена</th>
+    <th>Минимальная цена</th>
+    <th>Объём торгов в штуках (количество купленных/проданных лотов)</th>
+    <th>Объем сделок</th>
+    <th>Размер лота</th>
+</tr>
+</thead>
+<tbody>
+{% if quotes %}
+    {% for quote in quotes %}
+    <tr>
+        <td>{{ quote.id }}</td>
+        <td>{{ quote.ticker }}</td>
+        <td>{{ quote.name }}</td>
+        <td>{{ quote.update_time }}</td>
+        <td>{{ quote.last_price }}</td>
+        <td>{{ quote.prev_price }}</td>
+        <td>{{ quote.change }}</td>
+        <td>{{ quote.change_percent }}</td>
+        <td>{{ quote.open }}</td>
+        <td>{{ quote.high }}</td>
+        <td>{{ quote.low }}</td>
+        <td>{{ quote.volume }}</td>
+        <td>{{ quote.value }}</td>
+        <td>{{ quote.lot_size }}</td>
+    </tr>
+    {% endfor %}
+{% else %}
+    <tr>
+        <td colspan="14" class="text-center">Нет данных</td>
                                 </tr>
                             {% endif %}
                         </tbody>
