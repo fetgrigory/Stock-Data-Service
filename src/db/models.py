@@ -7,6 +7,7 @@ Ending //
 
 '''
 # Installing the necessary libraries
+from datetime import datetime
 from sqlalchemy import Integer, Numeric, String, Text, BigInteger, DateTime
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
@@ -63,5 +64,5 @@ class Quote(Base):
     low: Mapped[float] = mapped_column(Numeric(20, 4))
     volume: Mapped[int] = mapped_column(BigInteger)
     value: Mapped[float] = mapped_column(Numeric(20, 2))
-    update_time: Mapped[DateTime] = mapped_column(nullable=False)
+    update_time: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     lot_size: Mapped[int] = mapped_column(BigInteger)
