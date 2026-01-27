@@ -7,7 +7,7 @@ Ending //
 
 '''
 # Installing the necessary libraries
-from sqlalchemy import Integer, Numeric, String, Text, BigInteger
+from sqlalchemy import Integer, Numeric, String, Text, BigInteger, DateTime
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -51,17 +51,17 @@ class SmtpSetting(Base):
 class Quote(Base):
     __tablename__ = "quotes"
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
     ticker: Mapped[str] = mapped_column(String(20), nullable=False)
-    trade_time: Mapped[str] = mapped_column(String(20), nullable=False)
-    last_price: Mapped[float] = mapped_column(Numeric(12, 4), nullable=False)
-    change_abs: Mapped[float] = mapped_column(Numeric(12, 4))
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    last_price: Mapped[float] = mapped_column(Numeric(20, 4))
+    prev_price: Mapped[float] = mapped_column(Numeric(20, 4))
+    change: Mapped[float] = mapped_column(Numeric(20, 4))
     change_percent: Mapped[float] = mapped_column(Numeric(20, 4))
-    price_before_closing: Mapped[float] = mapped_column(Numeric(12, 4))
-    price_at_opening: Mapped[float] = mapped_column(Numeric(12, 4))
-    minimum_price: Mapped[float] = mapped_column(Numeric(12, 4))
-    average_overpriced: Mapped[float] = mapped_column(Numeric(12, 4))
-    pieces_per_day: Mapped[float] = mapped_column(Numeric(12, 4))
-    quantity_per_day: Mapped[int] = mapped_column(BigInteger)
-    rub: Mapped[float] = mapped_column(Numeric(15, 2))
-    num_transactions_per_day: Mapped[int] = mapped_column(Integer)
+    open: Mapped[float] = mapped_column(Numeric(20, 4))
+    high: Mapped[float] = mapped_column(Numeric(20, 4))
+    low: Mapped[float] = mapped_column(Numeric(20, 4))
+    volume: Mapped[int] = mapped_column(BigInteger)
+    value: Mapped[float] = mapped_column(Numeric(20, 2))
+    update_time: Mapped[DateTime] = mapped_column(nullable=False)
+    lot_size: Mapped[int] = mapped_column(BigInteger)

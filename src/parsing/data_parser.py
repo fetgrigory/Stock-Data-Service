@@ -107,6 +107,7 @@ class StockDataParser(MOEXApiWrapper):
             for data_dict in cleaned_data:
                 insert_quote(
                     ticker=data_dict['ticker'],
+                    name=data_dict['name'],
                     trade_time=data_dict['update_time'],
                     last_price=data_dict['last_price'],
                     change_abs=data_dict['change'],
@@ -117,7 +118,6 @@ class StockDataParser(MOEXApiWrapper):
                     average_overpriced=data_dict['high'],
                     pieces_per_day=data_dict['volume'],
                     quantity_per_day=data_dict['value'],
-                    rub=data_dict['value'],
                     num_transactions_per_day=data_dict['lot_size'],
                 )
 
