@@ -87,7 +87,7 @@ class StockDataParser(MOEXApiWrapper):
                     'prev_price': row.get('PREVPRICE', 0),
                     'change': row.get('CHANGE', 0),
                     'change_percent': row.get('CHANGEPERCENT', 0),
-                    'open': row.get('OPEN', 0),
+                    'open_price': row.get('OPEN', 0),
                     'high': row.get('HIGH', 0),
                     'low': row.get('LOW', 0),
                     'volume': row.get('VOLTODAY', 0),
@@ -106,21 +106,20 @@ class StockDataParser(MOEXApiWrapper):
             # Insert cleaned data into the database
             for data_dict in cleaned_data:
                 insert_quote(
-                    ticker=data_dict['ticker'],
-                    name=data_dict['name'],
-                    trade_time=data_dict['update_time'],
-                    last_price=data_dict['last_price'],
-                    change_abs=data_dict['change'],
-                    change_percent=data_dict['change_percent'],
-                    price_before_closing=data_dict['prev_price'],
-                    price_at_opening=data_dict['open'],
-                    minimum_price=data_dict['low'],
-                    average_overpriced=data_dict['high'],
-                    pieces_per_day=data_dict['volume'],
-                    quantity_per_day=data_dict['value'],
-                    num_transactions_per_day=data_dict['lot_size'],
-                )
-
+                        ticker=data_dict['ticker'],
+                        name=data_dict['name'],
+                        update_time=data_dict['update_time'],
+                        last_price=data_dict['last_price'],
+                        prev_price=data_dict['prev_price'],
+                        change=data_dict['change'],
+                        change_percent=data_dict['change_percent'],
+                        open_price=data_dict['open_price'],
+                        high=data_dict['high'],
+                        low=data_dict['low'],
+                        volume=data_dict['volume'],
+                        value=data_dict['value'],
+                        lot_size=data_dict['lot_size'],
+                    )
             logging.info("Data successfully collected, cleaned, and saved to the database")
             return True
 
