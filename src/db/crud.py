@@ -340,18 +340,18 @@ def get_all_quotes():
             {
                 "id": q.id,
                 "ticker": q.ticker,
-                "trade_time": q.trade_time,
+                "update_time": q.update_time,
+                "name": q.name,
                 "last_price": q.last_price,
-                "change_abs": q.change_abs,
+                "prev_price": q.prev_price,
+                "change": q.change,
                 "change_percent": q.change_percent,
-                "price_before_closing": q.price_before_closing,
-                "price_at_opening": q.price_at_opening,
-                "minimum_price": q.minimum_price,
-                "average_overpriced": q.average_overpriced,
-                "pieces_per_day": q.pieces_per_day,
-                "quantity_per_day": q.quantity_per_day,
-                "rub": q.rub,
-                "num_transactions_per_day": q.num_transactions_per_day
+                "open": q.open,
+                "high": q.high,
+                "low": q.low,
+                "volume": q.volume,
+                "value": q.value,
+                "lot_size": q.lot_size
             }
             for q in quotes
         ]
