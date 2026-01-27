@@ -278,34 +278,34 @@ def get_recipient_name(email: str):
 def insert_quote(
     ticker: str,
     name: str,
-    trade_time: datetime,
+    update_time: datetime,
     last_price: float,
-    change_abs: float,
+    prev_price: float,
+    change: float,
     change_percent: float,
-    price_before_closing: float,
-    price_at_opening: float,
-    minimum_price: float,
-    average_overpriced: float,
-    pieces_per_day: float,
-    quantity_per_day: int,
-    num_transactions_per_day: int,
+    open_price: float,
+    high: float,
+    low: float,
+    volume: int,
+    value: float,
+    lot_size: int,
 ):
     """AI is creating summary for insert_quote
 
     Args:
         ticker (str): [description]
         name (str): [description]
-        trade_time (str): [description]
+        update_time (datetime): [description]
         last_price (float): [description]
-        change_abs (float): [description]
+        prev_price (float): [description]
+        change (float): [description]
         change_percent (float): [description]
-        price_before_closing (float): [description]
-        price_at_opening (float): [description]
-        minimum_price (float): [description]
-        average_overpriced (float): [description]
-        pieces_per_day (float): [description]
-        quantity_per_day (int): [description]
-        num_transactions_per_day (int): [description]
+        open (float): [description]
+        high (float): [description]
+        low (float): [description]
+        volume (int): [description]
+        value (float): [description]
+        lot_size (int): [description]
 
     Returns:
         [type]: [description]
@@ -314,17 +314,17 @@ def insert_quote(
         quote = Quote(
             ticker=ticker,
             name=name,
-            update_time=trade_time,
+            update_time=update_time,
             last_price=last_price,
-            change=change_abs,
+            prev_price=prev_price,
+            change=change,
             change_percent=change_percent,
-            price_before_closing=price_before_closing,
-            price_at_opening=price_at_opening,
-            minimum_price=minimum_price,
-            average_overpriced=average_overpriced,
-            pieces_per_day=pieces_per_day,
-            quantity_per_day=quantity_per_day,
-            num_transactions_per_day=num_transactions_per_day
+            open=open_price,
+            high=high,
+            low=low,
+            volume=volume,
+            value=value,
+            lot_size=lot_size
         )
         session.add(quote)
         session.commit()
