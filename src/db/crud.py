@@ -7,6 +7,7 @@ Ending //
 
 '''
 # Installing the necessary libraries
+from datetime import datetime
 from src.db.database import session_factory
 from src.db.models import User, Recipient, SmtpSetting, Quote
 
@@ -276,7 +277,8 @@ def get_recipient_name(email: str):
 # Inserts a new stock quote into the database
 def insert_quote(
     ticker: str,
-    trade_time: str,
+    name: str,
+    trade_time: datetime,
     last_price: float,
     change_abs: float,
     change_percent: float,
@@ -286,13 +288,13 @@ def insert_quote(
     average_overpriced: float,
     pieces_per_day: float,
     quantity_per_day: int,
-    rub: float,
     num_transactions_per_day: int,
 ):
     """AI is creating summary for insert_quote
 
     Args:
         ticker (str): [description]
+        name (str): [description]
         trade_time (str): [description]
         last_price (float): [description]
         change_abs (float): [description]
@@ -303,7 +305,6 @@ def insert_quote(
         average_overpriced (float): [description]
         pieces_per_day (float): [description]
         quantity_per_day (int): [description]
-        rub (float): [description]
         num_transactions_per_day (int): [description]
 
     Returns:
@@ -312,9 +313,10 @@ def insert_quote(
     with session_factory() as session:
         quote = Quote(
             ticker=ticker,
-            trade_time=trade_time,
+            name=name,
+            update_time=trade_time,
             last_price=last_price,
-            change_abs=change_abs,
+            change=change_abs,
             change_percent=change_percent,
             price_before_closing=price_before_closing,
             price_at_opening=price_at_opening,
@@ -322,8 +324,7 @@ def insert_quote(
             average_overpriced=average_overpriced,
             pieces_per_day=pieces_per_day,
             quantity_per_day=quantity_per_day,
-            rub=rub,
-            num_transactions_per_day=num_transactions_per_day,
+            num_transactions_per_day=num_transactions_per_day
         )
         session.add(quote)
         session.commit()
