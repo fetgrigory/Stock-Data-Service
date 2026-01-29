@@ -121,6 +121,8 @@ Stock-Data-Service/
 ├── tests/                        # Тесты
 │   ├── __init__.py
 │   └── test_data_processor.py
+├── Dockerfile                    # Контейнеризация
+├── docker-compose.yml            # Сборка и запуск контейнеров
 ├── .env                          # Файл с переменными окружения
 ├── run_parser.py                 # Основной скрипт запуска
 └── requirements.txt              # Зависимости проекта
