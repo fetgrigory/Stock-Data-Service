@@ -49,5 +49,19 @@ services:
       - "8000:8000"
     restart: unless-stopped
 
+  parser:
+    build: .
+    env_file:
+      - .env
+    environment:
+      - DBNAME=${DBNAME}
+      - USER=${USER}
+      - PASSWORD=${PASSWORD}
+      - PORT=${PORT}
+    depends_on:
+      - db
+    restart: unless-stopped
+    command: ["python", "run_parser.py"]
+
 volumes:
   pg_data:
