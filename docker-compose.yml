@@ -10,6 +10,7 @@ services:
       POSTGRES_DB: ${DBNAME}
       POSTGRES_USER: ${USER}
       POSTGRES_PASSWORD: ${PASSWORD}
+      PGDATA: /var/lib/postgresql/18/data
     ports:
       - "${PORT}:5432"
     volumes:
@@ -31,6 +32,21 @@ services:
       - "5050:80"
     depends_on:
       - db
+    restart: unless-stopped
+
+  stock-service:
+    build: .
+    env_file:
+      - .env
+    environment:
+      - DBNAME=${DBNAME}
+      - USER=${USER}
+      - PASSWORD=${PASSWORD}
+      - PORT=${PORT}
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
     restart: unless-stopped
 
 volumes:
