@@ -174,14 +174,14 @@ PORT="5432"
    ```bash
      pip install -r requirements.txt
      ```
-6. Запуск парсера:
+6. Сборка образа в Docker:
    ```bash
-   python run_parser.py
-   ```
+    docker-compose up -d --build
+     ```
 
-7. Запуск веб-приложения:
+7. Запуск контейнера:
    ```bash
-   uvicorn src.main:app --reload
+   docker-compose up
    ```
 - Swagger UI доступен по адресу http://127.0.0.1:8000/docs
 
