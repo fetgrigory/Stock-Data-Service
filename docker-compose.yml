@@ -59,8 +59,8 @@ services:
       - PASSWORD=${PASSWORD}
       - PORT=${PORT}
     depends_on:
-      - db
-    restart: unless-stopped
+      db:
+        condition: service_healthy
     command: ["python", "run_parser.py"]
 
 volumes:
