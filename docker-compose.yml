@@ -62,6 +62,8 @@ services:
       db:
         condition: service_healthy
     command: ["python", "run_parser.py"]
+    volumes:
+      - ./logs:/app/logs
 
 volumes:
   pg_data:

@@ -7,15 +7,20 @@ Ending //
 '''
 # Installing the necessary libraries
 import logging
+import os
 import time
 from datetime import datetime
 import schedule
 from src.parsing.data_archiver import DataArchiver
 from src.parsing.data_parser import StockDataParser
 
+os.makedirs("logs", exist_ok=True)
+
 logging.basicConfig(
+    filename='logs/assistant.log',
     level=logging.INFO,
-    format='%(asctime)s [%(levelname)s] %(message)s'
+    format='%(asctime)s [%(levelname)s] %(message)s',
+    encoding='utf-8'
 )
 
 logger = logging.getLogger(__name__)
