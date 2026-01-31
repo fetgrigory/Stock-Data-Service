@@ -15,7 +15,7 @@ from src.db.crud import insert_quote
 
 
 MOEX_API_BASE = "https://iss.moex.com/iss"
-ALL_TQBR_URL = f"{MOEX_API_BASE}/engines/stock/markets/shares/boards/TQBR/securities.json?iss.meta=off"
+ALL_TQBR_URL = f"{MOEX_API_BASE}/engines/stock/markets/shares/boards/TQBR/securities.json"
 
 
 # Wrapper for making requests to MOEX API
@@ -23,7 +23,6 @@ class MOEXApiWrapper:
     """AI is creating summary for
     """
     def __init__(self):
-        self.session = requests.Session()
         self.base_url = MOEX_API_BASE
 
     def fetch_data(self, url):
@@ -36,7 +35,7 @@ class MOEXApiWrapper:
             [type]: [description]
         """
         try:
-            response = self.session.get(url)
+            response = requests.get(url, params={"iss.meta": "off"}, timeout=5)
             response.raise_for_status()
             return response.json()
         except requests.exceptions.RequestException as e:
@@ -106,20 +105,20 @@ class StockDataParser(MOEXApiWrapper):
             # Insert cleaned data into the database
             for data_dict in cleaned_data:
                 insert_quote(
-                        ticker=data_dict['ticker'],
-                        name=data_dict['name'],
-                        update_time=data_dict['update_time'],
-                        last_price=data_dict['last_price'],
-                        prev_price=data_dict['prev_price'],
-                        change=data_dict['change'],
-                        change_percent=data_dict['change_percent'],
-                        open_price=data_dict['open_price'],
-                        high=data_dict['high'],
-                        low=data_dict['low'],
-                        volume=data_dict['volume'],
-                        value=data_dict['value'],
-                        lot_size=data_dict['lot_size'],
-                    )
+                    ticker=data_dict['ticker'],
+                    name=data_dict['name'],
+                    update_time=data_dict['update_time'],
+                    last_price=data_dict['last_price'],
+                    prev_price=data_dict['prev_price'],
+                    change=data_dict['change'],
+                    change_percent=data_dict['change_percent'],
+                    open_price=data_dict['open_price'],
+                    high=data_dict['high'],
+                    low=data_dict['low'],
+                    volume=data_dict['volume'],
+                    value=data_dict['value'],
+                    lot_size=data_dict['lot_size'],
+                )
             logging.info("Data successfully collected, cleaned, and saved to the database")
             return True
 
