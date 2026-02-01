@@ -105,9 +105,9 @@ class StockDataParser(MOEXApiWrapper):
             # Insert cleaned data into the database
             for data_dict in cleaned_data:
                 insert_quote(
+                    update_time=data_dict['update_time'],
                     ticker=data_dict['ticker'],
                     name=data_dict['name'],
-                    update_time=data_dict['update_time'],
                     last_price=data_dict['last_price'],
                     prev_price=data_dict['prev_price'],
                     change=data_dict['change'],

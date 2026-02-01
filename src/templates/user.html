@@ -24,47 +24,47 @@
                 <h5 class="mb-3">Таблица котировок</h5>
                 <div class="table-responsive small">
                     <table class="table table-striped table-sm">
-<thead>
-<tr>
-    <th>ID</th>
-    <th>Тикер ценной бумаги</th>
-    <th>Название ценной бумаги</th>
-    <th>Дата и время котировки</th>
-    <th>Последняя цена</th>
-    <th>Цена закрытия предыдущей сессии</th>
-    <th>Абсолютное изменение цены</th>
-    <th>Изменение цены в процентах</th>
-    <th>Цена открытия</th>
-    <th>Максимальная цена</th>
-    <th>Минимальная цена</th>
-    <th>Объём торгов в штуках (количество купленных/проданных лотов)</th>
-    <th>Объем сделок</th>
-    <th>Размер лота</th>
-</tr>
-</thead>
-<tbody>
-{% if quotes %}
-    {% for quote in quotes %}
-    <tr>
-        <td>{{ quote.id }}</td>
-        <td>{{ quote.ticker }}</td>
-        <td>{{ quote.name }}</td>
-        <td>{{ quote.update_time }}</td>
-        <td>{{ quote.last_price }}</td>
-        <td>{{ quote.prev_price }}</td>
-        <td>{{ quote.change }}</td>
-        <td>{{ quote.change_percent }}</td>
-        <td>{{ quote.open }}</td>
-        <td>{{ quote.high }}</td>
-        <td>{{ quote.low }}</td>
-        <td>{{ quote.volume }}</td>
-        <td>{{ quote.value }}</td>
-        <td>{{ quote.lot_size }}</td>
-    </tr>
-    {% endfor %}
-{% else %}
-    <tr>
-        <td colspan="14" class="text-center">Нет данных</td>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Дата и время котировки</th>
+                                <th>Тикер ценной бумаги</th>
+                                <th>Название ценной бумаги</th>
+                                <th>Последняя цена</th>
+                                <th>Цена закрытия предыдущей сессии</th>
+                                <th>Абсолютное изменение цены</th>
+                                <th>Изменение цены в процентах</th>
+                                <th>Цена открытия</th>
+                                <th>Максимальная цена</th>
+                                <th>Минимальная цена</th>
+                                <th>Объём торгов в штуках (кол-во лотов)</th>
+                                <th>Объем сделок</th>
+                                <th>Размер лота</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if quotes %}
+                                {% for quote in quotes %}
+                                <tr>
+                                    <td>{{ quote.id }}</td>
+                                    <td>{{ quote.update_time }}</td>
+                                    <td>{{ quote.ticker }}</td>
+                                    <td>{{ quote.name }}</td>
+                                    <td>{{ quote.last_price }}</td>
+                                    <td>{{ quote.prev_price }}</td>
+                                    <td>{{ quote.change }}</td>
+                                    <td>{{ quote.change_percent }}</td>
+                                    <td>{{ quote.open }}</td>
+                                    <td>{{ quote.high }}</td>
+                                    <td>{{ quote.low }}</td>
+                                    <td>{{ quote.volume }}</td>
+                                    <td>{{ quote.value }}</td>
+                                    <td>{{ quote.lot_size }}</td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="14" class="text-center">Нет данных</td>
                                 </tr>
                             {% endif %}
                         </tbody>

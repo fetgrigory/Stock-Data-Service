@@ -339,8 +339,8 @@ def get_all_quotes():
         return [
             {
                 "id": q.id,
-                "ticker": q.ticker,
                 "update_time": q.update_time,
+                "ticker": q.ticker,
                 "name": q.name,
                 "last_price": q.last_price,
                 "prev_price": q.prev_price,

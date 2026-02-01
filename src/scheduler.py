@@ -17,7 +17,7 @@ from src.parsing.data_parser import StockDataParser
 os.makedirs("logs", exist_ok=True)
 
 logging.basicConfig(
-    filename='logs/assistant.log',
+    filename='logs/parser.log',
     level=logging.INFO,
     format='%(asctime)s [%(levelname)s] %(message)s',
     encoding='utf-8'
