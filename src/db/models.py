@@ -53,6 +53,7 @@ class Quote(Base):
     __tablename__ = "quotes"
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    update_time: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     ticker: Mapped[str] = mapped_column(String(20), nullable=False)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     last_price: Mapped[float] = mapped_column(Numeric(20, 4))
@@ -64,5 +65,4 @@ class Quote(Base):
     low: Mapped[float] = mapped_column(Numeric(20, 4))
     volume: Mapped[int] = mapped_column(BigInteger)
     value: Mapped[float] = mapped_column(Numeric(20, 2))
-    update_time: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     lot_size: Mapped[int] = mapped_column(BigInteger)
