@@ -17,10 +17,11 @@ class DataProcessor:
     def clean_data(data_list: list[dict]) -> list[dict] | bool:
         try:
             df = pd.DataFrame(data_list)
-
-            # Convert update_time from string to datetime
             if 'update_time' in df.columns:
-                df['update_time'] = pd.to_datetime(df['update_time'], errors='coerce')
+                # Convert update_time from string to datetime
+                df['update_time'] = pd.to_datetime(df['update_time'], format="%Y-%m-%d %H:%M:%S", errors='coerce')
+                # Normalize update_time to a datetime object
+                df['update_time'] = df['update_time'].apply(lambda x: x.to_pydatetime() if pd.notna(x) else None)
             # Drop rows where key trading fields are all NaN or None
             key_fields = ['last_price', 'change', 'open_price', 'high', 'low']
             df = df.dropna(subset=key_fields, how='all')
