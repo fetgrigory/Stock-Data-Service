@@ -17,9 +17,8 @@ class DataProcessor:
     def parse_update_time(self, df: pd.DataFrame) -> pd.DataFrame:
         if 'update_time' in df.columns:
             # Convert update_time from string to datetime
-            df['update_time'] = pd.to_datetime(df['update_time'], format="%Y-%m-%d %H:%M:%S", errors='coerce')
-            # Normalize update_time to a datetime object
-            df['update_time'] = df['update_time'].apply(lambda x: x.to_pydatetime() if pd.notna(x) else None)
+            df['update_time'] = pd.to_datetime(df['update_time'], errors='coerce')
+            df = df[df['update_time'].notna()]
         return df
 
     # Remove rows where all key trading fields are empty
