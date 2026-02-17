@@ -1,0 +1,136 @@
+/* News section */
+.news-section__header {
+    margin: 0 0 6px;
+}
+
+.news-section__title {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.news-section__title a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.news-section__title a:hover {
+    text-decoration: underline;
+}
+
+/* Featured news */
+.news-featured {
+    padding: 0 2px;
+    margin: 0 0 14px;
+    overflow: hidden;
+}
+
+/* Featured image */
+.news-featured__image {
+    float: left;
+    width: 220px;
+    margin-right: 20px;
+}
+
+.news-featured__image img,
+.news-featured__image svg {
+    border: 1px solid #9DB4BC;
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Featured content */
+.news-featured__content {
+    margin: 0 0 0 240px;
+}
+
+.news-featured__title {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 0 0 8px;
+}
+
+.news-featured__title a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.news-featured__title a:hover {
+    text-decoration: underline;
+}
+
+.news-featured__excerpt {
+    font-size: 0.9em;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.news-featured__excerpt a {
+    color: #333;
+    text-decoration: none;
+}
+
+.news-featured__excerpt a:hover {
+    text-decoration: underline;
+}
+
+/* News list */
+.news-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* News list item */
+.news-list__item {
+    margin: 0 0 10px 16px;
+    padding: 0;
+    position: relative;
+    line-height: 1.4;
+}
+
+/* Custom bullet */
+.news-list__bullet {
+    width: 6px;
+    height: 6px;
+    display: block;
+    position: absolute;
+    left: -16px;
+    top: 7px;
+    background-color: #007bff;
+}
+
+
+/* News links */
+.news-list__item a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.news-list__item a:hover {
+    text-decoration: underline;
+}
+
+.news-list__item a:visited {
+    color: #666;
+}
+
+/* News tag */
+.news-list__tag {
+    display: inline-block;
+    background: #f2f0db;
+    color: #31302e;
+    font-size: 11px;
+    padding: 1px 4px 2px;
+    margin-left: 5px;
+    text-decoration: none;
+}
+
+.news-list__tag:hover {
+    text-decoration: underline;
+}
+
+/* Utility */
+.nobr {
+    white-space: nowrap;
+}
