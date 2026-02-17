@@ -4,40 +4,80 @@
 {% endblock %}
 
 {% block body %}
-<body>
-
-<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-  <symbol id="check" viewBox="0 0 16 16">
-    <title>Check</title>
-    <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"></path>
-  </symbol>
-</svg>
-
-<div class="container py-3">
-  <header>
-    <div class="pricing-header p-3 pb-md-2 mx-auto text-center">
-      <h1 class="display-4 fw-normal">Stock Data Service</h1>
-      <p class="fs-5 text-muted">
-        Получайте актуальные биржевые данные автоматически и в удобном формате — для аналитики, трейдинга и финансового мониторинга.
-      </p>
+<div class="news-section" style="max-width: 800px; margin: 0 auto;">
+    <!-- Title -->
+    <div class="news-section__header">
+        <h2 class="news-section__title">
+            <a href="#">Новости дня</a>
+        </h2>
     </div>
-  </header>
 
-  <main>
-    <section class="pt-2 pb-4 text-center container">
-      <div class="row">
-        <div class="col-lg-6 col-md-8 mx-auto">
-          <h2 class="fw-light">Почему выбирают наш сервис</h2>
-          <ul class="list-unstyled mt-3">
-            <li><svg class="bi" width="16" height="16"><use xlink:href="#check"/></svg> Автоматическая доставка актуальных биржевых данных</li>
-            <li><svg class="bi" width="16" height="16"><use xlink:href="#check"/></svg> Удобные форматы отчетов (.csv, .zip) для анализа и работы с данными</li>
-            <li><svg class="bi" width="16" height="16"><use xlink:href="#check"/></svg> Прямой доступ к чистым, готовым к использованию данным</li>
-            <li><svg class="bi" width="16" height="16"><use xlink:href="#check"/></svg> Подходит для трейдеров, аналитиков и финансовых специалистов</li>
-          </ul>
+    <!-- Main news with a picture -->
+    <div class="news-featured">
+        <div class="news-featured__image">
+            <a href="#">
+                <svg
+                    aria-label="Placeholder: Главное фото"
+                    class="bd-placeholder-img"
+                    width="220"
+                    height="110"
+                    preserveAspectRatio="xMidYMid slice"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <title>Главная новость</title>
+                    <rect width="100%" height="100%" fill="#55595c"></rect>
+                    <text 
+                        x="50%" 
+                        y="50%" 
+                        fill="#eceeef" 
+                        dy=".3em" 
+                        text-anchor="middle"
+                        font-family="Arial, sans-serif"
+                        font-size="14"
+                    >
+                        album
+                    </text>
+                </svg>
+            </a>
         </div>
-      </div>
-    </section>
-  </main>
+        <div class="news-featured__content">
+            <h3 class="news-featured__title">
+                <a href="#">
+                    Доллар упал ниже 90 рублей впервые за два месяца <span class="nobr"> с 2025</span>
+                </a>
+            </h3>
+            <p class="news-featured__excerpt">
+                <a href="#">
+                    Аналитики связывают укрепление рубля с ростом цен на нефть 
+                    и ожиданием заседания ЦБ по ключевой ставке.
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <!-- News List -->
+    <ul class="news-list">
+        <li class="news-list__item">
+            <i class="news-list__bullet"></i>
+            ВВП России вырос на 3,5% <a href="#">по итогам первого квартала</a>
+        </li>
+        <li class="news-list__item">
+            <i class="news-list__bullet"></i>
+            Минфин разместил ОФЗ <a href="#">на рекордные 300 млрд рублей</a>
+        </li>
+        <li class="news-list__item">
+            <i class="news-list__bullet"></i>
+            ВВП США вырос на 1,5% по итогам первого квартала <a href="#">по итогам вторго квартал</a>
+        </li>
+        <li class="news-list__item">
+            <i class="news-list__bullet"></i>
+            Россию тянут <a href="#">в сырьевую кабалу</a>
+        </li>
+        <li class="news-list__item">
+            <i class="news-list__bullet"></i>
+            Зима ставит <a href="#">температурные рекорды</a>
+        </li>
+    </ul>
 </div>
-</body>
 {% endblock %}
