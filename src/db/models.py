@@ -53,8 +53,8 @@ class Quote(Base):
     __tablename__ = "quotes"
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
-    update_time: Mapped[datetime] = mapped_column(DateTime, nullable=False)
-    ticker: Mapped[str] = mapped_column(String(20), nullable=False)
+    update_time: Mapped[datetime] = mapped_column(DateTime, index=True, nullable=False)
+    ticker: Mapped[str] = mapped_column(String(20), index=True, nullable=False)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     last_price: Mapped[float] = mapped_column(Numeric(20, 4))
     prev_price: Mapped[float] = mapped_column(Numeric(20, 4))
