@@ -18,9 +18,9 @@ services:
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
-      interval: 5s
+      interval: 10s
       timeout: 5s
-      retries: 10
+      retries: 20
 
   pgadmin:
     image: dpage/pgadmin4
@@ -42,13 +42,16 @@ services:
       - DBNAME=${DBNAME}
       - USER=${USER}
       - PASSWORD=${PASSWORD}
-      - PORT=${PORT}
+      - DB_HOST=db
+      - DB_PORT=5432
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
       - "8000:8000"
     restart: unless-stopped
-
+    volumes:
+    - ./migrations:/app/migrations
   parser:
     build: .
     env_file:
@@ -57,7 +60,8 @@ services:
       - DBNAME=${DBNAME}
       - USER=${USER}
       - PASSWORD=${PASSWORD}
-      - PORT=${PORT}
+      - DB_HOST=db
+      - DB_PORT=5432
     depends_on:
       db:
         condition: service_healthy
