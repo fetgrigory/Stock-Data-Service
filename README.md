@@ -76,6 +76,7 @@ graph LR
 ## 📁 Структура проекта
 ```text
 Stock-Data-Service/
+├── migrations/                   # Миграции базы данных
 ├── src/                          # Основной код приложения
 │   ├── __init__.py
 │   ├── main.py                   # FastAPI приложение
