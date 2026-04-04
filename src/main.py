@@ -1,17 +1,8 @@
-'''
-This module make
-
-Author: Fetkulin Grigory, Fetkulin.G.R@yandex.ru
-Starting 23/09/2025
-Ending //
-
-'''
-# Installing the necessary libraries
 import uvicorn
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from sqladmin import Admin
-from src.db.database import sync_engine, init_db
+from src.db.database import sync_engine
 from src.admin_panel.views import RecipientAdmin, UserAdmin, SmtpSettingAdmin
 from src.auth.user_router import router as auth_router
 from src.core.router import router as page_router
@@ -34,8 +25,6 @@ def create_app():
     fastapi_app.include_router(page_router)
     fastapi_app.include_router(auth_router)
 
-    # Initializing the database
-    init_db()
     # Configuring SQLAdmin
     admin = Admin(fastapi_app, sync_engine)
     admin.add_view(RecipientAdmin)
