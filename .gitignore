@@ -51,3 +51,11 @@ src/db/__pycache__/models.cpython-313.pyc
 src/db/__pycache__/database.cpython-313.pyc
 src/db/__pycache__/__init__.cpython-313.pyc
 src/__pycache__/__init__.cpython-313.pyc
+tests/test_schemas.py
+.gitignore
+.gitignore
+tests/__pycache__/test_schemas.cpython-313-pytest-8.4.1.pyc
+tests/__pycache__/__init__.cpython-313.pyc
+src/auth/__pycache__/__init__.cpython-313.pyc
+src/auth/__pycache__/schemas.cpython-313.pyc
+tests/__pycache__/test_schemas.cpython-313-pytest-8.4.1.pyc.10088
