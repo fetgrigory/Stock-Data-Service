@@ -139,7 +139,7 @@ Stock-Data-Service/
 ## 🚀 Быстрый старт
 1. Клонирование репозитория:
  ```
-https://github.com/fetgrigory/mfd-mos-stock-parser.git
+https://github.com/fetgrigory/Stock-Data-Service.git
    ```
 2. Подключение к базе данных на PostgreSQL
 Для работы с базой данных требуется указать параметры подключения в файле ".env":
