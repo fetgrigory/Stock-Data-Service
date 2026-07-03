@@ -1,23 +1,22 @@
 # Basic Python image
-FROM python:3.12
+FROM python:3.12.6-bookworm
 
-# Environment variables to control Python behavior
+# Environment configuration for Python
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
 
 # Working directory in the container
 WORKDIR /app
 
-# Updating pip and installing wheel
-RUN pip install --upgrade pip wheel
+# Install uv package manager for dependency management
+RUN pip install --no-cache-dir uv
 
-# Copy dependencies and install them
-COPY requirements.txt .
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install -r requirements.txt
+# Copy dependency metadata and install locked dependencies
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen --no-install-project
 
-# Copying the source code
+# Copy application source code
 COPY . .
 
 # Launching FastAPI via uvicorn
-CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+CMD ["uv", "run", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

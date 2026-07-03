@@ -51,7 +51,7 @@ services:
       - "8000:8000"
     restart: unless-stopped
     volumes:
-    - ./migrations:/app/migrations
+      - ./migrations:/app/migrations
   parser:
     build: .
     env_file:
@@ -65,7 +65,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    command: ["python", "run_parser.py"]
+    command: ["uv", "run", "python", "run_parser.py"]
     volumes:
       - ./logs:/app/logs
 
