@@ -1,12 +1,3 @@
-'''
-This module make
-
-Author: Fetkulin Grigory, Fetkulin.G.R@yandex.ru
-Starting 01/10/2025
-Ending //
-
-'''
-# Installing the necessary libraries
 import os
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse
@@ -21,10 +12,18 @@ templates = Jinja2Templates(directory=os.path.join("src", "templates"))
 # Home page route
 @router.get("/", response_class=HTMLResponse)
 def homepage(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse(
+        name="index.html",
+        context={},
+        request=request
+    )
 
 
 # About page route
 @router.get("/about", response_class=HTMLResponse)
 def about(request: Request):
-    return templates.TemplateResponse("about.html", {"request": request})
+    return templates.TemplateResponse(
+        name="about.html",
+        context={},
+        request=request
+    )
