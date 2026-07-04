@@ -1,3 +1,4 @@
+
 # 📈 Stock Data Service
 **Stock Data Service** — это автономный сервис для сбора, обработки и доставки биржевых данных с MOEX API.  
 Проект представляет собой модульную ETL-систему (Extract – Transform – Load) для сбора, обработки и хранения биржевых котировок и торговых показателей.
@@ -127,7 +128,9 @@ Stock-Data-Service/
 ├── docker-compose.yml            # Сборка и запуск контейнеров
 ├── .env                          # Файл с переменными окружения
 ├── run_parser.py                 # Основной скрипт запуска
-└── requirements.txt              # Зависимости проекта
+├── .python-version
+├── pyproject.toml
+└── uv.lock
 ```
 ---
 
@@ -161,21 +164,21 @@ PORT="5432"
 3. Создайте виртуальное окружение для изоляции зависимостей проекта. 
    Используйте команду:
    ```bash
-   python -m venv venv
+   uv venv
    ```
 
 4. Активируйте виртуальное окружение:
    - На Windows:
      ```bash
-     venv\Scripts\activate
+     .venv\Scripts\activate
      ```
    - На macOS и Linux:
      ```bash
-     source venv/bin/activate
+     source .venv/bin/activate
      ```
 5. Установка зависимостей:
    ```bash
-     pip install -r requirements.txt
+     uv sync
      ```
 6. Сборка образа в Docker:
    ```bash
@@ -185,6 +188,14 @@ PORT="5432"
 7. Запуск контейнера:
    ```bash
    docker-compose up
+   ```
+8.  Создание миграций (только при изменении моделей):
+   ```bash
+   docker-compose exec stock-service uv run alembic revision --autogenerate -m "init schema"
+   ```
+9. Применить миграции:
+   ```bash
+   docker-compose exec stock-service uv run alembic upgrade head
    ```
 - Swagger UI доступен по адресу http://127.0.0.1:8000/docs
 
