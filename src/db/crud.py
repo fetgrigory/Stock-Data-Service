@@ -1,27 +1,39 @@
-'''
-This module make
-
-Author: Fetkulin Grigory, Fetkulin.G.R@yandex.ru
-Starting 07/11/2025
-Ending //
-
-'''
-# Installing the necessary libraries
 from datetime import datetime
 from src.db.database import session_factory
 from src.db.models import User, Recipient, SmtpSetting, Quote
 
 
 # Adding a new user
-def insert_user(username: str, email: str, password: str):
+def insert_user(
+        last_name: str,
+        first_name: str,
+        middle_name: str,
+        username: str,
+        email: str,
+        password: str
+        ):
     """AI is creating summary for insert_user
 
     Args:
+        last_name (str): [description]
+        first_name (str): [description]
+        middle_name (str): [description]
         username (str): [description]
+        email (str): [description]
         password (str): [description]
+
+    Returns:
+        [type]: [description]
     """
     with session_factory() as session:
-        user = User(username=username, email=email, password=password)
+        user = User(
+                    last_name=last_name,
+                    first_name=first_name,
+                    middle_name=middle_name,
+                    username=username,
+                    email=email,
+                    password=password
+                    )
         session.add(user)
         session.commit()
         user_id = user.id
