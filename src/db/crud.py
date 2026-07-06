@@ -7,7 +7,6 @@ from src.db.models import User, Recipient, SmtpSetting, Quote
 def insert_user(
         last_name: str,
         first_name: str,
-        middle_name: str,
         username: str,
         email: str,
         password: str
@@ -17,7 +16,6 @@ def insert_user(
     Args:
         last_name (str): [description]
         first_name (str): [description]
-        middle_name (str): [description]
         username (str): [description]
         email (str): [description]
         password (str): [description]
@@ -29,7 +27,6 @@ def insert_user(
         user = User(
                     last_name=last_name,
                     first_name=first_name,
-                    middle_name=middle_name,
                     username=username,
                     email=email,
                     password=password
