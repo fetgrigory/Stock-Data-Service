@@ -1,14 +1,5 @@
-'''
-This module make
-
-Author: Fetkulin Grigory, Fetkulin.G.R@yandex.ru
-Starting 09/07/2025
-Ending //
-
-'''
-# Installing the necessary libraries
 import logging
-import requests
+import aiohttp
 import pandas as pd
 from src.parsing.data_processor import DataProcessor
 from src.db.crud import insert_quote
@@ -20,27 +11,24 @@ ALL_TQBR_URL = f"{MOEX_API_BASE}/engines/stock/markets/shares/boards/TQBR/securi
 
 # Wrapper for making requests to MOEX API
 class MOEXApiWrapper:
-    """AI is creating summary for
-    """
     def __init__(self):
         self.base_url = MOEX_API_BASE
 
-    def fetch_data(self, url):
-        """AI is creating summary for fetch_data
-
-        Args:
-            url ([type]): [description]
-
-        Returns:
-            [type]: [description]
-        """
+    async def fetch_data(self, url):
         try:
-            response = requests.get(url, params={"iss.meta": "off"}, timeout=5)
-            response.raise_for_status()
-            return response.json()
-        except requests.exceptions.RequestException as e:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(
+                    url,
+                    params={"iss.meta": "off"},
+                    timeout=5
+                ) as response:
+                    response.raise_for_status()
+                    return await response.json()
+
+        except aiohttp.ClientError as e:
             logging.error("Request error: %s", e)
             return None
+
         except Exception as e:
             logging.error("Unexpected error during data fetch: %s", e)
             return None
@@ -48,19 +36,15 @@ class MOEXApiWrapper:
 
 # Parser for processing stock data from MOEX API
 class StockDataParser(MOEXApiWrapper):
-    """AI is creating summary for StockDataParser
-
-    Args:
-        MOEXApiWrapper ([type]): [description]
-    """
     def __init__(self):
         super().__init__()
         self.data_processor = DataProcessor()
 
-# Fetch, parse, clean, and save all TQBR stocks data
-    def parse_and_save(self):
+    # Fetch, process, and save TQBR stock data
+    async def parse_and_save(self):
         try:
-            data = self.fetch_data(ALL_TQBR_URL)
+            data = await self.fetch_data(ALL_TQBR_URL)
+
             if not data:
                 logging.error("No data received from MOEX API")
                 return None
@@ -72,10 +56,22 @@ class StockDataParser(MOEXApiWrapper):
                 logging.error("Incomplete data from MOEX API")
                 return None
 
-            sec_df = pd.DataFrame(securities['data'], columns=securities['columns'])
-            mkt_df = pd.DataFrame(marketdata['data'], columns=marketdata['columns'])
+            sec_df = pd.DataFrame(
+                securities['data'],
+                columns=securities['columns']
+            )
 
-            merged_df = sec_df.merge(mkt_df, on='SECID', how='inner')
+            mkt_df = pd.DataFrame(
+                marketdata['data'],
+                columns=marketdata['columns']
+            )
+
+            merged_df = sec_df.merge(
+                mkt_df,
+                on='SECID',
+                how='inner'
+            )
+
             data_list = []
 
             for _, row in merged_df.iterrows():
@@ -94,10 +90,12 @@ class StockDataParser(MOEXApiWrapper):
                     'update_time': row.get('UPDATETIME', 'N/A'),
                     'lot_size': row.get('LOTSIZE', 1)
                 }
+
                 data_list.append(stock)
 
             # Clean data before saving
             cleaned_data = self.data_processor.clean_data(data_list)
+
             if not cleaned_data:
                 logging.error("No valid data to insert after cleaning")
                 return None
@@ -119,7 +117,9 @@ class StockDataParser(MOEXApiWrapper):
                     value=data_dict['value'],
                     lot_size=data_dict['lot_size'],
                 )
+
             logging.info("Data successfully collected, cleaned, and saved to the database")
+
             return True
 
         except Exception as e:
