@@ -1,167 +1,139 @@
 from datetime import datetime
-from src.db.database import session_factory
+from sqlalchemy import select
+from src.db.database import async_session_factory
 from src.db.models import User, Recipient, SmtpSetting, Quote
 
 
 # Adding a new user
-def insert_user(
+async def insert_user(
         last_name: str,
         first_name: str,
         username: str,
         email: str,
         password: str
         ):
-    """AI is creating summary for insert_user
-
-    Args:
-        last_name (str): [description]
-        first_name (str): [description]
-        username (str): [description]
-        email (str): [description]
-        password (str): [description]
-
-    Returns:
-        [type]: [description]
-    """
-    with session_factory() as session:
+    async with async_session_factory() as session:
         user = User(
-                    last_name=last_name,
-                    first_name=first_name,
-                    username=username,
-                    email=email,
-                    password=password
-                    )
+            last_name=last_name,
+            first_name=first_name,
+            username=username,
+            email=email,
+            password=password
+        )
+
         session.add(user)
-        session.commit()
+        await session.commit()
+
+        await session.refresh(user)
+
         user_id = user.id
         return user_id
 
 
 # Getting the user's by username
-def get_user_by_username(username: str):
-    """AI is creating summary for get_user_by_username
+async def get_user_by_username(username: str):
+    async with async_session_factory() as session:
+        result = await session.execute(
+            select(User).where(User.username == username)
+        )
 
-    Args:
-        username (str): [description]
-
-    Returns:
-        [type]: [description]
-    """
-    with session_factory() as session:
-        return session.query(User).filter(User.username == username).first()
+        return result.scalar_one_or_none()
 
 
 # Getting the user's by email
-def get_user_by_email(email: str):
-    """AI is creating summary for get_user_by_email
+async def get_user_by_email(email: str):
+    async with async_session_factory() as session:
+        result = await session.execute(
+            select(User).where(User.email == email)
+        )
 
-    Args:
-        email (str): [description]
-
-    Returns:
-        [type]: [description]
-    """
-    with session_factory() as session:
-        return session.query(User).filter(User.email == email).first()
+        return result.scalars().first()
 
 
 # Adding a new recipient
-def insert_recipient(name: str, email: str):
-    """AI is creating summary for insert_recipient
+async def insert_recipient(name: str, email: str):
+    async with async_session_factory() as session:
+        recipient = Recipient(
+            name=name,
+            email=email
+        )
 
-    Args:
-        name (str): [description]
-        email (str): [description]
-
-    Returns:
-        [type]: [description]
-    """
-    with session_factory() as session:
-        recipient = Recipient(name=name, email=email)
         session.add(recipient)
-        session.commit()
+        await session.commit()
+
+        await session.refresh(recipient)
+
         recipient_id = recipient.id
+
     return recipient_id
 
 
 # Updating a recipient
-def refresh_recipient(recipient_id: int, name: str | None, email: str | None):
-    """AI is creating summary for update_recipient_data
+async def refresh_recipient(
+        recipient_id: int,
+        name: str | None,
+        email: str | None
+):
+    async with async_session_factory() as session:
+        recipient = await session.get(Recipient, recipient_id)
 
-    Args:
-        recipient_id (int): [description]
-        name (str): [description]
-        email (str): [description]
-
-    Returns:
-        [type]: [description]
-    """
-    with session_factory() as session:
-        recipient = session.get(Recipient, recipient_id)
         if not recipient:
             return None
 
-        # Update the field if given, else retain current
         if name and name.strip():
             recipient.name = name
+
         if email and email.strip():
             recipient.email = email
 
-        session.commit()
-        return {"name": recipient.name, "email": recipient.email}
+        await session.commit()
+
+        return {
+            "name": recipient.name,
+            "email": recipient.email
+        }
 
 
 # Deleting a recipient
-def delete_recipient(recipient_id: int):
-    """AI is creating summary for delete_recipient
+async def delete_recipient(recipient_id: int):
+    async with async_session_factory() as session:
+        recipient = await session.get(Recipient, recipient_id)
 
-    Args:
-        recipient_id (int): [description]
-
-    Returns:
-        [type]: [description]
-    """
-    with session_factory() as session:
-        recipient = session.get(Recipient, recipient_id)
         if recipient:
-            session.delete(recipient)
-            session.commit()
+            await session.delete(recipient)
+            await session.commit()
+
     return recipient_id
 
 
 # Returns a list of all recipients with id, name, and email
-def get_all_recipients():
-    """AI is creating summary for get_all_recipients
+async def get_all_recipients():
+    async with async_session_factory() as session:
+        result = await session.execute(
+            select(Recipient).order_by(Recipient.id.asc())
+        )
 
-    Returns:
-        [type]: [description]
-    """
-    with session_factory() as session:
-        recipients = session.query(Recipient).order_by(Recipient.id.asc()).all()
-        return [{"id": r.id, "name": r.name, "email": r.email} for r in recipients]
+        recipients = result.scalars().all()
+
+        return [
+            {
+                "id": r.id,
+                "name": r.name,
+                "email": r.email
+            }
+            for r in recipients
+        ]
 
 
 # Add a new configuration
-def insert_smtp_setting(
+async def insert_smtp_setting(
         server: str,
         port: int,
         username: str,
         password: str,
         sender: str
-        ) -> int:
-    """AI is creating summary for insert_smtp_setting
-
-    Args:
-        server (str): [description]
-        port (int): [description]
-        username (str): [description]
-        password (str): [description]
-        sender (str): [description]
-
-    Returns:
-        int: [description]
-    """
-    with session_factory() as session:
+) -> int:
+    async with async_session_factory() as session:
         smtp_setting = SmtpSetting(
             server=server,
             port=port,
@@ -169,38 +141,42 @@ def insert_smtp_setting(
             password=password,
             sender=sender
         )
+
         session.add(smtp_setting)
-        session.commit()
+        await session.commit()
+
+        await session.refresh(smtp_setting)
+
         return smtp_setting.id
 
 
 # Get the first configuration
-def get_smtp_setting():
-    """AI is creating summary for get_smtp_setting
+async def get_smtp_setting():
+    async with async_session_factory() as session:
+        result = await session.execute(
+            select(SmtpSetting)
+        )
 
-    Returns:
-        [type]: [description]
-    """
-    with session_factory() as session:
-        smtp_setting = session.query(SmtpSetting).first()
+        smtp_setting = result.scalars().first()
+
         return smtp_setting
 
 
 # Returns a list of all email addresses of recipients
-def get_all_recipient_emails():
-    """AI is creating summary for get_all_recipient_emails
+async def get_all_recipient_emails():
+    async with async_session_factory() as session:
+        result = await session.execute(
+            select(Recipient)
+        )
 
-    Returns:
-        [type]: [description]
-    """
-    with session_factory() as session:
-        recipients = session.query(Recipient).all()
+        recipients = result.scalars().all()
         emails = [recipient.email for recipient in recipients]
+
         return emails
 
 
 # Updating a configuration
-def update_smtp_setting(
+async def update_smtp_setting(
     smtp_id: int,
     server: str | None,
     port: int | None,
@@ -208,37 +184,28 @@ def update_smtp_setting(
     password: str | None,
     sender: str | None,
 ):
-    """AI is creating summary for update_smtp_setting_data
+    async with async_session_factory() as session:
+        smtp_setting = await session.get(SmtpSetting, smtp_id)
 
-    Args:
-        smtp_id (int): [description]
-        server (str): [description]
-        port (int): [description]
-        username (str): [description]
-        password (str): [description]
-        sender (str): [description]
-
-    Returns:
-        [type]: [description]
-    """
-    with session_factory() as session:
-        # Getting the current record
-        smtp_setting = session.get(SmtpSetting, smtp_id)
         if not smtp_setting:
             return None
-    # Update fields only if a new value is passed
+
         if server is not None:
             smtp_setting.server = server
+
         if port is not None:
             smtp_setting.port = port
+
         if username is not None:
             smtp_setting.username = username
+
         if password is not None:
             smtp_setting.password = password
+
         if sender is not None:
             smtp_setting.sender = sender
 
-        session.commit()
+        await session.commit()
 
         updated_data = {
             "server": smtp_setting.server,
@@ -247,44 +214,36 @@ def update_smtp_setting(
             "password": smtp_setting.password,
             "sender": smtp_setting.sender
         }
+
         return updated_data
 
 
 # Deleting a configuration
-def delete_smtp_setting(smtp_id: int):
-    """AI is creating summary for delete_smtp_setting_data
+async def delete_smtp_setting(smtp_id: int):
+    async with async_session_factory() as session:
+        smtp_setting = await session.get(SmtpSetting, smtp_id)
 
-    Args:
-        smtp_id (int): [description]
-
-    Returns:
-        [type]: [description]
-    """
-    with session_factory() as session:
-        smtp_setting = session.get(SmtpSetting, smtp_id)
         if smtp_setting:
-            session.delete(smtp_setting)
-            session.commit()
+            await session.delete(smtp_setting)
+            await session.commit()
+
         return smtp_id
 
 
 # Getting the recipient's name by email
-def get_recipient_name(email: str):
-    """AI is creating summary for get_recipient_name
+async def get_recipient_name(email: str):
+    async with async_session_factory() as session:
+        result = await session.execute(
+            select(Recipient).where(Recipient.email == email)
+        )
 
-    Args:
-        email (str): [description]
+        recipient = result.scalars().first()
 
-    Returns:
-        [type]: [description]
-    """
-    with session_factory() as session:
-        recipient = session.query(Recipient).filter(Recipient.email == email).first()
         return recipient.name if recipient else None
 
 
 # Inserts a new stock quote into the database
-def insert_quote(
+async def insert_quote(
     ticker: str,
     name: str,
     update_time: datetime,
@@ -299,27 +258,7 @@ def insert_quote(
     value: float,
     lot_size: int,
 ):
-    """AI is creating summary for insert_quote
-
-    Args:
-        ticker (str): [description]
-        name (str): [description]
-        update_time (datetime): [description]
-        last_price (float): [description]
-        prev_price (float): [description]
-        change (float): [description]
-        change_percent (float): [description]
-        open (float): [description]
-        high (float): [description]
-        low (float): [description]
-        volume (int): [description]
-        value (float): [description]
-        lot_size (int): [description]
-
-    Returns:
-        [type]: [description]
-    """
-    with session_factory() as session:
+    async with async_session_factory() as session:
         quote = Quote(
             ticker=ticker,
             name=name,
@@ -335,16 +274,26 @@ def insert_quote(
             value=value,
             lot_size=lot_size
         )
+
         session.add(quote)
-        session.commit()
+        await session.commit()
+
+        await session.refresh(quote)
+
         quote_id = quote.id
+
         return quote_id
 
 
 # Fetch all stock quotes from the database
-def get_all_quotes():
-    with session_factory() as session:
-        quotes = session.query(Quote).order_by(Quote.id.asc()).all()
+async def get_all_quotes():
+    async with async_session_factory() as session:
+        result = await session.execute(
+            select(Quote).order_by(Quote.id.asc())
+        )
+
+        quotes = result.scalars().all()
+
         return [
             {
                 "id": q.id,

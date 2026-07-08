@@ -2,7 +2,7 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from sqladmin import Admin
-from src.db.database import sync_engine
+from src.db.database import async_engine
 from src.admin_panel.views import RecipientAdmin, UserAdmin, SmtpSettingAdmin
 from src.auth.user_router import router as auth_router
 from src.core.router import router as page_router
@@ -26,7 +26,7 @@ def create_app():
     fastapi_app.include_router(auth_router)
 
     # Configuring SQLAdmin
-    admin = Admin(fastapi_app, sync_engine)
+    admin = Admin(fastapi_app, async_engine)
     admin.add_view(RecipientAdmin)
     admin.add_view(UserAdmin)
     admin.add_view(SmtpSettingAdmin)
