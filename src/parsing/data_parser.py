@@ -11,19 +11,19 @@ ALL_TQBR_URL = f"{MOEX_API_BASE}/engines/stock/markets/shares/boards/TQBR/securi
 
 # Wrapper for making requests to MOEX API
 class MOEXApiWrapper:
-    def __init__(self):
+    def __init__(self, session: aiohttp.ClientSession):
+        self.session = session
         self.base_url = MOEX_API_BASE
 
-    async def fetch_data(self, url):
+    async def fetch_data(self, url: str) -> dict | None:
         try:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(
-                    url,
-                    params={"iss.meta": "off"},
-                    timeout=5
-                ) as response:
-                    response.raise_for_status()
-                    return await response.json()
+            async with self.session.get(
+                url,
+                params={"iss.meta": "off"},
+                timeout=aiohttp.ClientTimeout(total=5)
+            ) as response:
+                response.raise_for_status()
+                return await response.json()
 
         except aiohttp.ClientError as e:
             logging.error("Request error: %s", e)
@@ -35,15 +35,15 @@ class MOEXApiWrapper:
 
 
 # Parser for processing stock data from MOEX API
-class StockDataParser(MOEXApiWrapper):
-    def __init__(self):
-        super().__init__()
+class StockDataParser:
+    def __init__(self, api_wrapper: MOEXApiWrapper):
+        self.api_wrapper = api_wrapper
         self.data_processor = DataProcessor()
 
     # Fetch, process, and save TQBR stock data
     async def parse_and_save(self):
         try:
-            data = await self.fetch_data(ALL_TQBR_URL)
+            data = await self.api_wrapper.fetch_data(ALL_TQBR_URL)
 
             if not data:
                 logging.error("No data received from MOEX API")
