@@ -40,21 +40,28 @@ class StockDataParser:
         self.api_wrapper = api_wrapper
         self.data_processor = DataProcessor()
 
-    # Fetch, process, and save TQBR stock data
-    async def parse_and_save(self):
+    # Fetch stock data from MOEX API
+    async def fetch_quotes(self):
+        data = await self.api_wrapper.fetch_data(ALL_TQBR_URL)
+
+        if not data:
+            logging.error("No data received from MOEX API")
+            return None
+
+        securities = data.get('securities', {})
+        marketdata = data.get('marketdata', {})
+
+        if not securities.get('data') or not marketdata.get('data'):
+            logging.error("Incomplete data from MOEX API")
+            return None
+
+        return data
+
+    # Process stock data from MOEX API
+    async def process_quotes(self, data):
         try:
-            data = await self.api_wrapper.fetch_data(ALL_TQBR_URL)
-
-            if not data:
-                logging.error("No data received from MOEX API")
-                return None
-
             securities = data.get('securities', {})
             marketdata = data.get('marketdata', {})
-
-            if not securities.get('data') or not marketdata.get('data'):
-                logging.error("Incomplete data from MOEX API")
-                return None
 
             sec_df = pd.DataFrame(
                 securities['data'],
@@ -100,7 +107,15 @@ class StockDataParser:
                 logging.error("No valid data to insert after cleaning")
                 return None
 
-            # Insert cleaned data into the database
+            return cleaned_data
+
+        except Exception as e:
+            logging.error("Error during quote processing: %s", e)
+            return None
+
+    # Insert cleaned data into the database
+    async def save_quotes(self, cleaned_data):
+        try:
             for data_dict in cleaned_data:
                 insert_quote(
                     update_time=data_dict['update_time'],
@@ -121,6 +136,25 @@ class StockDataParser:
             logging.info("Data successfully collected, cleaned, and saved to the database")
 
             return True
+
+        except Exception as e:
+            logging.error("Error during saving quotes: %s", e)
+            return False
+
+    # Fetch, process, and save TQBR stock data
+    async def parse_and_save(self):
+        try:
+            data = await self.fetch_quotes()
+
+            if not data:
+                return None
+
+            cleaned_data = await self.process_quotes(data)
+
+            if not cleaned_data:
+                return None
+
+            return await self.save_quotes(cleaned_data)
 
         except Exception as e:
             logging.error("Error during parsing or saving data: %s", e)
