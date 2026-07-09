@@ -4,11 +4,11 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
-from src.db.database import Base, DATABASE_URL
-from src.db.models import User
+from src.db.models import Base
+from src.db.database import DATABASE_URL
 
 config = context.config
-config.set_main_option("sqlalchemy.url", DATABASE_URL)
+config.set_main_option("sqlalchemy.url", DATABASE_URL + "?async_fallback=True")
 
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
