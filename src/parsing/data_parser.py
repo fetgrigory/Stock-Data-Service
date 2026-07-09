@@ -117,7 +117,7 @@ class StockDataParser:
     async def save_quotes(self, cleaned_data):
         try:
             for data_dict in cleaned_data:
-                insert_quote(
+                await insert_quote(
                     update_time=data_dict['update_time'],
                     ticker=data_dict['ticker'],
                     name=data_dict['name'],
