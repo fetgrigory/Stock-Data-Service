@@ -1,13 +1,17 @@
-'''
-This module make
-
-Author: Fetkulin Grigory, Fetkulin.G.R@yandex.ru
-Starting 04/10/2023
-Ending //
-
-'''
-# Installing the necessary libraries
+import asyncio
+import aiohttp
 from src.scheduler import Scheduler
+from src.parsing.data_parser import StockDataParser, MOEXApiWrapper
+
+
+async def main():
+    async with aiohttp.ClientSession() as session:
+        api_wrapper = MOEXApiWrapper(session)
+        parser = StockDataParser(api_wrapper)
+        scheduler = Scheduler(parser=parser)
+
+        await scheduler.start_schedule()
+
 
 if __name__ == "__main__":
-    Scheduler().start_schedule()
+    asyncio.run(main())
