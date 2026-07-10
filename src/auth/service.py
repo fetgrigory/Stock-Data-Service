@@ -1,12 +1,3 @@
-'''
-This module make
-
-Author: Fetkulin Grigory, Fetkulin.G.R@yandex.ru
-Starting 02/10/2025
-Ending //
-
-'''
-# Installing the necessary libraries
 import bcrypt
 from authx import AuthX, AuthXConfig
 from src.auth.schemas import UserCreate
@@ -21,84 +12,49 @@ security = AuthX(config=config)
 
 
 # Creates a new user with a hashed password
-def create_user(user: UserCreate):
-    """AI is creating summary for create_user
-
-    Args:
-        user (UserCreate): [description]
-
-    Returns:
-        [type]: [description]
-    """
+async def create_user(user: UserCreate):
     hashed = hash_password(user.password)
-    return insert_user(user.username, user.email, hashed)
+
+    return await insert_user(
+        user.last_name,
+        user.first_name,
+        user.username,
+        user.email,
+        hashed
+    )
 
 
 # Checking if a user with this email exists
-def check_email_exists(email: str):
-    """AI is creating summary for check_email_exists
-
-    Args:
-        email (str): [description]
-
-    Returns:
-        [type]: [description]
-    """
-    return get_user_by_email(email)
+async def check_email_exists(email: str):
+    return await get_user_by_email(email)
 
 
 def verify_password(password: str, hashed: str) -> bool:
-    """AI is creating summary for verify_password
-
-    Args:
-        password (str): [description]
-        hashed (str): [description]
-
-    Returns:
-        bool: [description]
-    """
-    return bcrypt.checkpw(password.encode(), hashed.encode())
+    return bcrypt.checkpw(
+        password.encode(),
+        hashed.encode()
+    )
 
 
 # Generates a JWT access token for user authentication based on UID
 def create_access_token(uid: str) -> str:
-    """AI is creating summary for create_access_token
-
-    Args:
-        uid (str): [description]
-
-    Returns:
-        str: [description]
-    """
     return security.create_access_token(uid=uid)
 
 
 # Salt generation and hashing
 def hash_password(password: str) -> str:
-    """AI is creating summary for hash_password
-
-    Args:
-        password (str): [description]
-
-    Returns:
-        str: [description]
-    """
-    hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+    hashed = bcrypt.hashpw(
+        password.encode(),
+        bcrypt.gensalt()
+    )
     return hashed.decode()
 
 
 # Verifies that the user's password matches the hash stored in the database
-def verify_user(username: str, password: str):
-    """AI is creating summary for verify_user
+async def verify_user(username: str, password: str):
+    user = await get_user_by_username(username)
 
-    Args:
-        username (str): [description]
-        password (str): [description]
-
-    Returns:
-        [type]: [description]
-    """
-    user = get_user_by_username(username)
     if not user:
         return False
+
     return verify_password(password, user.password)

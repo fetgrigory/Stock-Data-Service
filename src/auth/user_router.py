@@ -15,7 +15,7 @@ templates = Jinja2Templates(directory=os.path.join("src", "templates"))
 
 # Login page route
 @router.get("/login", response_class=HTMLResponse)
-def login_page(request: Request):
+async def login_page(request: Request):
     return templates.TemplateResponse(
         name="login.html",
         context={},
@@ -25,8 +25,12 @@ def login_page(request: Request):
 
 # Verifies user credentials and redirects to /user on success, or returns login page with error
 @router.post("/login", response_class=HTMLResponse)
-def login(request: Request, username: str = Form(...), password: str = Form(...)):
-    if service.verify_user(username, password):
+async def login(
+    request: Request,
+    username: str = Form(...),
+    password: str = Form(...),
+    ):
+    if await service.verify_user(username, password):
         token = service.create_access_token(username)
         response = RedirectResponse(url="/user", status_code=302)
         response.set_cookie(service.config.JWT_ACCESS_COOKIE_NAME, token)
@@ -40,8 +44,7 @@ def login(request: Request, username: str = Form(...), password: str = Form(...)
 
 # Signup page route
 @router.get("/signup", response_class=HTMLResponse)
-def signup_page(request: Request):
-    # Исправлено: request передан отдельно
+async def signup_page(request: Request):
     return templates.TemplateResponse(
         name="signup.html",
         context={},
@@ -51,9 +54,16 @@ def signup_page(request: Request):
 
 # Creates a new user, or returns signup page with error if user already exists
 @router.post("/signup", response_class=HTMLResponse)
-def signup(request: Request, username: str = Form(...), email: str = Form(...), password: str = Form(...)):
+async def signup(
+    request: Request,
+    last_name: str = Form(...),
+    first_name: str = Form(...),
+    username: str = Form(...),
+    email: str = Form(...),
+    password: str = Form(...),
+    ):
     # Checking if a user with this email already exists
-    existing_user = check_email_exists(email)
+    existing_user = await check_email_exists(email)
     if existing_user:
         return templates.TemplateResponse(
             name="signup.html",
@@ -62,8 +72,14 @@ def signup(request: Request, username: str = Form(...), email: str = Form(...), 
         )
     try:
         # Create a new user if the email is unique
-        user = UserCreate(username=username, email=email, password=password)
-        service.create_user(user)
+        user = UserCreate(
+            last_name=last_name,
+            first_name=first_name,
+            username=username,
+            email=email,
+            password=password
+            )
+        await service.create_user(user)
         return RedirectResponse(url="/login", status_code=302)
     except Exception:
         return templates.TemplateResponse(
@@ -75,8 +91,8 @@ def signup(request: Request, username: str = Form(...), email: str = Form(...), 
 
 # Renders the protected test page; accessible only with a valid access token
 @router.get("/user", response_class=HTMLResponse, dependencies=[Depends(service.security.access_token_required)])
-def user_page(request: Request):
-    quotes = get_all_quotes()
+async def user_page(request: Request):
+    quotes = await get_all_quotes()
     return templates.TemplateResponse(
         name="user.html",
         context={"quotes": quotes},
