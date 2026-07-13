@@ -7,6 +7,7 @@ from src.admin_panel.views import RecipientAdmin, UserAdmin, SmtpSettingAdmin
 from src.auth.user_router import router as auth_router
 from src.core.router import router as page_router
 from src.email.router import router as smtp_router
+from src.report.router import router as report_router
 
 
 def create_app():
@@ -24,7 +25,7 @@ def create_app():
     fastapi_app.include_router(smtp_router)
     fastapi_app.include_router(page_router)
     fastapi_app.include_router(auth_router)
-
+    fastapi_app.include_router(report_router)
     # Configuring SQLAdmin
     admin = Admin(fastapi_app, async_engine)
     admin.add_view(RecipientAdmin)
