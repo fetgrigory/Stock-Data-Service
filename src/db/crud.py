@@ -1,5 +1,5 @@
-from datetime import datetime
-from sqlalchemy import select
+from datetime import datetime, date
+from sqlalchemy import select, func
 from src.db.database import async_session_factory
 from src.db.models import User, Recipient, SmtpSetting, Quote
 
@@ -292,6 +292,40 @@ async def get_all_quotes():
             select(Quote).order_by(Quote.id.asc())
         )
 
+        quotes = result.scalars().all()
+
+        return [
+            {
+                "id": q.id,
+                "update_time": q.update_time,
+                "ticker": q.ticker,
+                "name": q.name,
+                "last_price": q.last_price,
+                "prev_price": q.prev_price,
+                "change": q.change,
+                "change_percent": q.change_percent,
+                "open": q.open,
+                "high": q.high,
+                "low": q.low,
+                "volume": q.volume,
+                "value": q.value,
+                "lot_size": q.lot_size
+            }
+            for q in quotes
+        ]
+
+
+# Fetch all stock quotes from the database by date
+async def get_quotes(target_date: date | None = None):
+    async with async_session_factory() as session:
+        query = select(Quote).order_by(Quote.id.asc())
+
+        if target_date is not None:
+            query = query.where(
+                func.date(Quote.update_time) == target_date
+            )
+
+        result = await session.execute(query)
         quotes = result.scalars().all()
 
         return [
