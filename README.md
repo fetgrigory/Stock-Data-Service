@@ -29,10 +29,10 @@ graph LR
 *Простейшая админка на SQL Admin для внутреннего тестирования. Позже планируется переход на полноценную админку с авторизацией.*
 
 ## Форма регистрации пользователя
-<img width="1350" height="1011" alt="127 0 0 1_8000_signup" src="https://github.com/user-attachments/assets/1946aedc-3f89-4443-8162-8d998e38abff" /><br />
+<img width="620" height="829" alt="127 0 0 1_8000_signup" src="https://github.com/user-attachments/assets/3b29ab6f-d4b5-40b8-baa2-a10f8d39f761" /><br />
 
 ### Форма авторизации пользователя
-<img width="620" height="829" alt="127 0 0 1_8000_signup" src="https://github.com/user-attachments/assets/3b29ab6f-d4b5-40b8-baa2-a10f8d39f761" /><br />
+<img width="558" height="439" alt="Снимок экрана 2025-12-06 002005" src="https://github.com/user-attachments/assets/993086b2-4282-4e2d-a3fc-072da89eacd0" /><br />
 
 ## 🧑‍💼 Веб-интерфейс личного кабинета пользователя
 Личный кабинет включает защищённый веб-интерфейс предоставляет доступ к биржевым данным, позволяет просматривать актуальные котировки и выполнять экспорт данных для дальнейшего анализа.
