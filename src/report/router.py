@@ -1,6 +1,6 @@
-from datetime import datetime
+from datetime import date
 import os
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Form
 from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 from src.db.crud import get_quotes
@@ -23,13 +23,20 @@ async def create_report(request: Request):
 
 
 # Download report route
-@router.get("/download_report")
-async def download_report():
-    quotes = await get_quotes()
+@router.post("/download_report")
+async def download_report(
+    start_date: str = Form(...),
+    end_date: str = Form(...),
+    file_name: str = Form(...)
+):
+
+    quotes = await get_quotes(
+        start_date=date.fromisoformat(start_date),
+        end_date=date.fromisoformat(end_date)
+    )
 
     csv_file = generate_csv_report(
         quotes=quotes,
-        selected_date=datetime.now(),
         return_bytes=True
     )
 
@@ -37,6 +44,7 @@ async def download_report():
         csv_file,
         media_type="text/csv",
         headers={
-            "Content-Disposition": "attachment; filename=mos_stock_report.csv"
+            "Content-Disposition":
+            f"attachment; filename={file_name}.csv"
         }
     )

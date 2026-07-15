@@ -316,13 +316,21 @@ async def get_all_quotes():
 
 
 # Fetch all stock quotes from the database by date
-async def get_quotes(target_date: date | None = None):
+async def get_quotes(
+    start_date: date | None = None,
+    end_date: date | None = None
+):
     async with async_session_factory() as session:
         query = select(Quote).order_by(Quote.id.asc())
 
-        if target_date is not None:
+        if start_date is not None:
             query = query.where(
-                func.date(Quote.update_time) == target_date
+                func.date(Quote.update_time) >= start_date
+            )
+
+        if end_date is not None:
+            query = query.where(
+                func.date(Quote.update_time) <= end_date
             )
 
         result = await session.execute(query)

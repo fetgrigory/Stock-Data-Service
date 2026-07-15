@@ -1,5 +1,4 @@
 import csv
-from datetime import datetime
 from io import StringIO
 
 
@@ -21,18 +20,18 @@ CSV_HEADERS = [
 ]
 
 
-def generate_csv_report(quotes, selected_date, return_bytes=False):
+def generate_csv_report(
+    quotes,
+    return_bytes=False
+):
+
     if not quotes:
-        print("No data available for report.")
         return None
 
-        # Generate a unique filename using the current timestamp
-    current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    file_name = f"mos_stock_{current_datetime}.csv"
-
     if return_bytes:
+
         output = StringIO()
-        # Use '^' as a delimiter to avoid conflicts with decimal separators in financial data
+
         writer = csv.DictWriter(
             output,
             fieldnames=CSV_HEADERS,
@@ -45,12 +44,22 @@ def generate_csv_report(quotes, selected_date, return_bytes=False):
             writer.writerow(row)
 
         output.seek(0)
+
         return output
 
     else:
-        with open(file_name, 'w', newline='', encoding='utf-8') as f:
+
+        file_name = "stock_report.csv"
+
+        with open(
+            file_name,
+            "w",
+            newline="",
+            encoding="utf-8"
+        ) as file:
+
             writer = csv.DictWriter(
-                f,
+                file,
                 fieldnames=CSV_HEADERS,
                 delimiter='^'
             )
@@ -60,5 +69,4 @@ def generate_csv_report(quotes, selected_date, return_bytes=False):
             for row in quotes:
                 writer.writerow(row)
 
-        print(f"CSV report successfully generated at {file_name}")
         return file_name
