@@ -8,14 +8,10 @@ from src.auth.user_router import router as auth_router
 from src.core.router import router as page_router
 from src.email.router import router as smtp_router
 from src.report.router import router as report_router
+from src.profile.router import router as profile_router
 
 
 def create_app():
-    """AI is creating summary for create_app
-
-    Returns:
-        FastAPI: [description]
-    """
     fastapi_app = FastAPI()
 
     # Connecting static files
@@ -26,6 +22,7 @@ def create_app():
     fastapi_app.include_router(page_router)
     fastapi_app.include_router(auth_router)
     fastapi_app.include_router(report_router)
+    fastapi_app.include_router(profile_router)
     # Configuring SQLAdmin
     admin = Admin(fastapi_app, async_engine)
     admin.add_view(RecipientAdmin)
