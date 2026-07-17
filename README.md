@@ -121,7 +121,6 @@ Stock-Data-Service/
 │   │   └── router.py
 │   ├── report/                   # Формирование отчётов
 │   │   ├── __init__.py
-│   │   ├── schemas.py
 │   │   ├── service.py
 │   │   └── router.py
 │   └── static/                   # Статические файлы (css, js, изображения)
