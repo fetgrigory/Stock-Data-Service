@@ -108,7 +108,10 @@ Stock-Data-Service/
 │   ├── quotes/                  # Отображение данных
 │   │   ├── __init__.py
 │   │   ├── router.py
-│   ├── parsing/                  # Парсинг и обработка данных
+│   ├── profile/                 # Личный кабинет пользователя
+│   │   ├── __init__.py
+│   │   ├── router.py
+│   ├── parsing/                 # Парсинг и обработка данных
 │   │   ├── __init__.py
 │   │   ├── data_archiver.py
 │   │   ├── data_parser.py
@@ -116,7 +119,7 @@ Stock-Data-Service/
 │   ├── recipients/               # Роутеры для получателей
 │   │   ├── __init__.py
 │   │   └── router.py
-│   ├── report/                     # Формирование отчётов
+│   ├── report/                   # Формирование отчётов
 │   │   ├── __init__.py
 │   │   ├── schemas.py
 │   │   ├── service.py
@@ -127,6 +130,7 @@ Stock-Data-Service/
 │   ├── create_report.html
 │   ├── index.html
 │   ├── login.html
+│   ├── profile.html
 │   ├── signup.html
 │   └── user.html
 │   └── about.html
