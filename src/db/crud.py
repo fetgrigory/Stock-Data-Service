@@ -71,6 +71,16 @@ async def get_user_by_username(username: str):
         return result.scalar_one_or_none()
 
 
+# Getting the user's by id
+async def get_user_by_id(user_id: int):
+    async with async_session_factory() as session:
+        result = await session.execute(
+            select(User).where(User.id == user_id)
+        )
+
+        return result.scalar_one_or_none()
+
+
 # Getting the user's by email
 async def get_user_by_email(email: str):
     async with async_session_factory() as session:

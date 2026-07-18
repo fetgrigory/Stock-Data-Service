@@ -1,8 +1,9 @@
 import os
-from fastapi import APIRouter, Form, Request, HTTPException
+from fastapi import APIRouter, Depends, Form, HTTPException, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.exc import IntegrityError
+from src.auth.service import get_current_user
 from src.db.crud import refresh_user
 
 router = APIRouter()
@@ -29,12 +30,13 @@ def profile(request: Request):
     status_code=200
 )
 async def update_user(
-    user_id: int = Form(..., description="ID пользователя для обновления"),
     last_name: str | None = Form(None, description="Новая фамилия пользователя"),
     first_name: str | None = Form(None, description="Новое имя пользователя"),
-    email: str | None = Form(None, description="Новый email пользователя")
+    email: str | None = Form(None, description="Новый email пользователя"),
+    current_user=Depends(get_current_user)
 ):
-    if last_name is None and first_name is None and email is None:
+
+    if not any([last_name, first_name, email]):
         raise HTTPException(
             status_code=400,
             detail="Необходимо указать хотя бы одно поле для обновления"
@@ -42,7 +44,7 @@ async def update_user(
 
     try:
         updated_user = await refresh_user(
-            user_id,
+            current_user.id,
             last_name,
             first_name,
             email
@@ -55,7 +57,7 @@ async def update_user(
             )
 
         return {
-            "id": user_id,
+            "id": current_user.id,
             "Фамилия": updated_user["last_name"],
             "Имя": updated_user["first_name"],
             "Email": updated_user["email"]
