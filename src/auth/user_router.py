@@ -33,9 +33,19 @@ async def login(
     if await service.verify_user(username, password):
         user = await service.get_user_by_username(username)
         token = service.create_access_token(str(user.id))
-        response = RedirectResponse(url="/user", status_code=302)
-        response.set_cookie(service.config.JWT_ACCESS_COOKIE_NAME, token)
+
+        response = RedirectResponse(
+            url="/user",
+            status_code=302
+        )
+
+        service.security.set_access_cookies(
+            token,
+            response
+        )
+
         return response
+
     return templates.TemplateResponse(
         name="login.html",
         context={"error": True},
@@ -65,12 +75,14 @@ async def signup(
     ):
     # Checking if a user with this email already exists
     existing_user = await check_email_exists(email)
+
     if existing_user:
         return templates.TemplateResponse(
             name="signup.html",
             context={"error": True},
             request=request
         )
+
     try:
         # Create a new user if the email is unique
         user = UserCreate(
@@ -79,9 +91,15 @@ async def signup(
             username=username,
             email=email,
             password=password
-            )
+        )
+
         await service.create_user(user)
-        return RedirectResponse(url="/login", status_code=302)
+
+        return RedirectResponse(
+            url="/login",
+            status_code=302
+        )
+
     except Exception:
         return templates.TemplateResponse(
             name="signup.html",
@@ -91,9 +109,14 @@ async def signup(
 
 
 # Renders the protected test page; accessible only with a valid access token
-@router.get("/user", response_class=HTMLResponse, dependencies=[Depends(service.security.access_token_required)])
+@router.get(
+    "/user",
+    response_class=HTMLResponse,
+    dependencies=[Depends(service.security.access_token_required)]
+)
 async def user_page(request: Request):
     quotes = await get_all_quotes()
+
     return templates.TemplateResponse(
         name="user.html",
         context={"quotes": quotes},
