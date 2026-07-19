@@ -53,22 +53,36 @@
 
                     <h2 class="form-title">Контактные данные</h2>
 
-                    <form>
+                    <form method="post" action="/profile/update">
                         <div class="form-group">
                             <label class="form-label">Имя</label>
-                            <input type="text" class="form-input" value="Хадишт">
+                            <input type="text"
+                            class="form-input"
+                            name="first_name"
+                            >
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Фамилия</label>
-                            <input type="text" class="form-input" value="Манкиева">
+                            <input type="text"
+                            class="form-input"
+                            name="last_name"
+                            >
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Email</label>
-                            <input type="email" class="form-input" value="mankieva63@mail.ru">
+                            <input type="email" 
+                            class="form-input" 
+                            name="email"
+                            >
                         </div>
-                        <button type="submit" class="save-button">Сохранить изменения</button>
+
+                        <button type="submit" 
+                                class="save-button"
+                        >
+                            Сохранить изменения
+                        </button>
                     </form>
                 </div>
             </div>
