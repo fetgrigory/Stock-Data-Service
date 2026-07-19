@@ -37,9 +37,9 @@ def verify_password(password: str, hashed: str) -> bool:
     )
 
 
-# Generates a JWT access token for user authentication based on UID
-def create_access_token(uid: str) -> str:
-    return security.create_access_token(uid=uid)
+# Generates a JWT access token for user authentication based on user ID
+def create_access_token(user_id: str) -> str:
+    return security.create_access_token(uid=user_id)
 
 
 # Salt generation and hashing
@@ -65,7 +65,7 @@ async def verify_user(username: str, password: str):
 async def get_current_user(
     token=Depends(security.access_token_required)
 ):
-    user_id = token.uid
+    user_id = token.sub
 
     user = await get_user_by_id(
         int(user_id)

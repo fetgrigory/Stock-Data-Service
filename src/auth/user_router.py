@@ -31,7 +31,8 @@ async def login(
     password: str = Form(...),
     ):
     if await service.verify_user(username, password):
-        token = service.create_access_token(username)
+        user = await service.get_user_by_username(username)
+        token = service.create_access_token(str(user.id))
         response = RedirectResponse(url="/user", status_code=302)
         response.set_cookie(service.config.JWT_ACCESS_COOKIE_NAME, token)
         return response

@@ -14,10 +14,15 @@ templates = Jinja2Templates(directory=os.path.join("src", "templates"))
 
 # Profile page route
 @router.get("/profile", response_class=HTMLResponse)
-def profile(request: Request):
+async def profile(
+    request: Request,
+    user=Depends(get_current_user)
+):
     return templates.TemplateResponse(
         name="profile.html",
-        context={},
+        context={
+            "user": user
+        },
         request=request
     )
 
