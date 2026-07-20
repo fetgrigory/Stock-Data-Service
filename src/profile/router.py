@@ -19,11 +19,11 @@ async def profile(
     user=Depends(get_current_user)
 ):
     return templates.TemplateResponse(
+        request=request,
         name="profile.html",
         context={
             "user": user
         },
-        request=request
     )
 
 
@@ -32,9 +32,10 @@ async def profile(
     "/profile/update",
     tags=["Профиль 👤"],
     summary="Обновить данные пользователя",
-    status_code=200
+    response_class=HTMLResponse
 )
 async def update_user(
+    request: Request,
     last_name: str | None = Form(None, description="Новая фамилия пользователя"),
     first_name: str | None = Form(None, description="Новое имя пользователя"),
     email: str | None = Form(None, description="Новый email пользователя"),
@@ -61,12 +62,14 @@ async def update_user(
                 detail="Пользователь не найден"
             )
 
-        return {
-            "id": current_user.id,
-            "Фамилия": updated_user["last_name"],
-            "Имя": updated_user["first_name"],
-            "Email": updated_user["email"]
-        }
+        return templates.TemplateResponse(
+            request=request,
+            name="profile.html",
+            context={
+                "user": updated_user,
+                "success_message": "Данные профиля успешно обновлены!"
+            }
+        )
 
     except IntegrityError as e:
         raise HTTPException(
