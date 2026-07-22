@@ -4,7 +4,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from src.auth.service import check_email_exists
 from src.auth.schemas import UserCreate
-from src.db.crud import get_all_quotes
+from src.quotes.crud import get_all_quotes
 from . import service
 
 router = APIRouter()

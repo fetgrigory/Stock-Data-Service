@@ -2,7 +2,7 @@ import logging
 import aiohttp
 import pandas as pd
 from src.parsing.data_processor import DataProcessor
-from src.db.crud import insert_quote
+from src.quotes.crud import insert_quote
 
 
 MOEX_API_BASE = "https://iss.moex.com/iss"

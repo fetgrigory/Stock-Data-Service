@@ -2,7 +2,12 @@ import bcrypt
 from authx import AuthX, AuthXConfig
 from fastapi import Depends, HTTPException
 from src.auth.schemas import UserCreate
-from src.db.crud import insert_user, get_user_by_username, get_user_by_email, get_user_by_id
+from src.auth.crud import (
+    insert_user,
+    get_user_by_username,
+    get_user_by_email,
+    get_user_by_id,
+)
 
 # Setting up AuthX
 config = AuthXConfig()

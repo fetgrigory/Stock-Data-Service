@@ -1,15 +1,10 @@
-'''
-This module make
-
-Author: Fetkulin Grigory, Fetkulin.G.R@yandex.ru
-Starting 30/09/2025
-Ending //
-
-'''
-# Installing the necessary libraries
 from fastapi import APIRouter, Path, Query, HTTPException
 from sqlalchemy.exc import IntegrityError
-from src.db.crud import insert_smtp_setting, update_smtp_setting, delete_smtp_setting
+from src.email.crud import (
+    insert_smtp_setting,
+    update_smtp_setting,
+    delete_smtp_setting,
+)
 
 router = APIRouter(tags=["SMTP Настройки ⚙️"])
 

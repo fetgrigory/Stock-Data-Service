@@ -1,12 +1,3 @@
-'''
-This module make
-
-Author: Fetkulin Grigory, Fetkulin.G.R@yandex.ru
-Starting 11/07/2025
-Ending //
-
-'''
-# Installing the necessary libraries
 import logging
 import os
 import smtplib
@@ -17,7 +8,12 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.header import Header
 from platform import python_version
-from src.db.crud import get_all_recipient_emails, get_smtp_setting, get_recipient_name
+from src.recipients.crud import (
+    get_all_recipient_emails,
+    get_recipient_name,
+)
+
+from src.email.crud import get_smtp_setting
 
 
 class EmailSender:

@@ -1,15 +1,7 @@
-'''
-This module make
-
-Author: Fetkulin Grigory, Fetkulin.G.R@yandex.ru
-Starting 04/12/2025
-Ending //
-
-'''
-# Installing the necessary libraries
-
 from sqladmin import ModelView
-from src.db.models import Recipient, User, SmtpSetting
+from src.recipients.models import Recipient
+from src.auth.models import User
+from src.email.models import SmtpSetting
 
 
 class RecipientAdmin(ModelView, model=Recipient):

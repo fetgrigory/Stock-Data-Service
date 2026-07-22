@@ -3,7 +3,7 @@ import os
 from fastapi import APIRouter, Request, Form
 from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
-from src.db.crud import get_quotes
+from src.quotes.crud import get_quotes
 from src.report.service import generate_csv_report
 
 router = APIRouter()

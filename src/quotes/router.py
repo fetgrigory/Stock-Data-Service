@@ -10,7 +10,7 @@ Ending //
 from pathlib import Path as SysPath
 from fastapi import APIRouter, Request
 from fastapi.templating import Jinja2Templates
-from src.db.crud import get_all_quotes
+from src.quotes.crud import get_all_quotes
 
 router = APIRouter(tags=["Котировки 📈"])
 
