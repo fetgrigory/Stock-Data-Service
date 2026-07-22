@@ -30,7 +30,7 @@ async def insert_user(
 
 
 # Updating a user
-async def refresh_user(
+async def update_user(
         user_id: int,
         last_name: str | None,
         first_name: str | None,

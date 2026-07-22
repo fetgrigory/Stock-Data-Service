@@ -4,7 +4,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.exc import IntegrityError
 from src.auth.service import get_current_user
-from src.auth.crud import refresh_user
+from src.auth.crud import update_user
 
 router = APIRouter()
 
@@ -34,7 +34,7 @@ async def profile(
     summary="Обновить данные пользователя",
     response_class=HTMLResponse
 )
-async def update_user(
+async def update_profile(
     request: Request,
     last_name: str | None = Form(None, description="Новая фамилия пользователя"),
     first_name: str | None = Form(None, description="Новое имя пользователя"),
@@ -49,7 +49,7 @@ async def update_user(
         )
 
     try:
-        updated_user = await refresh_user(
+        updated_user = await update_user(
             current_user.id,
             last_name,
             first_name,

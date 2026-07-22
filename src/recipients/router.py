@@ -5,7 +5,7 @@ from fastapi.responses import HTMLResponse
 from sqlalchemy.exc import IntegrityError
 from src.recipients.crud import (
     insert_recipient,
-    refresh_recipient,
+    update_recipient,
     delete_recipient,
     get_all_recipients
 )
@@ -48,7 +48,7 @@ def create_recipient(
     summary="Обновить данные получателя",
     status_code=200
 )
-def update_recipient(
+def update_recipient_route(
     recipient_id: int = Form(..., description="ID получателя для обновления"),
     name: str | None = Form(None, description="Новое имя получателя"),
     email: str | None = Form(None, description="Новый email получателя")
@@ -56,7 +56,7 @@ def update_recipient(
     if name is None and email is None:
         raise HTTPException(status_code=400, detail="Необходимо указать хотя бы одно поле для обновления")
     try:
-        updated_recipient = refresh_recipient(recipient_id, name, email)
+        updated_recipient = update_recipient(recipient_id, name, email)
         if not updated_recipient:
             raise HTTPException(status_code=404, detail="Получатель не найден")
         return {"id": recipient_id, "Имя": updated_recipient["name"], "Email": updated_recipient["email"]}

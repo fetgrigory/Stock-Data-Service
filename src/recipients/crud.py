@@ -22,7 +22,7 @@ async def insert_recipient(name: str, email: str):
 
 
 # Updating a recipient
-async def refresh_recipient(
+async def update_recipient(
         recipient_id: int,
         name: str | None,
         email: str | None
