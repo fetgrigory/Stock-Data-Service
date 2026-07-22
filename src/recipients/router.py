@@ -1,18 +1,14 @@
-'''
-This module make
-
-Author: Fetkulin Grigory, Fetkulin.G.R@yandex.ru
-Starting 30/09/2025
-Ending //
-
-'''
-# Installing the necessary libraries
 from pathlib import Path as SysPath
 from fastapi import APIRouter, Form, HTTPException, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from sqlalchemy.exc import IntegrityError
-from src.db.crud import insert_recipient, refresh_recipient, delete_recipient, get_all_recipients
+from src.recipients.crud import (
+    insert_recipient,
+    refresh_recipient,
+    delete_recipient,
+    get_all_recipients
+)
 
 router = APIRouter(tags=["Пользователи 👤"])
 
