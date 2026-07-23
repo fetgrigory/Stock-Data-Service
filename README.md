@@ -36,9 +36,8 @@ graph LR
 
 ## 🧑‍💼 Веб-интерфейс личного кабинета пользователя
 Личный кабинет включает защищённый веб-интерфейс предоставляет доступ к биржевым данным, позволяет просматривать актуальные котировки и выполнять экспорт данных для дальнейшего анализа.
-<img width="1901" height="900" alt="Снимок экрана 2026-02-05 173701" src="https://github.com/user-attachments/assets/f869c6ed-51bb-430a-91e4-c33e2d904423" /><br />
+<img width="1638" height="868" alt="Снимок экрана 2026-07-23 140707" src="https://github.com/user-attachments/assets/8329b0f7-fa01-4fed-a127-545d8f6343a1" /><br />
 <img width="1365" height="911" alt="127 0 0 1_8000_create_report" src="https://github.com/user-attachments/assets/928909d1-ae43-4ca4-bbe6-b72825b668aa" /><br />
-⚙️ Настройки профиля пользователя.
 <img width="1365" height="911" alt="127 0 0 1_8000_profile_update" src="https://github.com/user-attachments/assets/a68c1fbe-80d6-4fc0-8ff2-572293606dbf" /><br />
 
 ### Структура данных
