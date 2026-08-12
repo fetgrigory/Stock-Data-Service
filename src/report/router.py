@@ -4,7 +4,7 @@ from fastapi import APIRouter, Request, Form
 from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 from src.quotes.crud import get_quotes
-from src.report.service import generate_csv_report
+from src.report.csv_generator import generate_csv_report
 
 router = APIRouter()
 
@@ -37,7 +37,7 @@ async def download_report(
 
     csv_file = generate_csv_report(
         quotes=quotes,
-        return_bytes=True
+        return_buffer=True
     )
 
     return StreamingResponse(
