@@ -16,24 +16,15 @@
     <header>
     </header>
     <section>
-        <div class="container">
-            <div class="row mt-1 position-fixed z-3">
-            </div>
-        </div>
         <!-- Content -->
         <div class="container">
             <div class="row mt-1">
-                <div class="col-lg-2">
-                    <!-- Optional empty block -->
-                </div>
-                <div class="col-lg-10">
+                <div class="col-lg-12">
                     <!-- Content on the page -->
-                    <div class=" bg-white p-4 mb-4 mx-2 rounded custom-shadow">
+                    <div class="bg-white p-4 mb-4 mx-2 rounded custom-shadow">
                         <div class="container">
                             <!-- Title -->
                             <h3 class="text-center mb-4">Создать отчет</h3>
-                            <div class="container" id="cart-items-container">
-                            </div>
                         </div>
                         <!-- Report details -->
                         <div class="container">
@@ -58,13 +49,13 @@
                                                     placeholder="В формате: report_2023-01-01_2023-01-31"
                                                     required>
                                             </div>
-                                            <div class="col-md-12 mb-3">
-                                                <label for="delivery" class="form-label">Формат файла: </label>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="requires_delivery"
-                                                        id="id_requires_delivery" value="1" checked>
-                                                    <label class="form-check-label" for="id_requires_delivery">.csv</label>
-                                                </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="id_file_format" class="form-label">Формат файла: </label>
+                                                <select class="form-select" id="id_file_format" name="file_format" required>
+                                                    <option value="" disabled selected hidden>Выберите формат</option>
+                                                    <option value="csv">.csv</option>
+                                                    <option value="xlsx">.xlsx</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <button type="submit" class="btn btn-report">Получить данные</button>
