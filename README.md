@@ -72,6 +72,7 @@ graph LR
 | `sqladmin`|Веб-интерфейс для администрирования базы данных|
 | `SQLAlchemy`| Работа с PostgreSQL через ORM и выполнение SQL-запросов|
 | `Alembic`| Управление миграциями базы данных|
+| `openpyxl`|Создание Excel-отчётов|
 | `pandas`| Обработка и очистка данных|
 | `APScheduler`| Асинхронный планировщик задач |
 | `zipfile`| Архивирование файлов|
@@ -130,7 +131,8 @@ Stock-Data-Service/
 │   │   └── router.py
 │   ├── report/                   # Формирование отчётов
 │   │   ├── __init__.py
-│   │   ├── service.py
+│   │   ├── csv_generator.py
+│   │   ├── xlsx_generator.py
 │   │   └── router.py
 │   └── static/                   # Статические файлы (css, js, изображения)
 ├── templates/                    # Jinja2 шаблоны
