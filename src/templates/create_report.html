@@ -32,7 +32,7 @@
                             <h3 class="text-center">Детали отчета</h3>
                             <div class="card mb-3">
                                 <div class="card-body">
-                                    <form method="post" action="/download_report">
+                                    <form method="post">
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
                                                 <label for="id_start_date" class="form-label">C:</label>
@@ -49,16 +49,16 @@
                                                     placeholder="В формате: report_2023-01-01_2023-01-31"
                                                     required>
                                             </div>
-                                            <div class="col-md-6 mb-3">
-                                                <label for="id_file_format" class="form-label">Формат файла: </label>
-                                                <select class="form-select" id="id_file_format" name="file_format" required>
-                                                    <option value="" disabled selected hidden>Выберите формат</option>
-                                                    <option value="csv">.csv</option>
-                                                    <option value="xlsx">.xlsx</option>
-                                                </select>
-                                            </div>
                                         </div>
-                                        <button type="submit" class="btn btn-report">Получить данные</button>
+                                        <!-- Download buttons -->
+                                        <div class="d-flex gap-2 justify-content-center mt-3">
+                                            <button type="submit" class="btn btn-report" formaction="/download_csv_report">
+                                                Скачать CSV
+                                            </button>
+                                            <button type="submit" class="btn btn-report" formaction="/download_xlsx_report">
+                                                Скачать Excel
+                                            </button>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
