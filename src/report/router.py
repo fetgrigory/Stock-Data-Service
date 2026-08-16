@@ -35,14 +35,16 @@ def _make_disposition(filename: str, extension: str) -> str:
 
 
 # Download CSV report route
-@router.post("/download_report")
-async def download_report(
+@router.post("/download_csv_report")
+async def download_csv_report(
     start_date: date = Form(...),
     end_date: date = Form(...),
     file_name: str = Form(...),
 ):
     if start_date > end_date:
-        raise HTTPException(status_code=422, detail="start_date не может быть позже end_date")
+        raise HTTPException(
+            status_code=400,
+            detail="start_date не может быть позже end_date")
 
     quotes = await get_quotes(start_date=start_date, end_date=end_date)
     csv_buffer = generate_csv_report(
@@ -65,7 +67,9 @@ async def download_xlsx_report(
     file_name: str = Form(...),
 ):
     if start_date > end_date:
-        raise HTTPException(status_code=422, detail="start_date не может быть позже end_date")
+        raise HTTPException(
+            status_code=400,
+            detail="start_date не может быть позже end_date")
 
     quotes = await get_quotes(start_date=start_date, end_date=end_date)
     xlsx_buffer = generate_xlsx_report(
