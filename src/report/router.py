@@ -2,10 +2,11 @@ from datetime import date
 from pathlib import Path
 from urllib.parse import quote
 
-from fastapi import APIRouter, Request, Form, HTTPException
+from fastapi import APIRouter, Request, Form, HTTPException, Depends
 from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 
+from src.auth.service import get_current_user
 from src.quotes.crud import get_quotes
 from src.report.csv_generator import generate_csv_report
 from src.report.xlsx_generator import generate_xlsx_report
@@ -19,10 +20,15 @@ templates = Jinja2Templates(directory=BASE_DIR / "src" / "templates")
 
 # Report page route
 @router.get("/create_report", response_class=HTMLResponse)
-async def create_report(request: Request):
+async def create_report(
+    request: Request,
+    user=Depends(get_current_user)
+):
     return templates.TemplateResponse(
         name="create_report.html",
-        context={},
+        context={
+            "user": user
+        },
         request=request,
     )
 
