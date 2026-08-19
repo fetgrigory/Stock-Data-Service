@@ -1,5 +1,8 @@
 from io import BytesIO
 
+from datetime import datetime
+from zoneinfo import ZoneInfo
+
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment
 from openpyxl.cell import WriteOnlyCell
@@ -26,7 +29,11 @@ DEFAULT_FILENAME = "stock_report.xlsx"
 
 
 # Function for generating XLSX report from quotes
-def generate_xlsx_report(quotes, return_buffer=False):
+def generate_xlsx_report(
+    quotes,
+    user_email,
+    return_buffer=False
+):
     if not quotes:
         return None
 
@@ -45,10 +52,11 @@ def generate_xlsx_report(quotes, return_buffer=False):
     sheet.append([title_cell])
 
     # Report information
+    moscow_time = datetime.now(ZoneInfo("Europe/Moscow"))
     sheet.append(["Инструменты для анализа фондового рынка"])
     sheet.append([])
-    sheet.append(["Экспорт выполнил: grigory@example.com"])
-    sheet.append(["Дата выгрузки: 29.06.2026 14:30 (MSK)"])
+    sheet.append([f"Экспорт выполнил: {user_email}"])
+    sheet.append([f"Дата выгрузки: {moscow_time.strftime('%d.%m.%Y %H:%M')} (MSK)"])
     sheet.append([])
 
     # Add styled table headers

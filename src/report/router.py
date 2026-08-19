@@ -71,6 +71,7 @@ async def download_xlsx_report(
     start_date: date = Form(...),
     end_date: date = Form(...),
     file_name: str = Form(...),
+    user=Depends(get_current_user)
 ):
     if start_date > end_date:
         raise HTTPException(
@@ -79,6 +80,7 @@ async def download_xlsx_report(
 
     quotes = await get_quotes(start_date=start_date, end_date=end_date)
     xlsx_buffer = generate_xlsx_report(
+        user_email=user.email,
         quotes=quotes,
         return_buffer=True
     )
