@@ -1,12 +1,3 @@
-'''
-This module make
-
-Author: Fetkulin Grigory, Fetkulin.G.R@yandex.ru
-Starting 08/05/2025
-Ending //
-
-'''
-# Installing the necessary libraries
 import logging
 import pandas as pd
 import numpy as np
@@ -36,10 +27,21 @@ class DataProcessor:
             )
         return df
 
-    # Cleans data: parse dates, drop empty key fields, recalc percentages
+    # Clean data: convert numeric fields, parse dates, drop empty key fields, recalc percentages
     def clean_data(self, data_list: list[dict]) -> list[dict] | bool:
         try:
             df = pd.DataFrame(data_list)
+
+            numeric_fields = [
+                'last_price', 'prev_price', 'change', 'change_percent',
+                'open', 'high', 'low', 'volume', 'value', 'lot_size'
+            ]
+
+            # Convert numeric fields to numeric values
+            for field in numeric_fields:
+                if field in df.columns:
+                    df[field] = pd.to_numeric(df[field], errors='coerce')
+
             df = self.parse_update_time(df)
             df = self.drop_empty_key_fields(df)
             df = self.recalc_change_percent(df)
