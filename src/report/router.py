@@ -8,6 +8,7 @@ from fastapi.templating import Jinja2Templates
 
 from src.auth.service import get_current_user
 from src.quotes.crud import get_quotes
+from src.report.analytics import calculate_quote_analytics
 from src.report.csv_generator import generate_csv_report
 from src.report.xlsx_generator import generate_xlsx_report
 
@@ -79,9 +80,10 @@ async def download_xlsx_report(
             detail="start_date не может быть позже end_date")
 
     quotes = await get_quotes(start_date=start_date, end_date=end_date)
+    analytics_df = calculate_quote_analytics(quotes)
     xlsx_buffer = generate_xlsx_report(
+        analytics_df=analytics_df,
         user_email=user.email,
-        quotes=quotes,
         return_buffer=True
     )
 
