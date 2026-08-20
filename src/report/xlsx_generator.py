@@ -7,44 +7,62 @@ from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment
 from openpyxl.cell import WriteOnlyCell
 
+
 # Expected report fields order
 REPORT_HEADERS = [
-    "id",
-    "update_time",
     "ticker",
     "name",
-    "last_price",
-    "prev_price",
-    "change",
-    "change_percent",
-    "open",
-    "high",
-    "low",
-    "volume",
-    "value",
-    "lot_size",
+    "observations",
+    "avg_price",
+    "median_price",
+    "min_price",
+    "max_price",
+    "avg_change",
+    "avg_change_percent",
+    "total_volume",
+    "total_value",
 ]
 
 DEFAULT_FILENAME = "stock_report.xlsx"
 
 
-# Function for generating XLSX report from quotes
+# Function for generating XLSX report from analytics
 def generate_xlsx_report(
-    quotes,
+    analytics_df,
     user_email,
     return_buffer=False
 ):
-    if not quotes:
+    if analytics_df is None or analytics_df.empty:
         return None
 
     workbook = Workbook(write_only=True)
     sheet = workbook.create_sheet()
 
     # Header styles
-    title_font = Font(name='Calibri', size=16, bold=True, color="1B4D3E")
-    header_fill = PatternFill(start_color="1B4D3E", end_color="1B4D3E", fill_type="solid")
-    header_font = Font(name='Calibri', size=11, bold=True, color="FFFFFF")
-    header_align = Alignment(horizontal='center', vertical='center')
+    title_font = Font(
+        name="Calibri",
+        size=16,
+        bold=True,
+        color="1B4D3E"
+    )
+
+    header_fill = PatternFill(
+        start_color="1B4D3E",
+        end_color="1B4D3E",
+        fill_type="solid"
+    )
+
+    header_font = Font(
+        name="Calibri",
+        size=11,
+        bold=True,
+        color="FFFFFF"
+    )
+
+    header_align = Alignment(
+        horizontal="center",
+        vertical="center"
+    )
 
     # Report title
     title_cell = WriteOnlyCell(sheet, value="Stock Data Service")
@@ -70,9 +88,13 @@ def generate_xlsx_report(
 
     sheet.append(styled_headers)
 
-    # Add report data
-    for quote in quotes:
-        sheet.append([quote.get(field, "") for field in REPORT_HEADERS])
+    # Add analytics data
+    for _, row in analytics_df.iterrows():
+        sheet.append([
+                row.get(field, "")
+                for field in REPORT_HEADERS
+            ]
+        )
 
     if return_buffer:
         buffer = BytesIO()
