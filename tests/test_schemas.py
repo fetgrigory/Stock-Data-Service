@@ -6,6 +6,8 @@ from pydantic import ValidationError
 def test_user_create_with_valid_email():
     # Create test data
     user = UserCreate(
+        last_name="Иванов",
+        first_name="Иван",
         username="testuser",
         email="test@gmail.com",
         password="securepass123"
