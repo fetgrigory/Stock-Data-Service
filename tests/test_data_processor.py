@@ -76,6 +76,20 @@ def test_recalc_change_percent_returns_zero_when_previous_price_is_zero():
     assert result["change_percent"].iloc[0] == 0
 
 
+def test_recalc_change_percent_returns_zero_when_previous_price_is_none():
+    processor = DataProcessor()
+
+    df = pd.DataFrame({
+        "change": [10],
+        "prev_price": [None],
+        "change_percent": [0]
+    })
+
+    result = processor.recalc_change_percent(df)
+
+    assert result["change_percent"].iloc[0] == 0
+
+
 def test_clean_data_returns_cleaned_list():
     processor = DataProcessor()
 
@@ -104,3 +118,34 @@ def test_clean_data_returns_false_with_invalid_input():
     result = processor.clean_data(None)
 
     assert result is False
+
+
+def test_clean_data_converts_numeric_fields():
+    processor = DataProcessor()
+
+    data = [
+        {
+            "update_time": "2025-05-08 10:30:00",
+            "last_price": "100",
+            "prev_price": "95",
+            "change": "5",
+            "change_percent": "0",
+            "open_price": "95",
+            "high": "105",
+            "low": "90",
+            "volume": "1000",
+            "value": "50000",
+            "lot_size": "10",
+        }
+    ]
+
+    result = processor.clean_data(data)
+
+    assert result[0]["last_price"] == 100
+    assert result[0]["prev_price"] == 95
+    assert result[0]["change"] == 5
+    assert result[0]["high"] == 105
+    assert result[0]["low"] == 90
+    assert result[0]["volume"] == 1000
+    assert result[0]["value"] == 50000
+    assert result[0]["lot_size"] == 10
