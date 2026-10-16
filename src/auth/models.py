@@ -1,4 +1,4 @@
-from sqlalchemy import Integer, Text
+from sqlalchemy import Integer, Text, Boolean
 from sqlalchemy.orm import Mapped, mapped_column
 from src.db.base import Base
 
@@ -12,4 +12,5 @@ class User(Base):
     first_name: Mapped[str] = mapped_column(Text, nullable=False)
     username: Mapped[str] = mapped_column(Text, nullable=False)
     email: Mapped[str] = mapped_column(Text, nullable=False, unique=True)
+    is_verified: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     password: Mapped[str] = mapped_column(Text, nullable=False)
