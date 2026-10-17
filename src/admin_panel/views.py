@@ -1,6 +1,6 @@
 from sqladmin import ModelView
 from src.recipients.models import Recipient
-from src.auth.models import User
+from src.user.models import User
 from src.email.models import SmtpSetting
 
 

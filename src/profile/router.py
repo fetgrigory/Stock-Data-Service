@@ -4,7 +4,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.exc import IntegrityError
 from src.auth.service import get_current_user
-from src.auth.crud import update_user
+from src.user.crud import update_user
 
 router = APIRouter()
 
