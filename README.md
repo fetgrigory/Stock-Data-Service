@@ -142,11 +142,15 @@ Stock-Data-Service/
 │   │   └── views.py
 │   ├── auth/                     # Авторизация и регистрация
 │   │   ├── __init__.py
+│   │   ├── service.py
+│   │   └── router.py
+│   ├── user/                     # Управление пользователями
+│   │   ├── __init__.py
 │   │   ├── crud.py
 │   │   ├── models.py
 │   │   ├── schemas.py
 │   │   ├── service.py
-│   │   └── user_router.py
+│   │   └── router.py
 │   ├── core/                     # Основной роутер и бизнес-логика
 │   │   ├── __init__.py
 │   │   └── router.py
