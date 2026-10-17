@@ -4,7 +4,8 @@ from fastapi.staticfiles import StaticFiles
 from sqladmin import Admin
 from src.db.database import async_engine
 from src.admin_panel.views import RecipientAdmin, UserAdmin, SmtpSettingAdmin
-from src.auth.user_router import router as auth_router
+from src.auth.router import router as auth_router
+from src.user.router import router as user_router
 from src.core.router import router as page_router
 from src.email.router import router as smtp_router
 from src.report.router import router as report_router
@@ -21,6 +22,7 @@ def create_app():
     fastapi_app.include_router(smtp_router)
     fastapi_app.include_router(page_router)
     fastapi_app.include_router(auth_router)
+    fastapi_app.include_router(user_router)
     fastapi_app.include_router(report_router)
     fastapi_app.include_router(profile_router)
     # Configuring SQLAdmin

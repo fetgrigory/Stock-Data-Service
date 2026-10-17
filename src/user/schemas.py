@@ -1,6 +1,6 @@
 from pydantic import BaseModel, EmailStr, field_validator
 
-# Whitelist of allowed email domains
+# Allowed email domains
 TRUSTED_DOMAINS = {
     "gmail.com",
     "yandex.ru",
@@ -9,8 +9,8 @@ TRUSTED_DOMAINS = {
 }
 
 
+# User registration schema
 class UserCreate(BaseModel):
-    # User registration
     last_name: str
     first_name: str
     username: str
@@ -20,7 +20,6 @@ class UserCreate(BaseModel):
     @field_validator("email")
     @classmethod
     def check_trusted_domain(cls, v: EmailStr):
-        # Validate that email domain is trusted
         domain = v.split("@")[-1].lower()
         if domain not in TRUSTED_DOMAINS:
             raise ValueError("Email domain is not allowed")

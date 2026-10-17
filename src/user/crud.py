@@ -1,6 +1,6 @@
 from sqlalchemy import select
 from src.db.database import async_session_factory
-from src.auth.models import User
+from src.user.models import User
 
 
 # Adding a new user
