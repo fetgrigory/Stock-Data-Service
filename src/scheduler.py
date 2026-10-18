@@ -2,8 +2,6 @@ import logging
 import os
 from datetime import datetime
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from src.parsing.data_archiver import DataArchiver
-
 
 os.makedirs("logs", exist_ok=True)
 
@@ -18,10 +16,8 @@ logger = logging.getLogger(__name__)
 
 
 class Scheduler:
-
-    def __init__(self, parser, archiver=None, work_hours=None):
+    def __init__(self, parser, work_hours=None):
         self.parser = parser
-        self.archiver = archiver or DataArchiver()
         self.work_hours = work_hours or {
             "start_time": "10:00",
             "end_time": "19:00",
@@ -32,11 +28,21 @@ class Scheduler:
 
     def _within_work_hours(self):
         now = datetime.now()
-        start = datetime.strptime(self.work_hours["start_time"], "%H:%M").time()
-        end = datetime.strptime(self.work_hours["end_time"], "%H:%M").time()
-        return now.weekday() in self.work_hours["work_days"] and start <= now.time() <= end
 
-    # Parses data for the current date during business hours
+        start = datetime.strptime(
+            self.work_hours["start_time"], "%H:%M"
+        ).time()
+
+        end = datetime.strptime(
+            self.work_hours["end_time"], "%H:%M"
+        ).time()
+
+        return (
+            now.weekday() in self.work_hours["work_days"]
+            and start <= now.time() < end
+        )
+
+    # Parse only during business hours
     async def parse_job(self):
         if not self._within_work_hours():
             return
@@ -54,51 +60,20 @@ class Scheduler:
         except Exception as error:
             logger.exception("Parsing failed: %s", error)
 
-    # Archiving task: performed at the end of the working day
-    async def archive_job(self):
-        now = datetime.now()
-        end_time = datetime.strptime(
-            self.work_hours["end_time"],
-            "%H:%M"
-        ).time()
-
-        if now.weekday() in self.work_hours["work_days"] and now.time() >= end_time:
-
-            logger.info("Starting archiving for %s", now.date())
-
-            try:
-                result = await self.archiver.archive(now.date())
-
-                if result:
-                    logger.info("Archiving completed successfully.")
-                else:
-                    logger.warning("Archiving failed or skipped.")
-
-            except Exception as error:
-                logger.exception("Archiving failed: %s", error)
-
-    # Configures and starts asynchronous scheduler
+    # Configure and start the scheduler
     async def start_schedule(self):
         await self.parse_job()
 
         logger.info("Scheduler started.")
 
-        # Scheduling parsing task every 10 minutes
+        # Parse every 10 minutes
         self.scheduler.add_job(
             self.parse_job,
             trigger="interval",
-            minutes=10
-        )
-
-        end_time = self.work_hours["end_time"]
-
-        hour, minute = map(int, end_time.split(":"))
-
-        self.scheduler.add_job(
-            self.archive_job,
-            trigger="cron",
-            hour=hour,
-            minute=minute
+            minutes=10,
+            id="parser_job",
+            replace_existing=True,
+            max_instances=1,
         )
 
         self.scheduler.start()
