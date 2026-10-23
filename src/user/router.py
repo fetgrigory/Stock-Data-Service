@@ -1,12 +1,15 @@
-
+import logging
 import os
 
-from fastapi import APIRouter, Form, Request
+from fastapi import APIRouter, BackgroundTasks, Form, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
+from src.email.service import send_welcome_email
 from src.user.schemas import UserCreate
 from src.user.service import create_user, check_email_exists
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 templates = Jinja2Templates(directory=os.path.join("src", "templates"))
@@ -24,6 +27,7 @@ async def signup_page(request: Request):
 @router.post("/signup", response_class=HTMLResponse)
 async def signup(
     request: Request,
+    background_tasks: BackgroundTasks,
     last_name: str = Form(...),
     first_name: str = Form(...),
     username: str = Form(...),
@@ -33,6 +37,7 @@ async def signup(
     existing_user = await check_email_exists(email)
 
     if existing_user:
+        logger.info("Registration rejected: email %s already exists", email)
         return templates.TemplateResponse(
             name="signup.html", context={"error": True}, request=request
         )
@@ -46,10 +51,14 @@ async def signup(
             password=password,
         )
         await create_user(user)
-
-        return RedirectResponse(url="/login", status_code=302)
+        logger.info("User %s created", email)
 
     except Exception:
+        logger.exception("User registration error %s", email)
         return templates.TemplateResponse(
             name="signup.html", context={"error": True}, request=request
         )
+
+    background_tasks.add_task(send_welcome_email, email)
+
+    return RedirectResponse(url="/login", status_code=302)
