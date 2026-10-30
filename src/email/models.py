@@ -13,3 +13,5 @@ class SmtpSetting(Base):
     username: Mapped[str] = mapped_column(Text, nullable=False)
     password: Mapped[str] = mapped_column(Text, nullable=False)
     sender: Mapped[str] = mapped_column(Text, nullable=False)
+    ssl_port: Mapped[int] = mapped_column(Integer, nullable=False)
+    timeout: Mapped[int] = mapped_column(Integer, nullable=False)

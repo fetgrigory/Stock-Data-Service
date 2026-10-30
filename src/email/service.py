@@ -9,8 +9,6 @@ from src.email.crud import get_smtp_setting
 
 logger = logging.getLogger(__name__)
 
-SMTP_TIMEOUT = 15
-SMTP_SSL_PORT = 465
 
 WELCOME_SUBJECT = "Регистрация"
 WELCOME_TEXT = "Вы успешно зарегистрированы!"
@@ -22,7 +20,6 @@ async def _get_smtp_params():
     if not smtp_config:
         raise ValueError("SMTP settings not found in the database.")
 
-    port = int(smtp_config.port)
     sender = smtp_config.sender
     username = getattr(smtp_config, "username", sender)
 
@@ -34,15 +31,14 @@ async def _get_smtp_params():
             username,
         )
 
-    use_ssl = port == SMTP_SSL_PORT
     params = {
         "hostname": smtp_config.server,
-        "port": port,
-        "username": username,
+        "port": smtp_config.port,
+        "username": smtp_config.username,
         "password": smtp_config.password.strip("\n\r\t"),
-        "use_tls": use_ssl,
-        "start_tls": not use_ssl,
-        "timeout": SMTP_TIMEOUT,
+        "use_tls": smtp_config.port == smtp_config.ssl_port,
+        "start_tls": smtp_config.port != smtp_config.ssl_port,
+        "timeout": smtp_config.timeout,
     }
     return params, sender
 
