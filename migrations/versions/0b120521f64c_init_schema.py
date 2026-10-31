@@ -41,13 +41,6 @@ def upgrade() -> None:
     op.create_index(op.f('ix_quotes_id'), 'quotes', ['id'], unique=False)
     op.create_index(op.f('ix_quotes_ticker'), 'quotes', ['ticker'], unique=False)
     op.create_index(op.f('ix_quotes_update_time'), 'quotes', ['update_time'], unique=False)
-    op.create_table('recipients',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.Text(), nullable=False),
-    sa.Column('email', sa.Text(), nullable=False),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_index(op.f('ix_recipients_id'), 'recipients', ['id'], unique=False)
     op.create_table('smtp_settings',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('server', sa.Text(), nullable=False),
@@ -82,8 +75,6 @@ def downgrade() -> None:
     op.drop_table('users')
     op.drop_index(op.f('ix_smtp_settings_id'), table_name='smtp_settings')
     op.drop_table('smtp_settings')
-    op.drop_index(op.f('ix_recipients_id'), table_name='recipients')
-    op.drop_table('recipients')
     op.drop_index(op.f('ix_quotes_update_time'), table_name='quotes')
     op.drop_index(op.f('ix_quotes_ticker'), table_name='quotes')
     op.drop_index(op.f('ix_quotes_id'), table_name='quotes')
